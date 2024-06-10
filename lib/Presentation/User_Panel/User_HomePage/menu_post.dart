@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../Theme/constant.dart';
-import 'Details_Model/details_Screen.dart';
 import 'manu_model.dart';
 
 class MenuPost extends StatefulWidget {
@@ -30,7 +29,7 @@ class _MenuPostState extends State<MenuPost> {
   }
 
   Stream<List<MenuModel>> _fetchCampaignsFromFirebase() {
-    return FirebaseFirestore.instance.collection('food').snapshots().map((snapshot) {
+    return FirebaseFirestore.instance.collection('menu').snapshots().map((snapshot) {
       return snapshot.docs.map((doc) {
         final moreImagesUrl = doc['moreImagesUrl'];
         final imageUrlList = moreImagesUrl is List ? moreImagesUrl : [moreImagesUrl]; // Ensure it's always a list
@@ -38,9 +37,7 @@ class _MenuPostState extends State<MenuPost> {
         return MenuModel(
           imageUrl: doc['imageUrl'],
           name: doc['name'],
-          calories: doc['calories'],
-          sugar: doc['sugar'],
-          details: doc['details'],
+          price: doc['price'],
           docId: doc.id,
           moreImagesUrl: imageUrlList.map((url) => url as String).toList(),
         );
@@ -49,82 +46,48 @@ class _MenuPostState extends State<MenuPost> {
   }
 
   Widget _buildMenu(BuildContext context, MenuModel menu) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => DetailsScreen(menu: menu),
-          ),
-        );
-      },
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10,right: 10),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: Colors.white,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.network(
-                  menu.imageUrl,
-                  height: 150,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                ),
+    return Padding(
+      padding: const EdgeInsets.only(left: 10,right: 10),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.white,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Image.network(
+                menu.imageUrl,
+                height: 150,
+                width: double.infinity,
+                fit: BoxFit.cover,
               ),
-              const SizedBox(height: 10),
-              Container(
-                width: MediaQuery.of(context).size.width / 3,
-                height: 25,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: sSecondaryColor
-                ),
-                child: Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10,top: 3),
-                    child: Text(
-                      menu.name,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
+            ),
+            const SizedBox(height: 10),
+            Container(
+              width: MediaQuery.of(context).size.width / 3,
+              height: 25,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: sSecondaryColor
+              ),
+              child: Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10,top: 3),
+                  child: Text(
+                    menu.name,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 5),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Container(
-                  width: MediaQuery.of(context).size.width / 5,
-                  height: 25,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: sOrangeColor
-                  ),
-                  child: Center(
-                    child: Expanded(
-                      child: Text(
-                        '${menu.calories} Calories',
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -188,7 +151,7 @@ class _MenuPostState extends State<MenuPost> {
 
     return searchTerms.every((term) =>
     campaign.name.toLowerCase().contains(term) ||
-        campaign.calories.toLowerCase().contains(term)
+        campaign.price.toLowerCase().contains(term)
     );
   }
 }
