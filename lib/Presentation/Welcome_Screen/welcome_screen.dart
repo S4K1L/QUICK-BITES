@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../Widgets/custom_button.dart';
+import '../Chef_Panel/Chef_login/chef_login.dart';
+import '../Delivery_Panel/Delivery_Login/delivery_login.dart';
 import '../User_Panel/Login_Screen/login_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -31,7 +33,7 @@ class WelcomeScreen extends StatelessWidget {
                   Text(
                     'Find your unlimited one-\nstop Food in UiTM area',
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.adamina(
                       textStyle: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -47,10 +49,16 @@ class WelcomeScreen extends StatelessWidget {
                     );
                   },),
                   OptionButton(text: 'CONNECT AS CHEF', onPress: () {
-
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ChefLoginScreen()),
+                    );
                   },),
                   OptionButton(text: 'CONNECT AS RIDER', onPress: () {
-
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const DeliveryLoginScreen()),
+                    );
                   },),
                 ],
               ),

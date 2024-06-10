@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class OptionButton extends StatelessWidget {
   final String text;
@@ -28,17 +29,19 @@ class OptionButton extends StatelessWidget {
               width: 250,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
-                color: Colors.purpleAccent,
+                color: Color(0xFFCA6CE5),
               ),
               child: TextButton(
                 onPressed: onPress,
                 child: Text(
                   text,
-                  style: const TextStyle(
-                    fontSize: 17,
-                    letterSpacing: 1,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                  style:  GoogleFonts.adamina(
+                    textStyle: TextStyle(
+                      fontSize: 15,
+                      letterSpacing: 1,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),

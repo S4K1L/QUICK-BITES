@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:quick_bites/Presentation/User_Panel/Forget_password/user_forget_password.dart';
+import '../../Chef_Panel/Chef_ForgotPassword/chef_forgotPassword.dart';
+import '../../Chef_Panel/Chef_SignUp/chef_signUp.dart';
+import '../Delivery_ForgotPassword/delivery_forgotPassword.dart';
+import '../Delivery_signUp/delivery_signUp.dart';
 
-import '../../User_Panel/SignUp_Screen/signUp_screen.dart';
-import '../Chef_ForgotPassword/chef_forgotPassword.dart';
-import '../Chef_SignUp/chef_signUp.dart';
-
-class ChefLoginScreen extends StatefulWidget {
-  const ChefLoginScreen({super.key});
+class DeliveryLoginScreen extends StatefulWidget {
+  const DeliveryLoginScreen({super.key});
 
   @override
-  _ChefLoginScreenState createState() => _ChefLoginScreenState();
+  _DeliveryLoginScreenState createState() => _DeliveryLoginScreenState();
 }
 
-class _ChefLoginScreenState extends State<ChefLoginScreen> {
+class _DeliveryLoginScreenState extends State<DeliveryLoginScreen> {
   bool isLoginSelected = true;
 
   void toggleTab(bool isLogin) {
@@ -33,8 +32,8 @@ class _ChefLoginScreenState extends State<ChefLoginScreen> {
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
               colors: [
-                Color(0xFF1AC1D6),
-                Color(0xFFECDB63),
+                Color(0xFFC7F8DB),
+                Color(0xFF94BAFD),
               ],
             ),
           ),
@@ -53,8 +52,8 @@ class _ChefLoginScreenState extends State<ChefLoginScreen> {
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
                         colors: [
-                          Color(0xFF0E9EA7),
-                          Color(0xFF71F562),
+                          Color(0xFF8563FB),
+                          Color(0xFF61D2E7),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(10),
@@ -114,7 +113,7 @@ class _ChefLoginScreenState extends State<ChefLoginScreen> {
                                   onPressed: () {
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context) => const ChefSignUpScreen()),
+                                      MaterialPageRoute(builder: (context) => const DeliverySignUpScreen()),
                                     );
                                   },
                                   child: Text(
@@ -142,7 +141,7 @@ class _ChefLoginScreenState extends State<ChefLoginScreen> {
                   ),
                   const SizedBox(height: 20),
                   // Food Image
-                  Image.asset('assets/images/chef.png'),
+                  Image.asset('assets/images/delivery.png'),
                   const SizedBox(height: 20),
                   // Form fields based on the selected tab
                   Padding(
@@ -163,7 +162,7 @@ class _ChefLoginScreenState extends State<ChefLoginScreen> {
       children: [
         TextField(
           decoration: InputDecoration(
-            prefixIcon: Icon(Icons.email, color: Colors.green),
+            prefixIcon: Icon(Icons.email, color: Colors.blue),
             hintText: 'Email',
             filled: true,
             fillColor: Colors.white.withOpacity(0.8),
@@ -176,7 +175,7 @@ class _ChefLoginScreenState extends State<ChefLoginScreen> {
         TextField(
           obscureText: true,
           decoration: InputDecoration(
-            prefixIcon: Icon(Icons.lock, color: Colors.green),
+            prefixIcon: Icon(Icons.lock, color: Colors.blue),
             hintText: 'Password',
             filled: true,
             fillColor: Colors.white.withOpacity(0.8),
@@ -185,21 +184,20 @@ class _ChefLoginScreenState extends State<ChefLoginScreen> {
             ),
           ),
         ),
-        SizedBox(height: 10),
         Align(
           alignment: Alignment.centerRight,
           child: TextButton(
             onPressed: (){
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const ChefForgotScreen()),
+                MaterialPageRoute(builder: (context) => const DeliveryForgotScreen()),
               );
             },
             child: Text(
               'Forgot Password?',
               style: GoogleFonts.poppins(
                 textStyle: TextStyle(
-                  color: Colors.green,
+                  color: Colors.blue,
                   fontSize: 14,
                 ),
               ),
@@ -223,7 +221,7 @@ class _ChefLoginScreenState extends State<ChefLoginScreen> {
               ),
             ),
             style: ElevatedButton.styleFrom(
-              backgroundColor: Color(0xFF799A7E),
+              backgroundColor: Color(0xFF3684CC),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30),
               ),
@@ -247,14 +245,14 @@ class _ChefLoginScreenState extends State<ChefLoginScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ChefSignUpScreen()),
+                  MaterialPageRoute(builder: (context) => const DeliverySignUpScreen()),
                 );
               },
               child: Text(
                 'Create an account',
                 style: GoogleFonts.poppins(
                   textStyle: TextStyle(
-                    color: Colors.green,
+                    color: Colors.blue,
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                   ),

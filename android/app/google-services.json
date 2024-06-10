@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "651543804213",
+    "project_id": "quick-bites-a80a6",
+    "storage_bucket": "quick-bites-a80a6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:651543804213:android:640ecca81e889d95c0b47c",
+        "android_client_info": {
+          "package_name": "com.example.quick_bites"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFazHx0_b8HDQ1bVK0tk-s5Xij0hfQ6uQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

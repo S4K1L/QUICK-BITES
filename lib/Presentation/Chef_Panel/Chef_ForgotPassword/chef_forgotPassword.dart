@@ -1,21 +1,30 @@
 import 'package:flutter/material.dart';
 
 
-class ChefSignUpScreen extends StatelessWidget {
-  const ChefSignUpScreen({super.key});
+class ChefForgotScreen extends StatelessWidget {
+  const ChefForgotScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: Container(
+        height: 50,
+        decoration: const BoxDecoration(
+            color: Colors.green
+        ),
+        child: Column(
+          children: [
+            TextButton(onPressed: (){
+              Navigator.pop(context);
+            }, child: const Text('Return to Login Page',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22,color: Colors.white),))
+          ],
+        ),
+      ),
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFFF5DC5E),Color(0xFF18C0D7)],
-              begin: Alignment.centerRight,
-              end: Alignment.centerLeft,
-            ),
+          decoration:  BoxDecoration(
+              color: Colors.grey[300]
           ),
           child: Column(
             children: [
@@ -24,11 +33,11 @@ class ChefSignUpScreen extends StatelessWidget {
                 height: MediaQuery.of(context).size.height/4,
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
-                    begin: Alignment.centerRight,
-                    end: Alignment.centerLeft,
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
                     colors: [
-                      Color(0xFF74D35E),
-                      Color(0xFF089AAC),
+                      Color(0xFF079AAC),
+                      Color(0xFF6FD062),
                     ],
                   ),
                   borderRadius: BorderRadius.circular(16),
@@ -46,7 +55,7 @@ class ChefSignUpScreen extends StatelessWidget {
                       const Padding(
                         padding: EdgeInsets.only(left: 20),
                         child: Text(
-                          'REGISTER YOUR ACCOUNT',
+                          'FORGOT\nPASSWORD',
                           style: TextStyle(
                             fontSize: 36,
                             fontWeight: FontWeight.bold,
@@ -58,69 +67,24 @@ class ChefSignUpScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 60),
+              SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: Container(
                   child: Column(
                     children: [
+                      Image.asset('assets/images/forgot.png'),
+                      SizedBox(height: 20,),
+                      Text('Trouble Logging in?', style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),),
+                      SizedBox(height: 20),
+                      Text("Enter your email and we'll send you", style: TextStyle(fontSize: 16),),
+                      Text("a link to reset your password", style: TextStyle(fontSize: 16),),
+                      SizedBox(height: 20),
                       TextField(
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
                           hintText: 'Email',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 30),
-                      TextField(
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintText: 'Full Name',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 30),
-                      TextField(
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintText: 'Username',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 30),
-                      TextField(
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintText: 'Password',
-                          suffixIcon: Icon(Icons.visibility_off),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 30),
-                      TextField(
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintText: 'Repeat Password',
-                          suffixIcon: Icon(Icons.visibility_off),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30.0),
                             borderSide: BorderSide.none,
@@ -136,11 +100,9 @@ class ChefSignUpScreen extends StatelessWidget {
                             color: Colors.green
                         ),
                         child: TextButton(
-                          onPressed: () {
-                            // Implement create account functionality here
-                          },
+                          onPressed: () {},
                           child: Text(
-                            'Create Account',
+                            'Reset Password',
                             style: TextStyle(fontSize: 22, color: Colors.white, fontWeight: FontWeight.bold),
                           ),
                         ),

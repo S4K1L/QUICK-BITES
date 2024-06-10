@@ -1,8 +1,8 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'Presentation/Chef_Panel/Chef_SignUp/chef_signUp.dart';
+import 'Presentation/User_Panel/User_HomePage/menu_Screen.dart';
 
-void main() {
+Future<void> main() async {
   runApp(const MyApp());
 }
 
@@ -15,8 +15,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: AnimatedSplashScreen(
         splash: 'assets/images/logo.png',
-        nextScreen: const ChefSignUpScreen(),
-        splashTransition: SplashTransition.fadeTransition,
+        nextScreen: const MenuScreen(),
+        splashTransition: SplashTransition.slideTransition,
       ),
     );
   }
