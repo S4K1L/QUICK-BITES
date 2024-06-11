@@ -12,6 +12,8 @@ class UserLoginScreen extends StatefulWidget {
 }
 
 class _UserLoginScreenState extends State<UserLoginScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   bool isLoginSelected = true;
 
   void toggleTab(bool isLogin) {
@@ -42,110 +44,13 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Title and Top Bar
-                  Container(
-                    padding: const EdgeInsets.only(top: 20),
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        colors: [
-                          Color(0xFF676FF7),
-                          Color(0xFFE767CB),
-                        ],
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          'QUICK BITES',
-                          style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                              fontSize: 32,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        Text(
-                          'DELIVERY APP',
-                          style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                              fontSize: 16,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Column(
-                              children: [
-                                const Icon(Icons.lock_outline, color: Colors.white, size: 30),
-                                TextButton(
-                                  onPressed: () => toggleTab(true),
-                                  child: Text(
-                                    'Login',
-                                    style: GoogleFonts.poppins(
-                                      textStyle: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                // Bottom bar indicator for Login
-                                Container(
-                                  height: 4,
-                                  width: 180,
-                                  color: isLoginSelected ? Colors.pink : Colors.transparent,
-                                ),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                Icon(Icons.account_circle_outlined, color: Colors.white, size: 30),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (context) => const UserSignUpScreen()),
-                                    );
-                                  },
-                                  child: Text(
-                                    'Register',
-                                    style: GoogleFonts.poppins(
-                                      textStyle: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                // Bottom bar indicator for Register
-                                Container(
-                                  height: 4,
-                                  width: 180,
-                                  color: isLoginSelected ? Colors.transparent : Colors.pink,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                  topContainer(context),
                   const SizedBox(height: 20),
-                  // Food Image
                   Image.asset('assets/images/login.png'),
                   const SizedBox(height: 20),
-                  // Form fields based on the selected tab
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 30),
-                    child: isLoginSelected ? buildLoginForm() : buildRegisterForm(),
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    child: buildLoginForm(),
                   ),
                 ],
               ),
@@ -156,12 +61,111 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
     );
   }
 
+  Container topContainer(BuildContext context) {
+    return Container(
+                  padding: const EdgeInsets.only(top: 20),
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      colors: [
+                        Color(0xFF676FF7),
+                        Color(0xFFE767CB),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    children: [
+                      Text(
+                        'QUICK BITES',
+                        style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        'DELIVERY APP',
+                        style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Column(
+                            children: [
+                              const Icon(Icons.lock_outline, color: Colors.white, size: 30),
+                              TextButton(
+                                onPressed: () => toggleTab(true),
+                                child: Text(
+                                  'Login',
+                                  style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              // Bottom bar indicator for Login
+                              Container(
+                                height: 4,
+                                width: 180,
+                                color: isLoginSelected ? Colors.pink : Colors.transparent,
+                              ),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Icon(Icons.account_circle_outlined, color: Colors.white, size: 30),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const UserSignUpScreen()),
+                                  );
+                                },
+                                child: Text(
+                                  'Register',
+                                  style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              // Bottom bar indicator for Register
+                              Container(
+                                height: 4,
+                                width: 180,
+                                color: isLoginSelected ? Colors.transparent : Colors.pink,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+  }
+
   Widget buildLoginForm() {
     return Column(
       children: [
         TextField(
+          controller: _emailController,
           decoration: InputDecoration(
-            prefixIcon: Icon(Icons.email, color: Colors.purple),
+            prefixIcon: const Icon(Icons.email, color: Colors.purple),
             hintText: 'Email',
             filled: true,
             fillColor: Colors.white.withOpacity(0.8),
@@ -170,11 +174,12 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
             ),
           ),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         TextField(
+          controller: _passwordController,
           obscureText: true,
           decoration: InputDecoration(
-            prefixIcon: Icon(Icons.lock, color: Colors.purple),
+            prefixIcon: const Icon(Icons.lock, color: Colors.purple),
             hintText: 'Password',
             filled: true,
             fillColor: Colors.white.withOpacity(0.8),
@@ -183,7 +188,7 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
             ),
           ),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Align(
           alignment: Alignment.centerRight,
           child: TextButton(
@@ -196,7 +201,7 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
             child: Text(
               'Forgot Password?',
               style: GoogleFonts.poppins(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                   color: Colors.blue,
                   fontSize: 14,
                 ),
@@ -204,9 +209,9 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
             ),
           ),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         SizedBox(
-          height: 45,
+          height: 50,
           width: MediaQuery.of(context).size.width,
           child: ElevatedButton(
             onPressed: () {},
@@ -228,14 +233,14 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
             ),
           ),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               "Don't have an account?",
               style: GoogleFonts.poppins(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                   color: Colors.black,
                   fontSize: 14,
                 ),
@@ -265,98 +270,4 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
     );
   }
 
-  Widget buildRegisterForm() {
-    return Column(
-      children: [
-        TextField(
-          decoration: InputDecoration(
-            prefixIcon: Icon(Icons.person, color: Colors.purple),
-            hintText: 'Full Name',
-            filled: true,
-            fillColor: Colors.white.withOpacity(0.8),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30),
-            ),
-          ),
-        ),
-        SizedBox(height: 10),
-        TextField(
-          decoration: InputDecoration(
-            prefixIcon: Icon(Icons.email, color: Colors.purple),
-            hintText: 'Email',
-            filled: true,
-            fillColor: Colors.white.withOpacity(0.8),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30),
-            ),
-          ),
-        ),
-        SizedBox(height: 10),
-        TextField(
-          obscureText: true,
-          decoration: InputDecoration(
-            prefixIcon: Icon(Icons.lock, color: Colors.purple),
-            hintText: 'Password',
-            filled: true,
-            fillColor: Colors.white.withOpacity(0.8),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30),
-            ),
-          ),
-        ),
-        SizedBox(height: 20),
-        Container(
-          height: 45,
-          width: MediaQuery.of(context).size.width,
-          child: ElevatedButton(
-            onPressed: () {},
-            child: Text(
-              'Register',
-              style: GoogleFonts.poppins(
-                textStyle: TextStyle(
-                  fontSize: 22,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Color(0xFF7F39FB),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-              ),
-            ),
-          ),
-        ),
-        SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Already have an account?",
-              style: GoogleFonts.poppins(
-                textStyle: TextStyle(
-                  color: Colors.black,
-                  fontSize: 14,
-                ),
-              ),
-            ),
-            TextButton(
-              onPressed: () => toggleTab(true),
-              child: Text(
-                'Login',
-                style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
-                    color: Colors.blue,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
 }

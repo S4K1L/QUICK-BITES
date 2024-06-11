@@ -87,7 +87,7 @@ class UserSignUpScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(height: 30),
+                      const SizedBox(height: 30),
                       TextField(
                         decoration: InputDecoration(
                           filled: true,
@@ -99,7 +99,7 @@ class UserSignUpScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(height: 30),
+                      const SizedBox(height: 30),
                       TextField(
                         obscureText: true,
                         decoration: InputDecoration(
