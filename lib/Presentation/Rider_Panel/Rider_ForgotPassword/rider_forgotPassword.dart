@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 
-class DeliveryForgotScreen extends StatelessWidget {
-  const DeliveryForgotScreen({super.key});
+class RiderForgotScreen extends StatelessWidget {
+  const RiderForgotScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

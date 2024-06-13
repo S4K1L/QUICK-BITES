@@ -12,7 +12,7 @@ class SearchField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 30 / 1.5),
       child: Material(
         elevation: 2.0,
-        borderRadius: const BorderRadius.all(Radius.circular(30.0)),
+        borderRadius: const BorderRadius.all(Radius.circular(8.0)),
         child: TextFormField(
           onChanged: onSearch,
           style: const TextStyle(color: Colors.black, fontSize: 16.0),

@@ -1,8 +1,6 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'Presentation/Admin_Panel/Admin_HomePage/Admin_Home_Screen.dart';
-import 'Presentation/User_Panel/User_HomePage/menu_Screen.dart';
 import 'Presentation/Welcome_Screen/welcome_screen.dart';
 import 'firebase_options.dart';
 
@@ -23,7 +21,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: AnimatedSplashScreen(
         splash: 'assets/images/logo.png',
-        nextScreen: const AdminHomeScreen(),
+        nextScreen: const WelcomeScreen(),
         splashTransition: SplashTransition.slideTransition,
       ),
     );

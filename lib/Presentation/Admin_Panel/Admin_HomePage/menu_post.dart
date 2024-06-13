@@ -40,6 +40,7 @@ class _MenuPostState extends State<MenuPost> {
           price: doc['price'],
           docId: doc.id,
           moreImagesUrl: imageUrlList.map((url) => url as String).toList(),
+          isFav: false,
         );
       }).toList();
     });

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../Widgets/custom_button.dart';
 import '../Chef_Panel/Chef_login/chef_login.dart';
-import '../Delivery_Panel/Delivery_Login/delivery_login.dart';
-import '../User_Panel/Login_Screen/login_screen.dart';
+import '../Rider_Panel/Rider_login/rider_login.dart';
+import '../User_Panel/User_Login/user_login.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -58,7 +58,7 @@ class WelcomeScreen extends StatelessWidget {
                   OptionButton(text: 'CONNECT AS RIDER', onPress: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const DeliveryLoginScreen()),
+                      MaterialPageRoute(builder: (context) => const RiderLoginScreen()),
                     );
                   },),
                 ],

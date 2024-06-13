@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 
 import '../../../Core/Firebase/Authentication.dart';
 
-class UserSignUpScreen extends StatefulWidget {
-  const UserSignUpScreen({super.key});
+
+class RiderSignUpScreen extends StatefulWidget {
+  const RiderSignUpScreen({super.key});
 
   @override
-  State<UserSignUpScreen> createState() => _UserSignUpScreenState();
+  State<RiderSignUpScreen> createState() => _RiderSignUpScreenState();
 }
 
-class _UserSignUpScreenState extends State<UserSignUpScreen> {
+class _RiderSignUpScreenState extends State<RiderSignUpScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _emailController = TextEditingController();
@@ -22,7 +23,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
   bool _repeatPasswordVisible = false;
 
   void _uploadData() {
-    UserDataUploader.uploadUserData(
+    RiderDataUploader.uploadRiderData(
       name: _nameController.text,
       userName: _userNameController.text,
       email: _emailController.text,
@@ -111,14 +112,17 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
           height: MediaQuery.of(context).size.height,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xFFFDD461), Color(0xFFFD72B8)],
-              begin: Alignment.centerRight,
-              end: Alignment.centerLeft,
+              colors: [
+                Color(0xFFC8F9DA),
+                Color(0xFF98BEFB),
+              ],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
             ),
           ),
           child: Column(
             children: [
-              topBar(context),
+              topContainer(context),
               const SizedBox(height: 60),
               formContainer(context),
             ],
@@ -158,7 +162,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
               height: 60,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(32),
-                color: Colors.purple[300],
+                color: Colors.blue[300],
               ),
               child: TextButton(
                 onPressed: _signUp,
@@ -219,52 +223,46 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
     );
   }
 
-  Container topBar(BuildContext context) {
+
+  Container topContainer(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height / 4,
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          colors: [
-            Color(0xFFF58B5B),
-            Color(0xFF8E54F8),
-          ],
-        ),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.only(top: 30, left: 30),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                Icons.arrow_back_ios_new,
-                size: 32,
-                color: Colors.white,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height/4,
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                    Color(0xFF875DFC),
+                    Color(0xFF5FD8E6),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(16),
               ),
-            ),
-            const SizedBox(height: 10),
-            const Padding(
-              padding: EdgeInsets.only(left: 20),
-              child: Text(
-                'REGISTER YOUR ACCOUNT',
-                style: TextStyle(
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 30,left: 30),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    IconButton(onPressed: (){
+                      Navigator.pop(context);
+                    }, icon: const Icon(Icons.arrow_back_ios_new,size: 32,color: Colors.white,)),
+                    const SizedBox(height: 10,),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 20),
+                      child: Text(
+                        'REGISTER YOUR ACCOUNT',
+                        style: TextStyle(
+                          fontSize: 36,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
-          ],
-        ),
-      ),
-    );
+            );
   }
 }

@@ -2,19 +2,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:quick_bites/Presentation/Admin_Panel/Admin_HomePage/Admin_Home_Screen.dart';
 import '../../../Core/Firebase/Authentication.dart';
-import '../Chef_ForgotPassword/chef_forgotPassword.dart';
-import '../Chef_SignUp/chef_signUp.dart';
+import '../../Admin_Panel/Admin_HomePage/Admin_Home_Screen.dart';
+import '../Rider_ForgotPassword/rider_forgotPassword.dart';
+import '../Rider_signUp/rider_signUp.dart';
 
-class ChefLoginScreen extends StatefulWidget {
-  const ChefLoginScreen({super.key});
+class RiderLoginScreen extends StatefulWidget {
+  const RiderLoginScreen({super.key});
 
   @override
-  _ChefLoginScreenState createState() => _ChefLoginScreenState();
+  _RiderLoginScreenState createState() => _RiderLoginScreenState();
 }
 
-class _ChefLoginScreenState extends State<ChefLoginScreen> {
+class _RiderLoginScreenState extends State<RiderLoginScreen> {
   final FirebaseAuthService _auth = FirebaseAuthService();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
@@ -88,7 +88,7 @@ class _ChefLoginScreenState extends State<ChefLoginScreen> {
         .get()
         .then((DocumentSnapshot documentSnapshot) async {
       if (documentSnapshot.exists) {
-        if (documentSnapshot.get('type') == "chef") {
+        if (documentSnapshot.get('type') == "rider") {
           _showSuccessSnackbar("Welcome to QUICK BITES");
         } else if (documentSnapshot.get('type') == "admin") {
           _showSuccessSnackbar("Welcome back Sir");
@@ -147,20 +147,19 @@ class _ChefLoginScreenState extends State<ChefLoginScreen> {
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
               colors: [
-                Color(0xFF1AC1D6),
-                Color(0xFFECDB63),
+                Color(0xFFC7F8DB),
+                Color(0xFF94BAFD),
               ],
             ),
           ),
           child: Column(
             children: [
-              // Content
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   topContainer(context),
                   const SizedBox(height: 20),
-                  Image.asset('assets/images/chef.png'),
+                  Image.asset('assets/images/delivery.png'),
                   const SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -184,8 +183,8 @@ class _ChefLoginScreenState extends State<ChefLoginScreen> {
                       begin: Alignment.centerLeft,
                       end: Alignment.centerRight,
                       colors: [
-                        Color(0xFF0E9EA7),
-                        Color(0xFF71F562),
+                        Color(0xFF8563FB),
+                        Color(0xFF61D2E7),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(10),
@@ -234,24 +233,24 @@ class _ChefLoginScreenState extends State<ChefLoginScreen> {
                               Container(
                                 height: 4,
                                 width: 180,
-                                color: isLoginSelected ? Colors.pink : Colors.transparent,
+                                color: isLoginSelected ? Colors.blue : Colors.transparent,
                               ),
                             ],
                           ),
                           Column(
                             children: [
-                              Icon(Icons.account_circle_outlined, color: Colors.white, size: 30),
+                              const Icon(Icons.account_circle_outlined, color: Colors.white, size: 30),
                               TextButton(
                                 onPressed: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => const ChefSignUpScreen()),
+                                    MaterialPageRoute(builder: (context) => const RiderSignUpScreen()),
                                   );
                                 },
                                 child: Text(
                                   'Register',
                                   style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                       fontSize: 16,
                                       color: Colors.white,
                                     ),
@@ -281,7 +280,7 @@ class _ChefLoginScreenState extends State<ChefLoginScreen> {
           TextField(
             controller: _emailController,
             decoration: InputDecoration(
-              prefixIcon: const Icon(Icons.email, color: Colors.green),
+              prefixIcon: const Icon(Icons.email, color: Colors.blue),
               hintText: 'Email',
               filled: true,
               fillColor: Colors.white.withOpacity(0.8),
@@ -300,7 +299,7 @@ class _ChefLoginScreenState extends State<ChefLoginScreen> {
                   _passwordVisible
                       ? Icons.visibility
                       : Icons.visibility_off,
-                  color: Colors.green,
+                  color: Colors.blue,
                 ),
                 onPressed: () {
                   setState(() {
@@ -308,7 +307,7 @@ class _ChefLoginScreenState extends State<ChefLoginScreen> {
                   });
                 },
               ),
-              prefixIcon: const Icon(Icons.lock, color: Colors.green),
+              prefixIcon: const Icon(Icons.lock, color: Colors.blue),
               hintText: 'Password',
               filled: true,
               fillColor: Colors.white.withOpacity(0.8),
@@ -324,14 +323,14 @@ class _ChefLoginScreenState extends State<ChefLoginScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ChefForgotScreen()),
+                  MaterialPageRoute(builder: (context) => const RiderForgotScreen()),
                 );
               },
               child: Text(
                 'Forgot Password?',
                 style: GoogleFonts.poppins(
                   textStyle: const TextStyle(
-                    color: Colors.green,
+                    color: Colors.blue,
                     fontSize: 14,
                   ),
                 ),
@@ -347,7 +346,7 @@ class _ChefLoginScreenState extends State<ChefLoginScreen> {
                 _signIn();
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
+                backgroundColor: Colors.blue[300],
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
@@ -381,14 +380,14 @@ class _ChefLoginScreenState extends State<ChefLoginScreen> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const ChefSignUpScreen()),
+                    MaterialPageRoute(builder: (context) => const RiderSignUpScreen()),
                   );
                 },
                 child: Text(
                   'Register',
                   style: GoogleFonts.poppins(
                     textStyle: const TextStyle(
-                      color: Colors.green,
+                      color: Colors.blue,
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),

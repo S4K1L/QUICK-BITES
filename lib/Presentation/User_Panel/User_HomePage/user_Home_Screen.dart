@@ -1,46 +1,42 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:quick_bites/Presentation/Welcome_Screen/welcome_screen.dart';
 import 'package:quick_bites/Theme/constant.dart';
-import '../../Chef_Panel/Chef_login/chef_login.dart';
-import '../Create_Menu/create_menu.dart';
+import '../User_Login/user_login.dart';
+import 'Card_Manu/card_menu.dart';
 import 'menu_post.dart';
 
-class AdminHomeScreen extends StatefulWidget {
-  const AdminHomeScreen({super.key});
+class UserHomeScreen extends StatefulWidget {
+  const UserHomeScreen({super.key});
 
   @override
-  State<AdminHomeScreen> createState() => _AdminHomeScreenState();
+  State<UserHomeScreen> createState() => _UserHomeScreenState();
 }
 
-class _AdminHomeScreenState extends State<AdminHomeScreen> {
-
-
+class _UserHomeScreenState extends State<UserHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-         "QUICKBITE FOOD",
-         style: TextStyle(
-           fontSize: 22,
-           fontWeight: FontWeight.bold,
-           color: Colors.red,
-         ),
-                    ),
+          "QUICKBITE FOOD",
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: Colors.red,
+          ),
+        ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
       ),
-      drawer: adminDrawer(context),
+      drawer: userDrawer(context),
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/welcome.jpg'),
-            fit: BoxFit.cover,
-            opacity: 0.1
-          ),
+              image: AssetImage('assets/images/welcome.jpg'),
+              fit: BoxFit.cover,
+              opacity: 0.3),
         ),
         child: Column(
           children: [
@@ -54,8 +50,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
     );
   }
 
-
-  Drawer adminDrawer(BuildContext context) {
+  Drawer userDrawer(BuildContext context) {
     return Drawer(
       child: Column(
         children: [
@@ -90,7 +85,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                 ),
                 const SizedBox(height: 20),
                 const Text(
-                  'Admin Profile',
+                  'My Profile',
                   style: TextStyle(fontSize: 24, color: sBlackColor),
                 )
               ],
@@ -107,7 +102,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const AdminHomeScreen(),
+                      builder: (context) => const UserHomeScreen(),
                     ),
                   );
                 },
@@ -115,29 +110,44 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
               const SizedBox(height: 20),
               _buildDrawerButton(
                 context,
-                icon: Icons.add_business_outlined,
-                label: 'Add Menu',
+                icon: Icons.shopping_cart_outlined,
+                label: 'Cart',
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const CreateMenu()),
+                    MaterialPageRoute(
+                      builder: (context) => const CartMenuPage(),
+                    ),
                   );
                 },
               ),
               const SizedBox(height: 20),
               _buildDrawerButton(
                 context,
-                icon: Icons.library_add_check_outlined,
-                label: 'Approve Chef',
+                icon: Icons.edit_note,
+                label: 'My Order',
                 onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CartMenuPage(),
+                    ),
+                  );
                 },
               ),
               const SizedBox(height: 20),
               _buildDrawerButton(
                 context,
-                icon: Icons.attach_money,
-                label: 'Finance Status',
-                onPressed: () {},
+                icon: Icons.checklist,
+                label: 'Order History',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CartMenuPage(),
+                    ),
+                  );
+                },
               ),
               const SizedBox(height: 20),
               _buildDrawerButton(
@@ -149,7 +159,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const WelcomeScreen(),
+                      builder: (context) => const UserLoginScreen(),
                     ),
                   );
                 },
@@ -184,6 +194,5 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
       ),
     );
   }
-
 
 }
