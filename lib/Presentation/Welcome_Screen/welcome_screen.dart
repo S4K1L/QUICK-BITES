@@ -65,30 +65,6 @@ class WelcomeScreen extends StatelessWidget {
               ),
             ),
           ),
-          Positioned(
-              top: 290,
-              left: 300,
-              child: Image.asset(
-                'assets/images/love.png',
-                width: 30,
-                height: 30,
-              )),
-          Positioned(
-              top: 390,
-              left: 300,
-              child: Image.asset(
-                'assets/images/love.png',
-                width: 30,
-                height: 30,
-              )),
-          Positioned(
-              top: 490,
-              left: 300,
-              child: Image.asset(
-                'assets/images/love.png',
-                width: 30,
-                height: 30,
-              )),
         ],
       ),
     );

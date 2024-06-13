@@ -238,7 +238,7 @@ class _MenuPostState extends State<MenuPost> {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Container(
         width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height / 10,
+        height: MediaQuery.of(context).size.height / 12,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8), color: sWhiteColor),
         child: Row(
@@ -250,28 +250,29 @@ class _MenuPostState extends State<MenuPost> {
             const SizedBox(
               width: 40,
             ),
-            Padding(
-              padding: const EdgeInsets.only(right: 5),
-              child: Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        'Free Delivery',
-                        style: TextStyle(
-                            fontSize: 26,
-                            color: Colors.red[500],
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        'Order!',
-                        style: TextStyle(
-                            fontSize: 26,
-                            color: Colors.red[500],
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  )),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 5),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      'Free Delivery',
+                      style: TextStyle(
+                          fontSize: 22,
+                          color: Colors.red[500],
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      'Order!',
+                      style: TextStyle(
+                          fontSize: 22,
+                          color: Colors.red[500],
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
             )
           ],
         ),
