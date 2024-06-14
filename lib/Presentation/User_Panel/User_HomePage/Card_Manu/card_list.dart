@@ -1,18 +1,19 @@
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-
-import '../../../../Theme/constant.dart';
 import '../../../Admin_Panel/Admin_HomePage/manu_model.dart';
+import 'chekout.dart';
 
-class CardList extends StatefulWidget {
-  const CardList({super.key});
+
+
+class CartList extends StatefulWidget {
+  const CartList({super.key});
 
   @override
-  State<CardList> createState() => _CardListState();
+  State<CartList> createState() => _CartListState();
 }
 
-class _CardListState extends State<CardList> {
+class _CartListState extends State<CartList> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   User? _user;
   late Stream<List<MenuModel>> _menuStream;
@@ -27,13 +28,11 @@ class _CardListState extends State<CardList> {
 
   Stream<List<MenuModel>> _fetchMenuFromFirebase() {
     if (_user == null) {
-      // User not logged in, handle appropriately
       return Stream.empty();
     }
     final userUid = _user!.uid;
     return FirebaseFirestore.instance
-        .collection('card')
-        .where('userUid', isEqualTo: userUid)
+        .collection('menu')
         .snapshots()
         .map((snapshot) {
       return snapshot.docs.map((doc) {
@@ -48,7 +47,7 @@ class _CardListState extends State<CardList> {
           price: doc['price'],
           docId: doc.id,
           moreImagesUrl: imageUrlList.map((url) => url as String).toList(),
-          isFav: true, // Since it's already in the card collection
+          isFav: false, // Change this if needed
         );
       }).toList();
     });
@@ -68,37 +67,58 @@ class _CardListState extends State<CardList> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<List<MenuModel>>(
-      stream: _menuStream,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (snapshot.hasError) {
-          return Center(
-            child: Text('Error: ${snapshot.error}'),
-          );
-        } else {
-          List<MenuModel>? menuItems = snapshot.data;
-          if (menuItems != null && menuItems.isNotEmpty) {
-            return ListView.builder(
-              itemCount: menuItems.length,
-              itemBuilder: (context, index) {
-                return _buildMenuItem(context, menuItems[index]);
-              },
-            );
-          } else {
-            return const Center(
-              child: Text('No items available.'),
-            );
-          }
-        }
-      },
+  void _navigateToCart() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CheckOut(quantities: _quantities),
+      ),
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('QuickBites Food'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.shopping_cart),
+            onPressed: _navigateToCart,
+          ),
+        ],
+      ),
+      body: StreamBuilder<List<MenuModel>>(
+        stream: _menuStream,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text('Error: ${snapshot.error}'),
+            );
+          } else {
+            List<MenuModel>? menuItems = snapshot.data;
+            if (menuItems != null && menuItems.isNotEmpty) {
+              return ListView.builder(
+                itemCount: menuItems.length,
+                itemBuilder: (context, index) {
+                  return _buildMenuItem(context, menuItems[index]);
+                },
+              );
+            } else {
+              return const Center(
+                child: Text('No items available.'),
+              );
+            }
+          }
+        },
+      ),
+    );
+  }
+
   Widget _buildMenuItem(BuildContext context, MenuModel menu) {
     int quantity = _quantities[menu.docId] ?? 0;
     return Padding(
@@ -181,27 +201,9 @@ class _CardListState extends State<CardList> {
                     ],
                   ),
                   const SizedBox(height: 10), // Add some spacing between the row and the button
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.purple[300],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    child: const Text(
-                      'Add',
-                      style: TextStyle(
-                        color: sWhiteColor,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
                 ],
               ),
-            )
-
+            ),
           ],
         ),
       ),

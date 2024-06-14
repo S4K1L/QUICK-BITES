@@ -104,7 +104,7 @@ class _MenuPostState extends State<MenuPost> {
           ),
           child: IconButton(
             icon: Icon(
-              isFavorite ? Icons.favorite : Icons.favorite_border,
+              isFavorite ? Icons.favorite : Icons.favorite,
               color: isFavorite ? Colors.red : Colors.white,
             ),
             onPressed: () {
@@ -120,13 +120,25 @@ class _MenuPostState extends State<MenuPost> {
       padding: const EdgeInsets.only(left: 10, top: 3),
       child: Align(
         alignment: Alignment.topLeft,
-        child: Text(
-          menu.name,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.normal,
-            color: Colors.black,
-          ),
+        child: Column(
+          children: [
+            Text(
+              menu.name,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.normal,
+                color: Colors.black,
+              ),
+            ),
+            Text(
+              'RM ${menu.price}',
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.normal,
+                color: Colors.black,
+              ),
+            ),
+          ],
         ),
       ),
     ),
@@ -208,7 +220,7 @@ class _MenuPostState extends State<MenuPost> {
                         crossAxisSpacing: 4.0,
                         mainAxisSpacing: 20.0,
                         childAspectRatio:
-                        0.9, // Adjust the aspect ratio as needed
+                        0.95, // Adjust the aspect ratio as needed
                       ),
                       itemCount: filteredMenu.length,
                       itemBuilder: (context, index) {

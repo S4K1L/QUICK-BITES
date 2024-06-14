@@ -146,13 +146,12 @@ class _MenuPostState extends State<MenuPost> {
     );
   }
 
-  bool _matchesSearchText(MenuModel campaign) {
+  bool _matchesSearchText(MenuModel food) {
     String searchText = _searchText.toLowerCase();
     List<String> searchTerms = searchText.split(' ');
 
     return searchTerms.every((term) =>
-    campaign.name.toLowerCase().contains(term) ||
-        campaign.price.toLowerCase().contains(term)
+    food.name.toLowerCase().contains(term)
     );
   }
 }
