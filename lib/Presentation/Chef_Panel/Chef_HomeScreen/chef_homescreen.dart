@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:quick_bites/Theme/const.dart';
 import '../../../Core/Repository_and_Authentication/profile_image_picker.dart';
+import '../../Admin_Panel/Admin_HomePage/menu_post.dart';
+import '../../Drawer/chef_Drawer.dart';
 import '../../Drawer/user_Drawer.dart';
-import 'menu_post.dart';
 
-class UserHomeScreen extends StatefulWidget {
-  const UserHomeScreen({super.key});
+class ChefHomeScreen extends StatefulWidget {
+  const ChefHomeScreen({super.key});
 
   @override
-  State<UserHomeScreen> createState() => _UserHomeScreenState();
+  State<ChefHomeScreen> createState() => _ChefHomeScreenState();
 }
 
-class _UserHomeScreenState extends State<UserHomeScreen> {
+class _ChefHomeScreenState extends State<ChefHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,11 +32,11 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
             Padding(
               padding: const EdgeInsets.only(right: 10),
               child: Container(
-                width: 40,
+                  width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(32),
-                    color: kTextWhiteColor
+                      borderRadius: BorderRadius.circular(32),
+                      color: kTextWhiteColor
                   ),
                   child: ProfileImagePicker()),
             ),
@@ -44,7 +45,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
       ),
-      drawer: const UserDrawer(),
+      drawer: const ChefDrawer(),
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,

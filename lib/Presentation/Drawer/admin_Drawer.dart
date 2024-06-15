@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:quick_bites/Presentation/Chef_Panel/Chef_login/chef_login.dart';
+import 'package:quick_bites/Presentation/Welcome_Screen/welcome_screen.dart';
 import '../../Core/Repository_and_Authentication/profile_image_picker.dart';
 import '../../Theme/const.dart';
 import '../../Theme/constant.dart';
-import '../User_Panel/User_HomePage/Cart_Manu/cart_menu.dart';
-import '../User_Panel/User_HomePage/My_Order/my_order.dart';
-import '../User_Panel/User_HomePage/Order_History/order_history.dart';
-import '../User_Panel/User_HomePage/user_Home_Screen.dart';
+import '../Admin_Panel/Admin_HomePage/Admin_Home_Screen.dart';
+import '../Admin_Panel/Approve/approve_chef.dart';
+import '../Admin_Panel/Create_Menu/create_menu.dart';
+import '../Chef_Panel/Chef_HomeScreen/chef_homescreen.dart';
 import '../User_Panel/User_Login/user_login.dart';
 
 
-class UserDrawer extends StatelessWidget {
-  const UserDrawer({super.key});
+class AdminDrawer extends StatelessWidget {
+  const AdminDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +29,8 @@ class UserDrawer extends StatelessWidget {
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
                 colors: [
-                  Color(0xFFFD6FBB),
-                  Color(0xFFFDD064),
+                  Color(0xFF1EC1D4),
+                  Color(0xFFEADB64),
                 ],
               ),
             ),
@@ -48,7 +50,7 @@ class UserDrawer extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 const Text(
-                  'My Profile',
+                  'Admin Profile',
                   style: TextStyle(fontSize: 20, color: sBlackColor),
                 )
               ],
@@ -65,7 +67,7 @@ class UserDrawer extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const UserHomeScreen(),
+                      builder: (context) => const AdminHomeScreen(),
                     ),
                   );
                 },
@@ -73,44 +75,33 @@ class UserDrawer extends StatelessWidget {
               const SizedBox(height: 20),
               _buildDrawerButton(
                 context,
-                icon: Icons.shopping_cart_outlined,
-                label: 'Cart',
+                icon: Icons.add_business_outlined,
+                label: 'Add Menu',
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => const CartMenuPage(),
-                    ),
+                    MaterialPageRoute(builder: (context) => const CreateMenu()),
                   );
                 },
               ),
               const SizedBox(height: 20),
               _buildDrawerButton(
                 context,
-                icon: Icons.edit_note,
-                label: 'My Order',
+                icon: Icons.library_add_check_outlined,
+                label: 'Approve Chef',
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => const MyOrders(),
-                    ),
+                    MaterialPageRoute(builder: (context) => const ApproveChef()),
                   );
                 },
               ),
               const SizedBox(height: 20),
               _buildDrawerButton(
                 context,
-                icon: Icons.checklist,
-                label: 'Order History',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const OrderHistory(),
-                    ),
-                  );
-                },
+                icon: Icons.attach_money,
+                label: 'Finance Status',
+                onPressed: () {},
               ),
               const SizedBox(height: 20),
               _buildDrawerButton(
@@ -122,7 +113,7 @@ class UserDrawer extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const UserLoginScreen(),
+                      builder: (context) => const ChefLoginScreen(),
                     ),
                   );
                 },

@@ -35,7 +35,6 @@ class _ChefSignUpScreenState extends State<ChefSignUpScreen> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
-
     try {
       String email = _emailController.text;
       String password = _passwordController.text;
@@ -48,17 +47,17 @@ class _ChefSignUpScreenState extends State<ChefSignUpScreen> {
           SnackBar(
             content: const Row(
               children: [
-                Icon(Icons.notifications_active_outlined, color: Colors.white),
+                Icon(Icons.done_all_sharp, color: Colors.white),
                 SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    "Welcome QUICK BITES",
-                    style: TextStyle(color: Colors.red, fontSize: 16),
+                    "Account Request has been send",
+                    style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
                 ),
               ],
             ),
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.purple[300],
             behavior: SnackBarBehavior.floating,
             duration: Duration(seconds: 5),
             shape: RoundedRectangleBorder(

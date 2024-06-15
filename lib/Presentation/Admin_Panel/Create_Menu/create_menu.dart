@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../../../Theme/constant.dart';
+import '../../Drawer/admin_Drawer.dart';
 import '../Admin_HomePage/Admin_Home_Screen.dart';
 
 class CreateMenu extends StatefulWidget {
@@ -168,108 +169,7 @@ class _CreateMenuState extends State<CreateMenu> {
           style: TextStyle(color: Colors.red),
         ),
       ),
-      drawer: Drawer(
-        child: Column(
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height/3,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                gradient: const LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  colors: [
-                    Color(0xFFFD6FBB),
-                    Color(0xFFFDD064),
-                  ],
-                ),
-              ),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 30),
-                    child: CircleAvatar(
-                      minRadius: 60,
-                      maxRadius: 80,
-                      backgroundColor: Colors.white,
-                      child: Image.asset('assets/images/logo.png',width: 160,height: 160,),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  const Text('Admin Profile',style: TextStyle(fontSize: 24,color: sBlackColor),)
-                ],
-              ),
-            ),
-            const SizedBox(height: 20,),
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Row(
-                children: [
-                  const Icon(Icons.home_outlined,color: sBlackColor,size: 42,),
-                  const SizedBox(width: 20,),
-                  TextButton(onPressed: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const AdminHomeScreen()),
-                    );
-                  }, child: const Text('Home',style: TextStyle(fontSize: 22,color: sBlackColor,fontWeight: FontWeight.bold),))
-                ],
-              ),
-            ),
-            const SizedBox(height: 20,),
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Row(
-                children: [
-                  const Icon(Icons.edit_note_outlined,color: sBlackColor,size: 42,),
-                  const SizedBox(width: 20,),
-                  TextButton(onPressed: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const CreateMenu()),
-                    );
-                  }, child: const Text('Add Menu',style: TextStyle(fontSize: 22,color: sBlackColor,fontWeight: FontWeight.bold),))
-                ],
-              ),
-            ),
-            const SizedBox(height: 20,),
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Row(
-                children: [
-                  const Icon(Icons.checklist_outlined,color: sBlackColor,size: 42,),
-                  const SizedBox(width: 20,),
-                  TextButton(onPressed: (){}, child: const Text('Approve Chef',style: TextStyle(fontSize: 22,color: sBlackColor,fontWeight: FontWeight.bold),))
-                ],
-              ),
-            ),
-            const SizedBox(height: 20,),
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Row(
-                children: [
-                  const Icon(Icons.monetization_on_outlined,color: sBlackColor,size: 42),
-                  const SizedBox(width: 20,),
-                  TextButton(onPressed: (){}, child: const Text('Finances',style: TextStyle(fontSize: 22,color: sBlackColor,fontWeight: FontWeight.bold),))
-                ],
-              ),
-            ),
-            const SizedBox(height: 20,),
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Row(
-                children: [
-                  const Icon(Icons.logout,color: sBlackColor,size: 42,),
-                  const SizedBox(width: 20,),
-                  TextButton(onPressed: (){}, child: Text('Logout',style: TextStyle(fontSize: 22,color: sBlackColor,fontWeight: FontWeight.bold),))
-                ],
-              ),
-            ),
-
-          ],
-        ),
-      ),
+      drawer: AdminDrawer(),
       body: _isUploading
           ? Center(
               child: CircularPercentIndicator(

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../../Core/Firebase/Authentication.dart';
+import '../Rider_HomeScreen/rider_homescreen.dart';
 
 
 class RiderSignUpScreen extends StatefulWidget {
@@ -44,15 +45,14 @@ class _RiderSignUpScreenState extends State<RiderSignUpScreen> {
       User? user = userCredential.user;
 
       if (user != null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: const Row(
               children: [
                 Icon(Icons.notifications_active_outlined, color: Colors.white),
                 SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    "Welcome QUICK BITES",
+                    "Welcome to QUICK BITES",
                     style: TextStyle(color: Colors.red, fontSize: 16),
                   ),
                 ),
@@ -60,12 +60,15 @@ class _RiderSignUpScreenState extends State<RiderSignUpScreen> {
             ),
             backgroundColor: Colors.white,
             behavior: SnackBarBehavior.floating,
-            duration: Duration(seconds: 5),
+            duration: const Duration(seconds: 3),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
             elevation: 6,
-          ),
+          ),);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const RiderHomeScreen()),
         );
         _uploadData();
         print("Data uploaded successfully");

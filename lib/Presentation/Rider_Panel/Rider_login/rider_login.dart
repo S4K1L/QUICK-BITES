@@ -2,8 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:quick_bites/Presentation/Rider_Panel/Rider_HomeScreen/rider_homescreen.dart';
 import '../../../Core/Firebase/Authentication.dart';
+import '../../../Theme/const.dart';
 import '../../Admin_Panel/Admin_HomePage/Admin_Home_Screen.dart';
+import '../../Welcome_Screen/welcome_screen.dart';
 import '../Rider_ForgotPassword/rider_forgotPassword.dart';
 import '../Rider_signUp/rider_signUp.dart';
 
@@ -90,6 +93,10 @@ class _RiderLoginScreenState extends State<RiderLoginScreen> {
       if (documentSnapshot.exists) {
         if (documentSnapshot.get('type') == "rider") {
           _showSuccessSnackbar("Welcome to QUICK BITES");
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const RiderHomeScreen()),
+          );
         } else if (documentSnapshot.get('type') == "admin") {
           _showSuccessSnackbar("Welcome back Sir");
           Navigator.push(
@@ -154,18 +161,13 @@ class _RiderLoginScreenState extends State<RiderLoginScreen> {
           ),
           child: Column(
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  topContainer(context),
-                  const SizedBox(height: 20),
-                  Image.asset('assets/images/delivery.png'),
-                  const SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
-                    child: buildLoginForm(),
-                  ),
-                ],
+              topContainer(context),
+              const SizedBox(height: 20),
+              Image.asset('assets/images/delivery.png'),
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: buildLoginForm(),
               ),
             ],
           ),
@@ -191,15 +193,34 @@ class _RiderLoginScreenState extends State<RiderLoginScreen> {
                   ),
                   child: Column(
                     children: [
-                      Text(
-                        'QUICK BITES',
-                        style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                      Row(
+                        children: [
+                          IconButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const WelcomeScreen()),
+                                );
+                              },
+                              icon: const Icon(
+                                Icons.arrow_back_ios_new,
+                                color: kTextWhiteColor,
+                              )),
+                          SizedBox(
+                            width: 50,
                           ),
-                        ),
+                          Text(
+                            'QUICK BITES',
+                            style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                fontSize: 32,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       Text(
                         'DELIVERY APP',
@@ -316,7 +337,6 @@ class _RiderLoginScreenState extends State<RiderLoginScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 10),
           Align(
             alignment: Alignment.centerRight,
             child: TextButton(
@@ -337,7 +357,7 @@ class _RiderLoginScreenState extends State<RiderLoginScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           SizedBox(
             height: 50,
             width: MediaQuery.of(context).size.width,
@@ -363,7 +383,7 @@ class _RiderLoginScreenState extends State<RiderLoginScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 5),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

@@ -3,7 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quick_bites/Presentation/Admin_Panel/Admin_HomePage/Admin_Home_Screen.dart';
+import 'package:quick_bites/Presentation/Chef_Panel/Chef_HomeScreen/chef_homescreen.dart';
 import '../../../Core/Firebase/Authentication.dart';
+import '../../../Theme/const.dart';
+import '../../Welcome_Screen/welcome_screen.dart';
 import '../Chef_ForgotPassword/chef_forgotPassword.dart';
 import '../Chef_SignUp/chef_signUp.dart';
 
@@ -88,9 +91,16 @@ class _ChefLoginScreenState extends State<ChefLoginScreen> {
         .get()
         .then((DocumentSnapshot documentSnapshot) async {
       if (documentSnapshot.exists) {
-        if (documentSnapshot.get('type') == "chef") {
+        if (documentSnapshot.get('type') == "chef" && documentSnapshot.get('status') == "Approved") {
           _showSuccessSnackbar("Welcome to QUICK BITES");
-        } else if (documentSnapshot.get('type') == "admin") {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ChefHomeScreen()),
+          );
+        }else if(documentSnapshot.get('type') == "chef" && documentSnapshot.get('status') == "Pending") {
+          _showErrorSnackbar("Account not Approved");
+        }
+        else if (documentSnapshot.get('type') == "admin") {
           _showSuccessSnackbar("Welcome back Sir");
           Navigator.push(
             context,
@@ -192,15 +202,34 @@ class _ChefLoginScreenState extends State<ChefLoginScreen> {
                   ),
                   child: Column(
                     children: [
-                      Text(
-                        'QUICK BITES',
-                        style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                      Row(
+                        children: [
+                          IconButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const WelcomeScreen()),
+                                );
+                              },
+                              icon: const Icon(
+                                Icons.arrow_back_ios_new,
+                                color: kTextWhiteColor,
+                              )),
+                          SizedBox(
+                            width: 50,
                           ),
-                        ),
+                          Text(
+                            'QUICK BITES',
+                            style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                fontSize: 32,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       Text(
                         'DELIVERY APP',

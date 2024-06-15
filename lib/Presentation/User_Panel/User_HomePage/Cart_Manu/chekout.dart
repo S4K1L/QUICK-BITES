@@ -395,11 +395,13 @@ class _CheckOutState extends State<CheckOut> {
       'phone': _phoneController.text,
       'location': _locationController.text,
       'total': total,
+      'status': 'Ongoing', // Set the delivery status to "Ongoing"
       'items': cartItems.map((item) {
         return {
           'name': item.menuModel.name,
           'price': item.menuModel.price,
           'quantity': item.quantity,
+          'imageUrl': item.menuModel.imageUrl, // Store the picture URL
         };
       }).toList(),
       'timestamp': FieldValue.serverTimestamp(),

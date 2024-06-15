@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:quick_bites/Presentation/Rider_Panel/Rider_HomeScreen/rider_homescreen.dart';
+import 'package:quick_bites/Presentation/Rider_Panel/Rider_Order_history/rider_order_history.dart';
+import 'package:quick_bites/Presentation/Rider_Panel/Rider_login/rider_login.dart';
 import '../../Core/Repository_and_Authentication/profile_image_picker.dart';
 import '../../Theme/const.dart';
 import '../../Theme/constant.dart';
-import '../User_Panel/User_HomePage/Cart_Manu/cart_menu.dart';
-import '../User_Panel/User_HomePage/My_Order/my_order.dart';
-import '../User_Panel/User_HomePage/Order_History/order_history.dart';
-import '../User_Panel/User_HomePage/user_Home_Screen.dart';
-import '../User_Panel/User_Login/user_login.dart';
+import '../Rider_Panel/New Order/Rider_New_Order/rider_new_Order.dart';
 
 
-class UserDrawer extends StatelessWidget {
-  const UserDrawer({super.key});
+class RiderDrawer extends StatelessWidget {
+  const RiderDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +26,8 @@ class UserDrawer extends StatelessWidget {
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
                 colors: [
-                  Color(0xFFFD6FBB),
-                  Color(0xFFFDD064),
+                  Color(0xFF875EFC),
+                  Color(0xFF5ED9E6),
                 ],
               ),
             ),
@@ -48,7 +47,7 @@ class UserDrawer extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 const Text(
-                  'My Profile',
+                  'Rider Profile',
                   style: TextStyle(fontSize: 20, color: sBlackColor),
                 )
               ],
@@ -65,7 +64,7 @@ class UserDrawer extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const UserHomeScreen(),
+                      builder: (context) => const RiderHomeScreen(),
                     ),
                   );
                 },
@@ -73,27 +72,20 @@ class UserDrawer extends StatelessWidget {
               const SizedBox(height: 20),
               _buildDrawerButton(
                 context,
-                icon: Icons.shopping_cart_outlined,
-                label: 'Cart',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const CartMenuPage(),
-                    ),
-                  );
-                },
+                icon: Icons.account_balance_wallet_outlined,
+                label: 'My Earning',
+                onPressed: () {},
               ),
               const SizedBox(height: 20),
               _buildDrawerButton(
                 context,
-                icon: Icons.edit_note,
-                label: 'My Order',
+                icon: Icons.delivery_dining,
+                label: 'New Orders',
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const MyOrders(),
+                      builder: (context) => const RiderNewOrders(),
                     ),
                   );
                 },
@@ -102,12 +94,12 @@ class UserDrawer extends StatelessWidget {
               _buildDrawerButton(
                 context,
                 icon: Icons.checklist,
-                label: 'Order History',
+                label: 'Orders - History',
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const OrderHistory(),
+                      builder: (context) => const RiderOrdersHistory(),
                     ),
                   );
                 },
@@ -122,7 +114,7 @@ class UserDrawer extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const UserLoginScreen(),
+                      builder: (context) => const RiderLoginScreen(),
                     ),
                   );
                 },

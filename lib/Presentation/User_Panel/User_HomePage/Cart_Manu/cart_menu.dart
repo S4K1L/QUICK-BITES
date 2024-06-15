@@ -45,7 +45,7 @@ class _CartMenuPageState extends State<CartMenuPage> {
     }
     final userUid = _user!.uid;
     return FirebaseFirestore.instance
-        .collection('card')
+        .collection('cart')
         .where('userUid', isEqualTo: userUid)
         .snapshots()
         .map((snapshot) {

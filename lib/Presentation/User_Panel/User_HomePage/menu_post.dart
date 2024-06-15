@@ -161,7 +161,7 @@ class _MenuPostState extends State<MenuPost> {
     });
 
     if (_favorites[menu.docId]!) {
-      FirebaseFirestore.instance.collection('card').add({
+      FirebaseFirestore.instance.collection('cart').add({
         'imageUrl': menu.imageUrl,
         'name': menu.name,
         'price': menu.price,
@@ -171,7 +171,7 @@ class _MenuPostState extends State<MenuPost> {
       });
     } else {
       FirebaseFirestore.instance
-          .collection('card')
+          .collection('cart')
           .where('docId', isEqualTo: menu.docId)
           .where('userUid', isEqualTo: userUid)
           .get()

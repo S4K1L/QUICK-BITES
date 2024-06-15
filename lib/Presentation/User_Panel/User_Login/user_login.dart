@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:quick_bites/Presentation/Admin_Panel/Admin_HomePage/Admin_Home_Screen.dart';
 import 'package:quick_bites/Presentation/User_Panel/Forget_password/user_forget_password.dart';
 import 'package:quick_bites/Presentation/User_Panel/User_HomePage/user_Home_Screen.dart';
+import 'package:quick_bites/Presentation/Welcome_Screen/welcome_screen.dart';
+import 'package:quick_bites/Theme/const.dart';
 import '../../../Core/Firebase/Authentication.dart';
 import '../SignUp_Screen/signUp_screen.dart';
 
@@ -191,15 +193,34 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
       ),
       child: Column(
         children: [
-          Text(
-            'QUICK BITES',
-            style: GoogleFonts.poppins(
-              textStyle: const TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+          Row(
+            children: [
+              IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const WelcomeScreen()),
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back_ios_new,
+                    color: kTextWhiteColor,
+                  )),
+              SizedBox(
+                width: 50,
               ),
-            ),
+              Text(
+                'QUICK BITES',
+                style: GoogleFonts.poppins(
+                  textStyle: const TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
           ),
           Text(
             'DELIVERY APP',
@@ -239,12 +260,14 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
               ),
               Column(
                 children: [
-                  const Icon(Icons.account_circle_outlined, color: Colors.white, size: 30),
+                  const Icon(Icons.account_circle_outlined,
+                      color: Colors.white, size: 30),
                   TextButton(
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const UserSignUpScreen()),
+                        MaterialPageRoute(
+                            builder: (context) => const UserSignUpScreen()),
                       );
                     },
                     child: Text(
@@ -296,9 +319,7 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
             decoration: InputDecoration(
               suffixIcon: IconButton(
                 icon: Icon(
-                  _passwordVisible
-                      ? Icons.visibility
-                      : Icons.visibility_off,
+                  _passwordVisible ? Icons.visibility : Icons.visibility_off,
                   color: Colors.purple,
                 ),
                 onPressed: () {
@@ -323,7 +344,8 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const UserForgotScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => const UserForgotScreen()),
                 );
               },
               child: Text(
@@ -380,7 +402,8 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const UserSignUpScreen()),
+                    MaterialPageRoute(
+                        builder: (context) => const UserSignUpScreen()),
                   );
                 },
                 child: Text(

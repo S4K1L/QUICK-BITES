@@ -74,12 +74,12 @@ class ChefDataUploader {
         CollectionReference collRef =
         FirebaseFirestore.instance.collection("users");
         DocumentReference docRef = collRef.doc(firebaseUser.uid);
-
         await docRef.set({
           "email": email,
           "name": name,
           "password": password,
           "type": 'chef',
+          "status": 'Pending',
           "userName": userName,
           "uid": firebaseUser.uid,
         });
