@@ -2,12 +2,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:quick_bites/Presentation/User_Panel/User_HomePage/Cart_Manu/chekout.dart';
 import 'package:quick_bites/Theme/constant.dart';
-import '../../../Admin_Panel/Admin_HomePage/manu_model.dart';
 import '../../../Drawer/user_Drawer.dart';
-import '../../User_Login/user_login.dart';
-import '../user_Home_Screen.dart';
-import 'chekout.dart';
+import '../manu_model.dart';
 
 class CartMenuPage extends StatefulWidget {
   const CartMenuPage({super.key});
@@ -61,7 +59,7 @@ class _CartMenuPageState extends State<CartMenuPage> {
           price: doc['price'],
           docId: doc.id,
           moreImagesUrl: imageUrlList.map((url) => url as String).toList(),
-          isFav: true, // Since it's already in the card collection
+          isFav: true,
         );
       }).toList();
     });
@@ -91,6 +89,14 @@ class _CartMenuPageState extends State<CartMenuPage> {
         _quantities[menu.docId] = 1;
         _storeCheckoutData(menu, 1);
       }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.white,
+          content: Text('${menu.name} added to cart!',style: const TextStyle(color: Colors.red),),
+          duration: const Duration(seconds: 2),
+        ),
+      );
     });
   }
 

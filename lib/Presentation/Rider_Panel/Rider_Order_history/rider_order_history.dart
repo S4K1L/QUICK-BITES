@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quick_bites/Presentation/Drawer/rider_Drawer.dart';
-import '../../../../Theme/const.dart';
 
 class RiderOrdersHistory extends StatefulWidget {
   const RiderOrdersHistory({super.key});
@@ -11,6 +11,32 @@ class RiderOrdersHistory extends StatefulWidget {
 }
 
 class _RiderOrdersHistoryState extends State<RiderOrdersHistory> {
+  late User _currentUser;
+  bool _isLoading = true;
+  String _errorMessage = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentUser().then((_) => setState(() {
+      _isLoading = false;
+    }));
+  }
+
+  Future<void> _getCurrentUser() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    if (user != null) {
+      setState(() {
+        _currentUser = user;
+      });
+    } else {
+      setState(() {
+        _errorMessage = 'User not logged in.';
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,8 +65,12 @@ class _RiderOrdersHistoryState extends State<RiderOrdersHistory> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
       ),
-      drawer: RiderDrawer(),
-      body: SingleChildScrollView(
+      drawer: const RiderDrawer(),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : _errorMessage.isNotEmpty
+          ? Center(child: Text(_errorMessage))
+          : SingleChildScrollView(
         child: Column(
           children: [
             Container(
@@ -85,6 +115,7 @@ class _RiderOrdersHistoryState extends State<RiderOrdersHistory> {
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('orders')
         .where('status', isEqualTo: 'Delivered')
+        .where('riderUid', isEqualTo: _currentUser.uid)
         .get();
 
     return snapshot.docs.map((doc) {
@@ -103,6 +134,7 @@ class _RiderOrdersHistoryState extends State<RiderOrdersHistory> {
         orderId: data['orderId'],
         userUid: data['userUid'],
         name: data['name'],
+        deliveryFee: data['deliveryFee'],
         phone: data['phone'],
         location: data['location'],
         total: data['total'].toDouble(),
@@ -150,7 +182,7 @@ class _RiderOrdersHistoryState extends State<RiderOrdersHistory> {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        'RM ${(item.price * item.quantity).toStringAsFixed(2)}',
+                        'RM ${order.deliveryFee}',
                         style: const TextStyle(fontSize: 14),
                       ),
                     ],
@@ -169,6 +201,7 @@ class Order {
   final String orderId;
   final String userUid;
   final String name;
+  final double deliveryFee;
   final String phone;
   final String location;
   final double total;
@@ -179,6 +212,7 @@ class Order {
     required this.orderId,
     required this.userUid,
     required this.name,
+    required this.deliveryFee,
     required this.phone,
     required this.location,
     required this.total,

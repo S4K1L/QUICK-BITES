@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../../../Admin_Panel/Admin_HomePage/manu_model.dart';
+import '../manu_model.dart';
 import 'chekout.dart';
 
 

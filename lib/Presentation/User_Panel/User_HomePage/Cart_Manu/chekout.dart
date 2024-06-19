@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quick_bites/Theme/const.dart';
-import '../../../Admin_Panel/Admin_HomePage/manu_model.dart';
 import '../../../Drawer/user_Drawer.dart';
 import 'dart:math';
+
+import '../manu_model.dart';
 
 class CheckOut extends StatefulWidget {
   final Map<String, int> quantities;
@@ -21,6 +22,36 @@ class _CheckOutState extends State<CheckOut> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
 
+  List<Map<String, dynamic>> _zones = [];
+  String? _selectedZone;
+  double _deliveryFee = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchDeliveryZones();
+  }
+
+  Future<void> _fetchDeliveryZones() async {
+    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('zones').get();
+    setState(() {
+      _zones = snapshot.docs.map((doc) {
+        final data = doc.data() as Map<String, dynamic>;
+        return {
+          'name': data['zoneName'],
+          'deliveryFee': data['deliveryFee'],
+        };
+      }).toList();
+    });
+  }
+
+  void _updateDeliveryFee(String? zone) {
+    setState(() {
+      _selectedZone = zone;
+      _deliveryFee = _zones.firstWhere((z) => z['name'] == zone)['deliveryFee'];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +60,7 @@ class _CheckOutState extends State<CheckOut> {
           children: [
             Spacer(),
             const Text(
-              "QUICKBITE FOOD",
+              "QUICKBITE",
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -67,8 +98,7 @@ class _CheckOutState extends State<CheckOut> {
               int price = item.menuModel.price;
               subTotal += price * item.quantity;
             }
-            double deliveryFee = 2.0;
-            double total = subTotal + deliveryFee;
+            double total = subTotal + _deliveryFee;
 
             return Container(
               width: MediaQuery.of(context).size.width,
@@ -92,7 +122,8 @@ class _CheckOutState extends State<CheckOut> {
                         },
                       ),
                     ),
-                    _buildPaymentDetails(subTotal, deliveryFee, total),
+                    _buildDeliveryZoneDropdown(),
+                    _buildPaymentDetails(subTotal, _deliveryFee, total),
                     const SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.only(left: 20, right: 20),
@@ -122,6 +153,36 @@ class _CheckOutState extends State<CheckOut> {
               ),
             );
           }
+        },
+      ),
+    );
+  }
+
+  Widget _buildDeliveryZoneDropdown() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+      child: DropdownButtonFormField<String>(
+        value: _selectedZone,
+        hint: const Text('Select Delivery Zone'),
+        items: _zones.map((zone) {
+          return DropdownMenuItem<String>(
+            value: zone['name'],
+            child: Text(zone['name']),
+          );
+        }).toList(),
+        onChanged: (value) {
+          _updateDeliveryFee(value);
+        },
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+        ),
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please select a delivery zone';
+          }
+          return null;
         },
       ),
     );
@@ -168,6 +229,63 @@ class _CheckOutState extends State<CheckOut> {
         quantity: quantity,
       );
     }).toList();
+  }
+
+  Widget _buildPaymentDetails(
+      double subTotal, double deliveryFee, double total) {
+    return Container(
+      padding: const EdgeInsets.all(10.0),
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const Text(
+            "Payment Details",
+            style: TextStyle(
+                fontSize: 20,
+                color: kTextBlackColor,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          _buildPaymentDetailRow('Sub Total', subTotal),
+          _buildPaymentDetailRow('Delivery Fee', deliveryFee),
+          const Divider(),
+          _buildPaymentDetailRow('Total', total, isTotal: true),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPaymentDetailRow(String label, double amount,
+      {bool isTotal = false}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: isTotal ? 18 : 16,
+              fontWeight: isTotal ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
+          Text(
+            'RM ${amount.toStringAsFixed(2)}',
+            style: TextStyle(
+              fontSize: isTotal ? 18 : 16,
+              fontWeight: isTotal ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildCartItem(MenuModel item, int quantity) {
@@ -258,63 +376,6 @@ class _CheckOutState extends State<CheckOut> {
     }
   }
 
-  Widget _buildPaymentDetails(
-      double subTotal, double deliveryFee, double total) {
-    return Container(
-      padding: const EdgeInsets.all(10.0),
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const Text(
-            "Payment Details",
-            style: TextStyle(
-                fontSize: 20,
-                color: kTextBlackColor,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          _buildPaymentDetailRow('Sub Total', subTotal),
-          _buildPaymentDetailRow('Delivery Fee', deliveryFee),
-          const Divider(),
-          _buildPaymentDetailRow('Total', total, isTotal: true),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPaymentDetailRow(String label, double amount,
-      {bool isTotal = false}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: isTotal ? 18 : 16,
-              fontWeight: isTotal ? FontWeight.bold : FontWeight.normal,
-            ),
-          ),
-          Text(
-            'RM ${amount.toStringAsFixed(2)}',
-            style: TextStyle(
-              fontSize: isTotal ? 18 : 16,
-              fontWeight: isTotal ? FontWeight.bold : FontWeight.normal,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   void _showCheckoutDialog(BuildContext context, List<MenuModelWithQuantity> cartItems, double total) {
     showDialog(
       context: context,
@@ -395,6 +456,7 @@ class _CheckOutState extends State<CheckOut> {
       'phone': _phoneController.text,
       'location': _locationController.text,
       'total': total,
+      'deliveryFee': _deliveryFee, // Include the delivery fee
       'status': 'Ongoing', // Set the delivery status to "Ongoing"
       'items': cartItems.map((item) {
         return {
@@ -416,6 +478,7 @@ class _CheckOutState extends State<CheckOut> {
     await _clearCheckoutItems(userUid);
     setState(() {});
   }
+
 
   Future<void> _clearCheckoutItems(String userUid) async {
     final querySnapshot = await FirebaseFirestore.instance

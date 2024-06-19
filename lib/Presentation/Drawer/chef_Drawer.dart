@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:quick_bites/Presentation/Chef_Panel/Chef_Earning/chef_earning.dart';
 import 'package:quick_bites/Presentation/Chef_Panel/Chef_login/chef_login.dart';
 import '../../Core/Repository_and_Authentication/profile_image_picker.dart';
 import '../../Theme/const.dart';
@@ -74,7 +75,14 @@ class ChefDrawer extends StatelessWidget {
                 context,
                 icon: Icons.account_balance_wallet_outlined,
                 label: 'My Earning',
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ChefEarnings(),
+                    ),
+                  );
+                },
               ),
               const SizedBox(height: 20),
               _buildDrawerButton(
@@ -85,7 +93,7 @@ class ChefDrawer extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const NewOrders(),
+                      builder: (context) => const ChefNewOrders(),
                     ),
                   );
                 },

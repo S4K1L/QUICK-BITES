@@ -40,6 +40,7 @@ class _MenuPostState extends State<MenuPost> {
     });
   }
 
+
   Stream<List<MenuModel>> _fetchMenuFromFirebase() {
     return FirebaseFirestore.instance.collection('menu').snapshots().map((snapshot) {
       return snapshot.docs.map((doc) {
@@ -48,7 +49,11 @@ class _MenuPostState extends State<MenuPost> {
 
         bool isFav = false;
         if (_user != null) {
-          FirebaseFirestore.instance.collection('card').where('userUid', isEqualTo: _user!.uid).where('docId', isEqualTo: doc.id).get().then((value) {
+          FirebaseFirestore.instance.collection('cart')
+              .where('userUid', isEqualTo: _user!.uid)
+              .where('docId', isEqualTo: doc.id)
+              .get()
+              .then((value) {
             if (value.docs.isNotEmpty) {
               setState(() {
                 _favorites[doc.id] = true;

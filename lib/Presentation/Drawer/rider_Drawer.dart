@@ -7,6 +7,7 @@ import '../../Core/Repository_and_Authentication/profile_image_picker.dart';
 import '../../Theme/const.dart';
 import '../../Theme/constant.dart';
 import '../Rider_Panel/New Order/Rider_New_Order/rider_new_Order.dart';
+import '../Rider_Panel/Rider_Earning/rider_earning.dart';
 
 
 class RiderDrawer extends StatelessWidget {
@@ -74,7 +75,14 @@ class RiderDrawer extends StatelessWidget {
                 context,
                 icon: Icons.account_balance_wallet_outlined,
                 label: 'My Earning',
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const RiderEarning(),
+                    ),
+                  );
+                },
               ),
               const SizedBox(height: 20),
               _buildDrawerButton(

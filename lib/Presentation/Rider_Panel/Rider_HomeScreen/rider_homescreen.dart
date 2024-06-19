@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:quick_bites/Presentation/Drawer/rider_Drawer.dart';
+import 'package:quick_bites/Presentation/Rider_Panel/Rider_Earning/rider_earning.dart';
 import '../../../Core/Repository_and_Authentication/profile_image_picker.dart';
 import '../../../Theme/const.dart';
 import '../New Order/Rider_New_Order/rider_new_Order.dart';
@@ -96,6 +97,12 @@ class RiderHomeScreen extends StatelessWidget {
                   color: Colors.blue,
                   iconColor: Colors.black,
                   onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const RiderEarning(),
+                      ),
+                    );
                   },
                 ),
                 DashboardItem(

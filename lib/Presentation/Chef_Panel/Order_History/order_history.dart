@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quick_bites/Presentation/Drawer/chef_Drawer.dart';
-
 
 class OrderHistory extends StatefulWidget {
   const OrderHistory({super.key});
@@ -11,6 +11,54 @@ class OrderHistory extends StatefulWidget {
 }
 
 class _OrderHistoryState extends State<OrderHistory> {
+  double _totalEarnings = 0.0;
+  late User _currentUser;
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentUser();
+    _updateChefEarnings();
+  }
+
+  Future<void> _getCurrentUser() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    if (user != null) {
+      setState(() {
+        _currentUser = user;
+      });
+    }
+  }
+
+  Future<void> _updateChefEarnings() async {
+    double newEarnings = 0.0;
+    final orders = await _getOrders();
+    for (var order in orders) {
+      newEarnings += order.total;
+    }
+    await _updateEarningsInFirebase(newEarnings);
+  }
+
+  Future<void> _updateEarningsInFirebase(double newEarnings) async {
+    final earningsRef = FirebaseFirestore.instance.collection('chefEarnings').doc(_currentUser.uid);
+    final snapshot = await earningsRef.get();
+
+    if (snapshot.exists) {
+      final data = snapshot.data() as Map<String, dynamic>;
+      final currentEarnings = data['total'] ?? 0.0;
+      setState(() {
+        _totalEarnings = currentEarnings + newEarnings;
+      });
+    } else {
+      setState(() {
+        _totalEarnings = newEarnings;
+      });
+    }
+
+    await earningsRef.set({'total': _totalEarnings});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,9 +130,14 @@ class _OrderHistoryState extends State<OrderHistory> {
   }
 
   Future<List<Order>> _getOrders() async {
+    if (_currentUser == null) {
+      return [];
+    }
+
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('orders')
         .where('status', isEqualTo: 'Delivered')
+        .where('lastUpdatedBy', isEqualTo: _currentUser.uid)
         .get();
 
     return snapshot.docs.map((doc) {

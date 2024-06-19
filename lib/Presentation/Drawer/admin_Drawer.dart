@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:quick_bites/Presentation/Admin_Panel/Add_Delivery_Zone/add_delivery_zone.dart';
+import 'package:quick_bites/Presentation/Admin_Panel/Finance/total_finance.dart';
 import 'package:quick_bites/Presentation/Chef_Panel/Chef_login/chef_login.dart';
 import 'package:quick_bites/Presentation/Welcome_Screen/welcome_screen.dart';
 import '../../Core/Repository_and_Authentication/profile_image_picker.dart';
@@ -101,7 +103,24 @@ class AdminDrawer extends StatelessWidget {
                 context,
                 icon: Icons.attach_money,
                 label: 'Finance Status',
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const TotalFinance()),
+                  );
+                },
+              ),
+              const SizedBox(height: 20),
+              _buildDrawerButton(
+                context,
+                icon: Icons.delivery_dining_outlined,
+                label: 'Add Delivery Zone',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const AddDeliveryZone()),
+                  );
+                },
               ),
               const SizedBox(height: 20),
               _buildDrawerButton(

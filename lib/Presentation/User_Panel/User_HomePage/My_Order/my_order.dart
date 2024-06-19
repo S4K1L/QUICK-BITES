@@ -29,7 +29,7 @@ class _MyOrdersState extends State<MyOrders> {
             const Spacer(),
             IconButton(
                 onPressed: () {},
-                icon: Icon(
+                icon: const Icon(
                   Icons.shopping_cart,
                   color: Colors.red,
                 ))
@@ -145,19 +145,24 @@ class _MyOrdersState extends State<MyOrders> {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  title: Text(item.name),
-                  subtitle: Text('Quantity: ${item.quantity}'),
-                  trailing: Column(
+                  title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'ORDER: ${order.orderId}',
                         style: const TextStyle(fontSize: 14),
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 5,
                       ),
+                      Text(item.name),
+                    ],
+                  ),
+                  subtitle: Text('Quantity: ${item.quantity}'),
+                  trailing: Column(
+                    children: [
                       Text(
-                        'RM ${(item.price * item.quantity).toStringAsFixed(2)}',
+                        'RM ${order.total}',
                         style: const TextStyle(fontSize: 14),
                       ),
                       const SizedBox(

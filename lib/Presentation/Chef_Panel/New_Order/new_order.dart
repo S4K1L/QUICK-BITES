@@ -1,16 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../../../Theme/const.dart';
 import '../../Drawer/chef_Drawer.dart';
 
-class NewOrders extends StatefulWidget {
-  const NewOrders({super.key});
+class ChefNewOrders extends StatefulWidget {
+  const ChefNewOrders({super.key});
 
   @override
-  _NewOrdersState createState() => _NewOrdersState();
+  _ChefNewOrdersState createState() => _ChefNewOrdersState();
 }
 
-class _NewOrdersState extends State<NewOrders> {
+class _ChefNewOrdersState extends State<ChefNewOrders> {
+  late User _currentUser;
+  bool _showPreparingOrders = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentUser();
+  }
+
+  Future<void> _getCurrentUser() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    if (user != null) {
+      _currentUser = user;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,10 +57,19 @@ class _NewOrdersState extends State<NewOrders> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
       ),
-      drawer: ChefDrawer(),
+      drawer: const ChefDrawer(),
       body: SingleChildScrollView(
         child: Column(
           children: [
+            SwitchListTile(
+              title: const Text("Show Preparing Orders Only"),
+              value: _showPreparingOrders,
+              onChanged: (value) {
+                setState(() {
+                  _showPreparingOrders = value;
+                });
+              },
+            ),
             Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
@@ -82,10 +109,19 @@ class _NewOrdersState extends State<NewOrders> {
   }
 
   Future<List<Order>> _getOrders() async {
-    QuerySnapshot snapshot = await FirebaseFirestore.instance
-        .collection('orders')
-        .where('status', whereIn: ['Ongoing', 'Preparing'])
-        .get();
+    QuerySnapshot snapshot;
+    if (_showPreparingOrders) {
+      snapshot = await FirebaseFirestore.instance
+          .collection('orders')
+          .where('status', isEqualTo: 'Preparing')
+          .where('lastUpdatedBy', isEqualTo: _currentUser.uid)
+          .get();
+    } else {
+      snapshot = await FirebaseFirestore.instance
+          .collection('orders')
+          .where('status', whereIn: ['Ongoing', 'Preparing'])
+          .get();
+    }
 
     return snapshot.docs.map((doc) {
       final data = doc.data() as Map<String, dynamic>;
@@ -183,7 +219,7 @@ class _NewOrdersState extends State<NewOrders> {
                     });
                     _updateOrderStatus(order.orderId, newValue!);
                   },
-                  underline: SizedBox.shrink(),
+                  underline: const SizedBox.shrink(),
                 ),
               ),
             ),
@@ -197,7 +233,7 @@ class _NewOrdersState extends State<NewOrders> {
     await FirebaseFirestore.instance
         .collection('orders')
         .doc(orderId)
-        .update({'status': status});
+        .update({'status': status, 'lastUpdatedBy': _currentUser.uid});
   }
 }
 

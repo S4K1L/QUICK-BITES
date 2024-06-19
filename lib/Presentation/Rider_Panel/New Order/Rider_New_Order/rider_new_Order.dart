@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quick_bites/Presentation/Drawer/rider_Drawer.dart';
 import '../../../../Theme/const.dart';
 
@@ -11,6 +12,32 @@ class RiderNewOrders extends StatefulWidget {
 }
 
 class _RiderNewOrdersState extends State<RiderNewOrders> {
+  late User _currentUser;
+  bool _isLoading = true;
+  String _errorMessage = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentUser().then((_) => setState(() {
+      _isLoading = false;
+    }));
+  }
+
+  Future<void> _getCurrentUser() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    if (user != null) {
+      setState(() {
+        _currentUser = user;
+      });
+    } else {
+      setState(() {
+        _errorMessage = 'User not logged in.';
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,8 +66,12 @@ class _RiderNewOrdersState extends State<RiderNewOrders> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
       ),
-      drawer: RiderDrawer(),
-      body: SingleChildScrollView(
+      drawer: const RiderDrawer(),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : _errorMessage.isNotEmpty
+          ? Center(child: Text(_errorMessage))
+          : SingleChildScrollView(
         child: Column(
           children: [
             Container(
@@ -84,7 +115,7 @@ class _RiderNewOrdersState extends State<RiderNewOrders> {
   Future<List<Order>> _getOrders() async {
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('orders')
-        .where('status', isEqualTo: 'Ready to Delivery')
+        .where('status', whereIn: ['Ready to Delivery', 'On the Way'])
         .get();
 
     return snapshot.docs.map((doc) {
@@ -104,12 +135,14 @@ class _RiderNewOrdersState extends State<RiderNewOrders> {
         userUid: data['userUid'],
         name: data['name'],
         phone: data['phone'],
+        deliveryFee: data['deliveryFee'],
         location: data['location'],
         total: data['total'].toDouble(),
         status: data['status'],
+        riderUid: data['riderUid'],
         items: items,
       );
-    }).toList();
+    }).where((order) => order.status == 'Ready to Delivery' || (order.status == 'On the Way' && order.riderUid == _currentUser.uid)).toList();
   }
 
   Widget _buildOrderItem(Order order) {
@@ -139,19 +172,41 @@ class _RiderNewOrdersState extends State<RiderNewOrders> {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  title: Text(item.name),
-                  subtitle: Text('Quantity: ${item.quantity}'),
-                  trailing: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'ORDER: ${order.orderId}',
                         style: const TextStyle(fontSize: 14),
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 5),
+                      Text(item.name),
+                    ],
+                  ),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Quantity: ${item.quantity}'),
+                      const SizedBox(height: 5),
                       Text(
                         'RM ${(item.price * item.quantity).toStringAsFixed(2)}',
                         style: const TextStyle(fontSize: 14),
+                      ),
+                    ],
+                  ),
+                  trailing: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Delivery: ${order.deliveryFee}',
+                        style: const TextStyle(fontSize: 14),
+                      ),
+                      const SizedBox(height: 5),
+                      Expanded(
+                        child: Text(
+                          'Place: ${order.location}',
+                          style: const TextStyle(fontSize: 14),
+                        ),
                       ),
                     ],
                   ),
@@ -167,7 +222,7 @@ class _RiderNewOrdersState extends State<RiderNewOrders> {
                 ),
                 child: DropdownButton<String>(
                   value: order.status,
-                  items: <String>['Ready to Delivery', 'Delivered', 'Delivery Fail']
+                  items: <String>['Ready to Delivery', 'On the Way','Delivered',]
                       .map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
@@ -178,12 +233,14 @@ class _RiderNewOrdersState extends State<RiderNewOrders> {
                     );
                   }).toList(),
                   onChanged: (String? newValue) {
-                    setState(() {
-                      order.status = newValue!;
-                    });
-                    _updateOrderStatus(order.orderId, newValue!);
+                    if (newValue != null) {
+                      setState(() {
+                        order.status = newValue;
+                      });
+                      _updateOrderStatus(order.orderId, newValue, order.riderUid);
+                    }
                   },
-                  underline: SizedBox.shrink(),
+                  underline: const SizedBox.shrink(),
                 ),
               ),
             ),
@@ -193,11 +250,15 @@ class _RiderNewOrdersState extends State<RiderNewOrders> {
     );
   }
 
-  Future<void> _updateOrderStatus(String orderId, String status) async {
+  Future<void> _updateOrderStatus(String orderId, String status, String? riderUid) async {
+    final updates = {'status': status};
+    if (status == 'On the Way') {
+      updates['riderUid'] = _currentUser.uid;
+    }
     await FirebaseFirestore.instance
         .collection('orders')
         .doc(orderId)
-        .update({'status': status});
+        .update(updates);
   }
 }
 
@@ -205,20 +266,24 @@ class Order {
   final String orderId;
   final String userUid;
   final String name;
+  final double deliveryFee;
   final String phone;
   final String location;
   final double total;
   String status;
+  final String? riderUid;
   final List<OrderItem> items;
 
   Order({
     required this.orderId,
     required this.userUid,
     required this.name,
+    required this.deliveryFee,
     required this.phone,
     required this.location,
     required this.total,
     required this.status,
+    this.riderUid,
     required this.items,
   });
 }
