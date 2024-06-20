@@ -124,7 +124,7 @@ class _RiderNewOrdersState extends State<RiderNewOrders> {
         final item = itemData as Map<String, dynamic>;
         return OrderItem(
           name: item['name'],
-          price: item['price'],
+          price: item['price'].toDouble(),
           quantity: item['quantity'],
           imageUrl: item['imageUrl'],
         );
@@ -135,9 +135,9 @@ class _RiderNewOrdersState extends State<RiderNewOrders> {
         userUid: data['userUid'],
         name: data['name'],
         phone: data['phone'],
-        deliveryFee: data['deliveryFee'],
+        deliveryFee: (data['deliveryFee'] as num).toDouble(),
         location: data['location'],
-        total: data['total'].toDouble(),
+        total: (data['total'] as num).toDouble(),
         status: data['status'],
         riderUid: data['riderUid'],
         items: items,
@@ -222,7 +222,7 @@ class _RiderNewOrdersState extends State<RiderNewOrders> {
                 ),
                 child: DropdownButton<String>(
                   value: order.status,
-                  items: <String>['Ready to Delivery', 'On the Way','Delivered',]
+                  items: <String>['Ready to Delivery', 'On the Way', 'Delivered',]
                       .map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
@@ -251,14 +251,27 @@ class _RiderNewOrdersState extends State<RiderNewOrders> {
   }
 
   Future<void> _updateOrderStatus(String orderId, String status, String? riderUid) async {
-    final updates = {'status': status};
+    final updates = <String, dynamic>{'status': status};
+
     if (status == 'On the Way') {
       updates['riderUid'] = _currentUser.uid;
+    } else if (status == 'Delivered') {
+      updates['riderUid'] = _currentUser.uid;
+      final orderRef = FirebaseFirestore.instance.collection('orders').doc(orderId);
+      final snapshot = await orderRef.get();
+
+      if (snapshot.exists) {
+        final orderData = snapshot.data() as Map<String, dynamic>;
+        final items = (orderData['items'] as List<dynamic>).map((item) {
+          final itemData = Map<String, dynamic>.from(item as Map<dynamic, dynamic>);
+          itemData['riderUid'] = _currentUser.uid;
+          return itemData;
+        }).toList();
+        updates['items'] = items;
+      }
     }
-    await FirebaseFirestore.instance
-        .collection('orders')
-        .doc(orderId)
-        .update(updates);
+
+    await FirebaseFirestore.instance.collection('orders').doc(orderId).update(updates);
   }
 }
 
@@ -266,8 +279,8 @@ class Order {
   final String orderId;
   final String userUid;
   final String name;
-  final double deliveryFee;
   final String phone;
+  final double deliveryFee;
   final String location;
   final double total;
   String status;
@@ -278,8 +291,8 @@ class Order {
     required this.orderId,
     required this.userUid,
     required this.name,
-    required this.deliveryFee,
     required this.phone,
+    required this.deliveryFee,
     required this.location,
     required this.total,
     required this.status,
@@ -290,7 +303,7 @@ class Order {
 
 class OrderItem {
   final String name;
-  final int price;
+  final double price;
   final int quantity;
   final String imageUrl;
 

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:quick_bites/Presentation/Drawer/chef_Drawer.dart';
+import '../../../Theme/const.dart';
+import '../../Drawer/chef_Drawer.dart';
 
 class OrderHistory extends StatefulWidget {
   const OrderHistory({super.key});
@@ -11,52 +12,23 @@ class OrderHistory extends StatefulWidget {
 }
 
 class _OrderHistoryState extends State<OrderHistory> {
-  double _totalEarnings = 0.0;
   late User _currentUser;
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _getCurrentUser();
-    _updateChefEarnings();
+    _getCurrentUser().then((_) => setState(() {
+      _isLoading = false;
+    }));
   }
 
   Future<void> _getCurrentUser() async {
     final FirebaseAuth auth = FirebaseAuth.instance;
     final User? user = auth.currentUser;
     if (user != null) {
-      setState(() {
-        _currentUser = user;
-      });
+      _currentUser = user;
     }
-  }
-
-  Future<void> _updateChefEarnings() async {
-    double newEarnings = 0.0;
-    final orders = await _getOrders();
-    for (var order in orders) {
-      newEarnings += order.total;
-    }
-    await _updateEarningsInFirebase(newEarnings);
-  }
-
-  Future<void> _updateEarningsInFirebase(double newEarnings) async {
-    final earningsRef = FirebaseFirestore.instance.collection('chefEarnings').doc(_currentUser.uid);
-    final snapshot = await earningsRef.get();
-
-    if (snapshot.exists) {
-      final data = snapshot.data() as Map<String, dynamic>;
-      final currentEarnings = data['total'] ?? 0.0;
-      setState(() {
-        _totalEarnings = currentEarnings + newEarnings;
-      });
-    } else {
-      setState(() {
-        _totalEarnings = newEarnings;
-      });
-    }
-
-    await earningsRef.set({'total': _totalEarnings});
   }
 
   @override
@@ -78,7 +50,7 @@ class _OrderHistoryState extends State<OrderHistory> {
             IconButton(
               onPressed: () {},
               icon: const Icon(
-                Icons.fastfood_sharp,
+                Icons.history,
                 color: Colors.red,
               ),
             ),
@@ -88,7 +60,9 @@ class _OrderHistoryState extends State<OrderHistory> {
         backgroundColor: Colors.transparent,
       ),
       drawer: const ChefDrawer(),
-      body: SingleChildScrollView(
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
         child: Column(
           children: [
             Container(
@@ -102,14 +76,14 @@ class _OrderHistoryState extends State<OrderHistory> {
                 ),
               ),
               child: FutureBuilder<List<Order>>(
-                future: _getOrders(),
+                future: _getDeliveredOrders(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return const Center(child: Text('No orders available.'));
+                    return const Center(child: Text('No delivered orders available.'));
                   } else {
                     final orders = snapshot.data!;
                     return ListView.builder(
@@ -129,11 +103,7 @@ class _OrderHistoryState extends State<OrderHistory> {
     );
   }
 
-  Future<List<Order>> _getOrders() async {
-    if (_currentUser == null) {
-      return [];
-    }
-
+  Future<List<Order>> _getDeliveredOrders() async {
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('orders')
         .where('status', isEqualTo: 'Delivered')
@@ -146,7 +116,7 @@ class _OrderHistoryState extends State<OrderHistory> {
         final item = itemData as Map<String, dynamic>;
         return OrderItem(
           name: item['name'],
-          price: item['price'],
+          price: (item['price'] as num).toDouble(),
           quantity: item['quantity'],
           imageUrl: item['imageUrl'],
         );
@@ -158,7 +128,7 @@ class _OrderHistoryState extends State<OrderHistory> {
         name: data['name'],
         phone: data['phone'],
         location: data['location'],
-        total: data['total'].toDouble(),
+        total: (data['subTotal'] as num).toDouble(),
         status: data['status'],
         items: items,
       );
@@ -211,6 +181,23 @@ class _OrderHistoryState extends State<OrderHistory> {
                 );
               },
             ),
+            Padding(
+              padding: const EdgeInsets.only(left: 180.0, right: 20, bottom: 20),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  color: kPrimaryColor,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                  child: Text(
+                    'Delivered',
+                    style: const TextStyle(fontSize: 14, color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -242,7 +229,7 @@ class Order {
 
 class OrderItem {
   final String name;
-  final int price;
+  final double price;
   final int quantity;
   final String imageUrl;
 
@@ -253,3 +240,4 @@ class OrderItem {
     required this.imageUrl,
   });
 }
+

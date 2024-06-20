@@ -135,7 +135,7 @@ class _CheckOutState extends State<CheckOut> {
                             color: Colors.purple[400]),
                         child: TextButton(
                           onPressed: () {
-                            _showCheckoutDialog(context, cartItems, total);
+                            _showCheckoutDialog(context, cartItems, total, subTotal);
                           },
                           child: const Text(
                             'CHECKOUT',
@@ -376,7 +376,7 @@ class _CheckOutState extends State<CheckOut> {
     }
   }
 
-  void _showCheckoutDialog(BuildContext context, List<MenuModelWithQuantity> cartItems, double total) {
+  void _showCheckoutDialog(BuildContext context, List<MenuModelWithQuantity> cartItems, double total, double subTotal) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -426,7 +426,7 @@ class _CheckOutState extends State<CheckOut> {
               child: const Text('Cancel'),
             ),
             TextButton(
-              onPressed: () => _handleCheckout(context, cartItems, total),
+              onPressed: () => _handleCheckout(context, cartItems, total, subTotal),
               child: const Text('Submit'),
             ),
           ],
@@ -435,7 +435,7 @@ class _CheckOutState extends State<CheckOut> {
     );
   }
 
-  Future<void> _handleCheckout(BuildContext context, List<MenuModelWithQuantity> cartItems, double total) async {
+  Future<void> _handleCheckout(BuildContext context, List<MenuModelWithQuantity> cartItems, double total, double subTotal) async {
     if (_formKey.currentState?.validate() != true) {
       return;
     }
@@ -456,6 +456,7 @@ class _CheckOutState extends State<CheckOut> {
       'phone': _phoneController.text,
       'location': _locationController.text,
       'total': total,
+      'subTotal': subTotal,
       'deliveryFee': _deliveryFee, // Include the delivery fee
       'status': 'Ongoing', // Set the delivery status to "Ongoing"
       'items': cartItems.map((item) {

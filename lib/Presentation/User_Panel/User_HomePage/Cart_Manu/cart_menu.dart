@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quick_bites/Presentation/User_Panel/User_HomePage/Cart_Manu/chekout.dart';
 import 'package:quick_bites/Theme/constant.dart';
+import '../../../../Theme/const.dart';
 import '../../../Drawer/user_Drawer.dart';
 import '../manu_model.dart';
 
@@ -263,7 +264,38 @@ class _CartMenuPageState extends State<CartMenuPage> {
         ),
         centerTitle: true,
       ),
-      drawer: UserDrawer(),
+      drawer: const UserDrawer(),
+      bottomNavigationBar: Container(
+        width: 150,
+        height: 50,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            color: Colors.purple[300]),
+        child: TextButton(
+            onPressed: () {
+              _navigateToCart();
+            },
+            child: const Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Spacer(),
+                Icon(
+                  Icons.shopping_cart,
+                  color: kTextWhiteColor,
+                  size: 32,
+                ),
+                SizedBox(width: 10,),
+                Text(
+                  'Checkout',
+                  style: TextStyle(
+                      color: kTextWhiteColor,
+                      fontSize: 22),
+                ),
+                Spacer(),
+              ],
+            )),
+      ),
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,

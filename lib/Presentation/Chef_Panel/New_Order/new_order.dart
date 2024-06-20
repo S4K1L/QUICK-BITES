@@ -13,12 +13,14 @@ class ChefNewOrders extends StatefulWidget {
 
 class _ChefNewOrdersState extends State<ChefNewOrders> {
   late User _currentUser;
-  bool _showPreparingOrders = false;
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _getCurrentUser();
+    _getCurrentUser().then((_) => setState(() {
+      _isLoading = false;
+    }));
   }
 
   Future<void> _getCurrentUser() async {
@@ -58,18 +60,11 @@ class _ChefNewOrdersState extends State<ChefNewOrders> {
         backgroundColor: Colors.transparent,
       ),
       drawer: const ChefDrawer(),
-      body: SingleChildScrollView(
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
         child: Column(
           children: [
-            SwitchListTile(
-              title: const Text("Show Preparing Orders Only"),
-              value: _showPreparingOrders,
-              onChanged: (value) {
-                setState(() {
-                  _showPreparingOrders = value;
-                });
-              },
-            ),
             Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
@@ -109,19 +104,10 @@ class _ChefNewOrdersState extends State<ChefNewOrders> {
   }
 
   Future<List<Order>> _getOrders() async {
-    QuerySnapshot snapshot;
-    if (_showPreparingOrders) {
-      snapshot = await FirebaseFirestore.instance
-          .collection('orders')
-          .where('status', isEqualTo: 'Preparing')
-          .where('lastUpdatedBy', isEqualTo: _currentUser.uid)
-          .get();
-    } else {
-      snapshot = await FirebaseFirestore.instance
-          .collection('orders')
-          .where('status', whereIn: ['Ongoing', 'Preparing'])
-          .get();
-    }
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('orders')
+        .where('status', whereIn: ['Ongoing', 'Preparing'])
+        .get();
 
     return snapshot.docs.map((doc) {
       final data = doc.data() as Map<String, dynamic>;
@@ -129,7 +115,7 @@ class _ChefNewOrdersState extends State<ChefNewOrders> {
         final item = itemData as Map<String, dynamic>;
         return OrderItem(
           name: item['name'],
-          price: item['price'],
+          price: (item['price'] as num).toDouble(),
           quantity: item['quantity'],
           imageUrl: item['imageUrl'],
         );
@@ -141,11 +127,13 @@ class _ChefNewOrdersState extends State<ChefNewOrders> {
         name: data['name'],
         phone: data['phone'],
         location: data['location'],
-        total: data['total'].toDouble(),
+        total: (data['total'] as num).toDouble(),
         status: data['status'],
         items: items,
       );
-    }).toList();
+    }).where((order) =>
+    order.status == 'Ongoing' ||
+        (order.status == 'Preparing' && order.userUid == _currentUser.uid)).toList();
   }
 
   Widget _buildOrderItem(Order order) {
@@ -261,7 +249,7 @@ class Order {
 
 class OrderItem {
   final String name;
-  final int price;
+  final double price;
   final int quantity;
   final String imageUrl;
 
