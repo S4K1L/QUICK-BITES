@@ -20,7 +20,7 @@ class _ApproveChefState extends State<ApproveChef> {
         centerTitle: true,
         title: const Text("Approve Chef",style: TextStyle(color: Colors.red),),
       ),
-      drawer: AdminDrawer(),
+      drawer: const AdminDrawer(),
       body: SingleChildScrollView(
         child: Column(
           children: [

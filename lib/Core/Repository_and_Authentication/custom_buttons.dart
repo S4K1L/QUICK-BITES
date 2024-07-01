@@ -16,18 +16,18 @@ class CustomButton extends StatelessWidget {
     return InkWell(
       onTap: onPress,
       child: Container(
-        margin: EdgeInsets.only(
+        margin: const EdgeInsets.only(
           left: kDefaultPadding,
           right: kDefaultPadding,
         ),
-        padding: EdgeInsets.only(right: kDefaultPadding),
+        padding: const EdgeInsets.only(right: kDefaultPadding),
         width: double.infinity,
         height: 60.0,
         decoration: BoxDecoration(
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
             colors: [kSecondaryColor, kPrimaryColor],
-            begin: const FractionalOffset(0.0, 0.0),
-            end: const FractionalOffset(0.5, 0.0),
+            begin: FractionalOffset(0.0, 0.0),
+            end: FractionalOffset(0.5, 0.0),
             stops: [0.0, 1.0],
             tileMode: TileMode.clamp,
           ),

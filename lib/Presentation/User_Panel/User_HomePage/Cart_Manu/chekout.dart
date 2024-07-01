@@ -58,7 +58,7 @@ class _CheckOutState extends State<CheckOut> {
       appBar: AppBar(
         title: Row(
           children: [
-            Spacer(),
+            const Spacer(),
             const Text(
               "QUICKBITE",
               style: TextStyle(
@@ -67,7 +67,7 @@ class _CheckOutState extends State<CheckOut> {
                 color: Colors.red,
               ),
             ),
-            Spacer(),
+            const Spacer(),
             IconButton(
                 onPressed: () {
                   Navigator.pop(context);
@@ -81,7 +81,7 @@ class _CheckOutState extends State<CheckOut> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
       ),
-      drawer: UserDrawer(),
+      drawer: const UserDrawer(),
       body: FutureBuilder<List<MenuModelWithQuantity>>(
         future: _getMenuItems(),
         builder: (context, snapshot) {

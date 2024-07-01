@@ -56,13 +56,8 @@ class AccountsDB {
     var listOfAccount = [];
 
     await accountReference.get().then((ss) {
-      if (ss != null) {
-        listOfAccount = ss.docs.toList();
-      } else {
-        print("got no accounts");
-        return [];
-      }
-    });
+      listOfAccount = ss.docs.toList();
+        });
 
     return listOfAccount;
   }
@@ -102,7 +97,7 @@ class AccountsDB {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
     } catch (error) {
       print('Error resetting password: $error');
-      throw error;
+      rethrow;
     }
   }
 

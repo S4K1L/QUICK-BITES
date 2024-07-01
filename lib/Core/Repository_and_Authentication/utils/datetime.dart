@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
 
 String todayDate() {
-  var now = new DateTime.now();
+  var now = DateTime.now();
   return formatDate(now);
 }
 

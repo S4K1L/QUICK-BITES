@@ -56,7 +56,7 @@ class AuthService {
       }
     } catch (e) {
       print("Error logging out: $e");
-      throw e; // Throw the error to handle it in the UI
+      rethrow; // Throw the error to handle it in the UI
     }
   }
 

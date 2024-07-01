@@ -18,8 +18,8 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
       appBar: AppBar(
         title: Row(
           children: [
-            Spacer(),
-            Text(
+            const Spacer(),
+            const Text(
               "QUICKBITE FOOD",
               style: TextStyle(
                 fontSize: 20,
@@ -27,7 +27,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                 color: Colors.red,
               ),
             ),
-            Spacer(),
+            const Spacer(),
             Padding(
               padding: const EdgeInsets.only(right: 10),
               child: Container(
@@ -37,7 +37,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                     borderRadius: BorderRadius.circular(32),
                     color: kTextWhiteColor
                   ),
-                  child: ProfileImagePicker()),
+                  child: const ProfileImagePicker()),
             ),
           ],
         ),
@@ -57,7 +57,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
         child: Column(
           children: [
             SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-            Expanded(
+            const Expanded(
               child: MenuPost(),
             ),
           ],

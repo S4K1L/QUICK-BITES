@@ -17,7 +17,7 @@ class RiderHomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: Row(
           children: [
-            Spacer(),
+            const Spacer(),
             const Text(
               "QUICKBITE",
               style: TextStyle(

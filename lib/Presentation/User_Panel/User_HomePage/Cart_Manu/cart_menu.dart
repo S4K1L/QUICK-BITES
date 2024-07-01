@@ -19,7 +19,7 @@ class _CartMenuPageState extends State<CartMenuPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   User? _user;
   late Stream<List<MenuModel>> _menuStream;
-  Map<String, int> _quantities = {};
+  final Map<String, int> _quantities = {};
 
   @override
   void initState() {
@@ -40,7 +40,7 @@ class _CartMenuPageState extends State<CartMenuPage> {
   Stream<List<MenuModel>> _fetchMenuFromFirebase() {
     if (_user == null) {
       // User not logged in, handle appropriately
-      return Stream.empty();
+      return const Stream.empty();
     }
     final userUid = _user!.uid;
     return FirebaseFirestore.instance

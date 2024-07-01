@@ -216,13 +216,13 @@ class _ChefLoginScreenState extends State<ChefLoginScreen> {
                                 Icons.arrow_back_ios_new,
                                 color: kTextWhiteColor,
                               )),
-                          SizedBox(
+                          const SizedBox(
                             width: 50,
                           ),
                           Text(
                             'QUICK BITES',
                             style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontSize: 32,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
@@ -234,13 +234,13 @@ class _ChefLoginScreenState extends State<ChefLoginScreen> {
                       Text(
                         'DELIVERY APP',
                         style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             fontSize: 16,
                             color: Colors.white,
                           ),
                         ),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
@@ -252,7 +252,7 @@ class _ChefLoginScreenState extends State<ChefLoginScreen> {
                                 child: Text(
                                   'Login',
                                   style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                       fontSize: 16,
                                       color: Colors.white,
                                     ),
@@ -269,7 +269,7 @@ class _ChefLoginScreenState extends State<ChefLoginScreen> {
                           ),
                           Column(
                             children: [
-                              Icon(Icons.account_circle_outlined, color: Colors.white, size: 30),
+                              const Icon(Icons.account_circle_outlined, color: Colors.white, size: 30),
                               TextButton(
                                 onPressed: () {
                                   Navigator.push(
@@ -280,7 +280,7 @@ class _ChefLoginScreenState extends State<ChefLoginScreen> {
                                 child: Text(
                                   'Register',
                                   style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                       fontSize: 16,
                                       color: Colors.white,
                                     ),

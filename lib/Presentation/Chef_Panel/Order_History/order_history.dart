@@ -188,11 +188,11 @@ class _OrderHistoryState extends State<OrderHistory> {
                   borderRadius: BorderRadius.circular(16),
                   color: kPrimaryColor,
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                child: const Padding(
+                  padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
                   child: Text(
                     'Delivered',
-                    style: const TextStyle(fontSize: 14, color: Colors.white),
+                    style: TextStyle(fontSize: 14, color: Colors.white),
                     textAlign: TextAlign.center,
                   ),
                 ),

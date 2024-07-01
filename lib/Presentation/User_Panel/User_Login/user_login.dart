@@ -207,7 +207,7 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                     Icons.arrow_back_ios_new,
                     color: kTextWhiteColor,
                   )),
-              SizedBox(
+              const SizedBox(
                 width: 50,
               ),
               Text(

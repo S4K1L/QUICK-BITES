@@ -207,13 +207,13 @@ class _RiderLoginScreenState extends State<RiderLoginScreen> {
                                 Icons.arrow_back_ios_new,
                                 color: kTextWhiteColor,
                               )),
-                          SizedBox(
+                          const SizedBox(
                             width: 50,
                           ),
                           Text(
                             'QUICK BITES',
                             style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontSize: 32,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
@@ -225,13 +225,13 @@ class _RiderLoginScreenState extends State<RiderLoginScreen> {
                       Text(
                         'DELIVERY APP',
                         style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             fontSize: 16,
                             color: Colors.white,
                           ),
                         ),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
@@ -243,7 +243,7 @@ class _RiderLoginScreenState extends State<RiderLoginScreen> {
                                 child: Text(
                                   'Login',
                                   style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                       fontSize: 16,
                                       color: Colors.white,
                                     ),

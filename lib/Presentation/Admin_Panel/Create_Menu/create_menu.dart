@@ -9,7 +9,6 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../../../Theme/constant.dart';
 import '../../Drawer/admin_Drawer.dart';
-import '../Admin_HomePage/Admin_Home_Screen.dart';
 
 class CreateMenu extends StatefulWidget {
   const CreateMenu({super.key});
@@ -22,10 +21,10 @@ class CreateMenu extends StatefulWidget {
 
 class _CreateMenuState extends State<CreateMenu> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _priceController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
 
-  List<File> _images = [];
+  final List<File> _images = [];
   bool _isUploading = false;
   double _uploadProgress = 0.0;
 
@@ -169,7 +168,7 @@ class _CreateMenuState extends State<CreateMenu> {
           style: TextStyle(color: Colors.red),
         ),
       ),
-      drawer: AdminDrawer(),
+      drawer: const AdminDrawer(),
       body: _isUploading
           ? Center(
               child: CircularPercentIndicator(
@@ -276,7 +275,7 @@ class _CreateMenuState extends State<CreateMenu> {
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 2,
             blurRadius: 5,
-            offset: Offset(0, 3), // changes position of shadow
+            offset: const Offset(0, 3), // changes position of shadow
           ),
         ],
       ),

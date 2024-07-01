@@ -29,7 +29,7 @@ class _OrderHistoryState extends State<OrderHistory> {
             const Spacer(),
             IconButton(
                 onPressed: () {},
-                icon: Icon(
+                icon: const Icon(
                   Icons.history,
                   color: Colors.red,
                 ))
@@ -38,7 +38,7 @@ class _OrderHistoryState extends State<OrderHistory> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
       ),
-      drawer: UserDrawer(),
+      drawer: const UserDrawer(),
       body: SingleChildScrollView(
         child: Column(
           children: [

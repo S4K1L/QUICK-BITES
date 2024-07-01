@@ -38,7 +38,7 @@ class _MyOrdersState extends State<MyOrders> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
       ),
-      drawer: UserDrawer(),
+      drawer: const UserDrawer(),
       body: SingleChildScrollView(
         child: Column(
           children: [

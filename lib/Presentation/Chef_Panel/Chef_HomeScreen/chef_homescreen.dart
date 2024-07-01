@@ -3,7 +3,6 @@ import 'package:quick_bites/Theme/const.dart';
 import '../../../Core/Repository_and_Authentication/profile_image_picker.dart';
 import '../../Admin_Panel/Admin_HomePage/menu_post.dart';
 import '../../Drawer/chef_Drawer.dart';
-import '../../Drawer/user_Drawer.dart';
 
 class ChefHomeScreen extends StatefulWidget {
   const ChefHomeScreen({super.key});
@@ -19,8 +18,8 @@ class _ChefHomeScreenState extends State<ChefHomeScreen> {
       appBar: AppBar(
         title: Row(
           children: [
-            Spacer(),
-            Text(
+            const Spacer(),
+            const Text(
               "QUICKBITE FOOD",
               style: TextStyle(
                 fontSize: 20,
@@ -28,7 +27,7 @@ class _ChefHomeScreenState extends State<ChefHomeScreen> {
                 color: Colors.red,
               ),
             ),
-            Spacer(),
+            const Spacer(),
             Padding(
               padding: const EdgeInsets.only(right: 10),
               child: Container(
@@ -38,7 +37,7 @@ class _ChefHomeScreenState extends State<ChefHomeScreen> {
                       borderRadius: BorderRadius.circular(32),
                       color: kTextWhiteColor
                   ),
-                  child: ProfileImagePicker()),
+                  child: const ProfileImagePicker()),
             ),
           ],
         ),
@@ -58,7 +57,7 @@ class _ChefHomeScreenState extends State<ChefHomeScreen> {
         child: Column(
           children: [
             SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-            Expanded(
+            const Expanded(
               child: MenuPost(),
             ),
           ],

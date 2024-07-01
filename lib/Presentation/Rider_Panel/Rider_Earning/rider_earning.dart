@@ -122,9 +122,9 @@ class _RiderEarningState extends State<RiderEarning> {
                                 color: Colors.black,
                               ),
                             ),
-                            Text(
+                            const Text(
                               'Total Earnings',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 34,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black,

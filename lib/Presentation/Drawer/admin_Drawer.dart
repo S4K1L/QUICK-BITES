@@ -3,15 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quick_bites/Presentation/Admin_Panel/Add_Delivery_Zone/add_delivery_zone.dart';
 import 'package:quick_bites/Presentation/Admin_Panel/Finance/total_finance.dart';
 import 'package:quick_bites/Presentation/Chef_Panel/Chef_login/chef_login.dart';
-import 'package:quick_bites/Presentation/Welcome_Screen/welcome_screen.dart';
 import '../../Core/Repository_and_Authentication/profile_image_picker.dart';
 import '../../Theme/const.dart';
 import '../../Theme/constant.dart';
 import '../Admin_Panel/Admin_HomePage/Admin_Home_Screen.dart';
 import '../Admin_Panel/Approve/approve_chef.dart';
 import '../Admin_Panel/Create_Menu/create_menu.dart';
-import '../Chef_Panel/Chef_HomeScreen/chef_homescreen.dart';
-import '../User_Panel/User_Login/user_login.dart';
 
 
 class AdminDrawer extends StatelessWidget {

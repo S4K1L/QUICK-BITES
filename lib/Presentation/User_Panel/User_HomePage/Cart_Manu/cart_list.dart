@@ -17,7 +17,7 @@ class _CartListState extends State<CartList> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   User? _user;
   late Stream<List<MenuModel>> _menuStream;
-  Map<String, int> _quantities = {};
+  final Map<String, int> _quantities = {};
 
   @override
   void initState() {
@@ -28,7 +28,7 @@ class _CartListState extends State<CartList> {
 
   Stream<List<MenuModel>> _fetchMenuFromFirebase() {
     if (_user == null) {
-      return Stream.empty();
+      return const Stream.empty();
     }
     final userUid = _user!.uid;
     return FirebaseFirestore.instance

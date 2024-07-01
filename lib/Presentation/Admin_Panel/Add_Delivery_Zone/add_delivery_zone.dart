@@ -53,7 +53,7 @@ class _AddDeliveryZoneState extends State<AddDeliveryZone> {
             const Spacer(),
             IconButton(
                 onPressed: () {},
-                icon: Icon(
+                icon: const Icon(
                   Icons.add_location,
                   color: Colors.red,
                 ))
