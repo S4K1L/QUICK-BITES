@@ -5,7 +5,9 @@ import 'package:quick_bites/Presentation/Chef_Panel/Chef_login/chef_login.dart';
 import '../../Core/Repository_and_Authentication/profile_image_picker.dart';
 import '../../Theme/const.dart';
 import '../../Theme/constant.dart';
+import '../Chef_Panel/Add_Delivery_Zone/add_delivery_zone.dart';
 import '../Chef_Panel/Chef_HomeScreen/chef_homescreen.dart';
+import '../Chef_Panel/Create_Menu/create_menu.dart';
 import '../Chef_Panel/New_Order/new_order.dart';
 import '../Chef_Panel/Order_History/order_history.dart';
 
@@ -73,6 +75,18 @@ class ChefDrawer extends StatelessWidget {
               const SizedBox(height: 20),
               _buildDrawerButton(
                 context,
+                icon: Icons.add_business_outlined,
+                label: 'Add Menu',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const CreateMenu()),
+                  );
+                },
+              ),
+              const SizedBox(height: 20),
+              _buildDrawerButton(
+                context,
                 icon: Icons.account_balance_wallet_outlined,
                 label: 'My Earning',
                 onPressed: () {
@@ -109,6 +123,18 @@ class ChefDrawer extends StatelessWidget {
                     MaterialPageRoute(
                       builder: (context) => const OrderHistory(),
                     ),
+                  );
+                },
+              ),
+              const SizedBox(height: 20),
+              _buildDrawerButton(
+                context,
+                icon: Icons.delivery_dining_outlined,
+                label: 'Add Delivery Zone',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const AddDeliveryZone()),
                   );
                 },
               ),

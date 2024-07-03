@@ -10,14 +10,14 @@ import '../../Welcome_Screen/welcome_screen.dart';
 import '../Rider_ForgotPassword/rider_forgotPassword.dart';
 import '../Rider_signUp/rider_signUp.dart';
 
-class RiderLoginScreen extends StatefulWidget {
-  const RiderLoginScreen({super.key});
+class RunnerLoginScreen extends StatefulWidget {
+  const RunnerLoginScreen({super.key});
 
   @override
-  _RiderLoginScreenState createState() => _RiderLoginScreenState();
+  _RunnerLoginScreenState createState() => _RunnerLoginScreenState();
 }
 
-class _RiderLoginScreenState extends State<RiderLoginScreen> {
+class _RunnerLoginScreenState extends State<RunnerLoginScreen> {
   final FirebaseAuthService _auth = FirebaseAuthService();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
@@ -85,20 +85,23 @@ class _RiderLoginScreenState extends State<RiderLoginScreen> {
 
   void route() async {
     User? user = FirebaseAuth.instance.currentUser;
-    var kk = FirebaseFirestore.instance
+    FirebaseFirestore.instance
         .collection('users')
         .doc(user!.uid)
         .get()
         .then((DocumentSnapshot documentSnapshot) async {
       if (documentSnapshot.exists) {
-        if (documentSnapshot.get('type') == "rider") {
+        if (documentSnapshot.get('type') == "runner" && documentSnapshot.get('status') == "Approved") {
           _showSuccessSnackbar("Welcome to QUICK BITES");
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const RiderHomeScreen()),
           );
-        } else if (documentSnapshot.get('type') == "admin") {
-          _showSuccessSnackbar("Welcome back Sir");
+        }else if(documentSnapshot.get('type') == "runner" && documentSnapshot.get('status') == "Pending") {
+          _showErrorSnackbar("Account not Approved");
+        }
+        else if (documentSnapshot.get('type') == "admin") {
+          _showSuccessSnackbar("Welcome Sir");
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const AdminHomeScreen()),
@@ -162,9 +165,7 @@ class _RiderLoginScreenState extends State<RiderLoginScreen> {
           child: Column(
             children: [
               topContainer(context),
-              const SizedBox(height: 20),
               Image.asset('assets/images/delivery.png'),
-              const SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: buildLoginForm(),
@@ -357,7 +358,6 @@ class _RiderLoginScreenState extends State<RiderLoginScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 10),
           SizedBox(
             height: 50,
             width: MediaQuery.of(context).size.width,

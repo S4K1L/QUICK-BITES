@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 
 import '../../Drawer/admin_Drawer.dart';
 
-class ApproveChef extends StatefulWidget {
-  const ApproveChef({super.key});
+class ApproveAccountList extends StatefulWidget {
+  const ApproveAccountList({super.key});
 
   @override
-  State<ApproveChef> createState() => _ApproveChefState();
+  State<ApproveAccountList> createState() => _ApproveAccountListState();
 }
 
-class _ApproveChefState extends State<ApproveChef> {
+class _ApproveAccountListState extends State<ApproveAccountList> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
@@ -18,7 +18,10 @@ class _ApproveChefState extends State<ApproveChef> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("Approve Chef",style: TextStyle(color: Colors.red),),
+        title: const Text(
+          "Accounts Control",
+          style: TextStyle(color: Colors.red),
+        ),
       ),
       drawer: const AdminDrawer(),
       body: SingleChildScrollView(
@@ -31,25 +34,28 @@ class _ApproveChefState extends State<ApproveChef> {
                 image: DecorationImage(
                     image: AssetImage('assets/images/welcome.jpg'),
                     fit: BoxFit.cover,
-                    opacity: 0.3
-                ),
+                    opacity: 0.3),
               ),
               child: StreamBuilder<QuerySnapshot>(
-                stream: _firestore.collection('users').where('status', isEqualTo: 'Pending').snapshots(),
+                stream: _firestore
+                    .collection('users')
+                    .where('type', whereIn: ['chef', 'runner'])
+                    .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                    return const Center(child: Text('No pending chef requests.'));
+                    return const Center(
+                        child: Text('No users of type chef or runner.'));
                   } else {
-                    final chefs = snapshot.data!.docs;
+                    final users = snapshot.data!.docs;
                     return ListView.builder(
-                      itemCount: chefs.length,
+                      itemCount: users.length,
                       itemBuilder: (context, index) {
-                        final chef = chefs[index];
-                        return chefList(chef);
+                        final user = users[index];
+                        return accountList(user);
                       },
                     );
                   }
@@ -62,43 +68,50 @@ class _ApproveChefState extends State<ApproveChef> {
     );
   }
 
-  Padding chefList(QueryDocumentSnapshot<Object?> chef) {
+  Padding accountList(QueryDocumentSnapshot<Object?> user) {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          color: Colors.white
-        ),
+            borderRadius: BorderRadius.circular(16), color: Colors.white),
         child: ListTile(
-                    title: Text('Name: ${chef['name']}',style: TextStyle(color: Colors.purple[300]),),
-                    subtitle: Text('Email: ${chef['email']}'),
-                    trailing: DropdownButton<String>(
-                      value: chef['status'],
-                      items: <String>['Pending', 'Approved'].map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        if (newValue != null) {
-                          _updateChefStatus(chef.id, newValue);
-                        }
-                      },
-                    ),
-                  ),
+          title: Text(
+            'Name: ${user['name']}',
+            style: TextStyle(color: Colors.purple[300]),
+          ),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Email: ${user['email']}'),
+              Text('Type: ${user['type']}'),
+            ],
+          ),
+          trailing: DropdownButton<String>(
+            value: user['status'],
+            items: <String>['Pending', 'Approved'].map((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+            onChanged: (String? newValue) {
+              if (newValue != null) {
+                _updateUserStatus(user.id, newValue);
+              }
+            },
+          ),
+        ),
       ),
     );
   }
 
-  void _updateChefStatus(String chefId, String newStatus) {
-    _firestore.collection('users').doc(chefId).update({
+  void _updateUserStatus(String userId, String newStatus) {
+    _firestore.collection('users').doc(userId).update({
       'status': newStatus,
     }).then((_) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Chef status updated to $newStatus.'),
+          content: Text('Account status updated to $newStatus.'),
           backgroundColor: Colors.green,
         ),
       );

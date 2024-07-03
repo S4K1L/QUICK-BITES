@@ -114,7 +114,7 @@ class RiderHomeScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const RiderLoginScreen(),
+                        builder: (context) => const RunnerLoginScreen(),
                       ),
                     );
                   },

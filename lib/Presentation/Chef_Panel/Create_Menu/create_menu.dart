@@ -6,9 +6,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-
+import 'package:quick_bites/Presentation/Drawer/chef_Drawer.dart';
 import '../../../Theme/constant.dart';
-import '../../Drawer/admin_Drawer.dart';
+
 
 class CreateMenu extends StatefulWidget {
   const CreateMenu({super.key});
@@ -53,7 +53,6 @@ class _CreateMenuState extends State<CreateMenu> {
           String name = _nameController.text;
           String price = _priceController.text;
 
-
           List<String> imageUrl = [];
           double totalProgress = 0.0;
 
@@ -75,7 +74,7 @@ class _CreateMenuState extends State<CreateMenu> {
           await FirebaseFirestore.instance.collection("menu").add({
             "name": name,
             "price": price,
-            "userId": firebaseUser.uid,
+            "chefUid": firebaseUser.uid,
             "isFav": false,
             "imageUrl": imageUrl[0],
             "moreImagesUrl": imageUrl,
@@ -164,103 +163,115 @@ class _CreateMenuState extends State<CreateMenu> {
         backgroundColor: sWhiteColor,
         centerTitle: true,
         title: const Text(
-          'Create Manu',
+          'Create Menu',
           style: TextStyle(color: Colors.red),
         ),
       ),
-      drawer: const AdminDrawer(),
+      drawer: const ChefDrawer(),
       body: _isUploading
           ? Center(
-              child: CircularPercentIndicator(
-                radius: 80.0,
-                lineWidth: 16.0,
-                percent: _uploadProgress,
-                center: Text('${(_uploadProgress * 100).toStringAsFixed(0)}%'),
-                progressColor: Colors.blue,
-              ),
-            )
+        child: CircularPercentIndicator(
+          radius: 80.0,
+          lineWidth: 16.0,
+          percent: _uploadProgress,
+          center: Text('${(_uploadProgress * 100).toStringAsFixed(0)}%'),
+          progressColor: Colors.blue,
+        ),
+      )
           : SingleChildScrollView(
-              padding: const EdgeInsets.all(16.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    _buildInputField(_nameController, 'Food Name'),
-                    const SizedBox(height: 16.0),
-                    _buildInputField(_priceController, 'Price'),
-                    const SizedBox(height: 16.0),
-                    SizedBox(
-                      height: 50,
-                      width: MediaQuery.of(context).size.width,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          _getImage();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF7F39FB),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _buildInputField(_nameController, 'Food Name'),
+              const SizedBox(height: 16.0),
+              _buildInputField(_priceController, 'Price'),
+              const SizedBox(height: 16.0),
+              Row(
+                children: [
+                  SizedBox(
+                    height: 50,
+                    width: MediaQuery.of(context).size.width / 1.4,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        _uploadAllData();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF7F39FB),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
                         ),
-                        child: Text(
-                          'Select Images',
-                          style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(
-                              fontSize: 22,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
+                      ),
+                      child: Text(
+                        'Publish Now',
+                        style: GoogleFonts.poppins(
+                          textStyle: const TextStyle(
+                            fontSize: 22,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 16.0),
-                    _images.isEmpty
-                        ? Container()
-                        : Column(
-                            children: _images.map((image) {
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Image.file(
-                                  image,
-                                  height: 200,
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                    const SizedBox(height: 16.0),
-                    SizedBox(
-                      height: 50,
-                      width: MediaQuery.of(context).size.width,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          _uploadAllData();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF7F39FB),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                        ),
-                        child: Text(
-                          'Create',
-                          style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(
-                              fontSize: 22,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      _getImage();
+                    },
+                    icon: const Icon(
+                      Icons.image,
+                      color: Colors.deepPurpleAccent,
+                      size: 36,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ),
+              const SizedBox(height: 16.0),
+              _images.isEmpty
+                  ? Container()
+                  : GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate:
+                const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 4.0,
+                  mainAxisSpacing: 4.0,
+                ),
+                itemCount: _images.length,
+                itemBuilder: (context, index) {
+                  return Stack(
+                    children: [
+                      Image.file(
+                        _images[index],
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                      ),
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.cancel,
+                            color: Colors.red,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _images.removeAt(index);
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -284,7 +295,7 @@ class _CreateMenuState extends State<CreateMenu> {
         decoration: InputDecoration(
           labelText: labelText,
           contentPadding:
-              const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+          const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
             borderSide: BorderSide.none,

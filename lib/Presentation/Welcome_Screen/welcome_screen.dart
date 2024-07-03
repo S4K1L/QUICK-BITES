@@ -55,10 +55,10 @@ class WelcomeScreen extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => const ChefLoginScreen()),
                     );
                   },),
-                  OptionButton(text: 'CONNECT AS RIDER', onPress: () {
+                  OptionButton(text: 'CONNECT AS RUNNER', onPress: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const RiderLoginScreen()),
+                      MaterialPageRoute(builder: (context) => const RunnerLoginScreen()),
                     );
                   },),
                 ],

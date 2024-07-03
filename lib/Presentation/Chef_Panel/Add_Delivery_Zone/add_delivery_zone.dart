@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:quick_bites/Presentation/Drawer/admin_Drawer.dart';
+import 'package:quick_bites/Presentation/Drawer/chef_Drawer.dart';
 
 class AddDeliveryZone extends StatefulWidget {
   const AddDeliveryZone({super.key});
@@ -62,7 +62,7 @@ class _AddDeliveryZoneState extends State<AddDeliveryZone> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
       ),
-      drawer: const AdminDrawer(),
+      drawer: const ChefDrawer(),
       body: SingleChildScrollView(
         child: Container(
           width: MediaQuery.of(context).size.width,
@@ -127,7 +127,7 @@ class _AddDeliveryZoneState extends State<AddDeliveryZone> {
                       ),
                       child: const Text(
                         'Add Zone',
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16,color: Colors.white),
                       ),
                     ),
                   ],

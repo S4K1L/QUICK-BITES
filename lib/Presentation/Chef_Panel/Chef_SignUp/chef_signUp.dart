@@ -57,7 +57,7 @@ class _ChefSignUpScreenState extends State<ChefSignUpScreen> {
                 ),
               ],
             ),
-            backgroundColor: Colors.purple[300],
+            backgroundColor: Colors.green[300],
             behavior: SnackBarBehavior.floating,
             duration: const Duration(seconds: 5),
             shape: RoundedRectangleBorder(

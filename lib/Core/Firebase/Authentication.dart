@@ -94,8 +94,8 @@ class ChefDataUploader {
   }
 }
 
-class RiderDataUploader {
-  static Future<void> uploadRiderData({
+class RunnerDataUploader {
+  static Future<void> uploadRunnerData({
     required String name,
     required String userName,
     required String email,
@@ -113,7 +113,8 @@ class RiderDataUploader {
           "email": email,
           "name": name,
           "password": password,
-          "type": 'rider',
+          "type": 'runner',
+          "status": 'Pending',
           "userName": userName,
           "uid": firebaseUser.uid,
         });

@@ -85,7 +85,7 @@ class _ChefLoginScreenState extends State<ChefLoginScreen> {
 
   void route() async {
     User? user = FirebaseAuth.instance.currentUser;
-    var kk = FirebaseFirestore.instance
+    FirebaseFirestore.instance
         .collection('users')
         .doc(user!.uid)
         .get()
@@ -163,20 +163,13 @@ class _ChefLoginScreenState extends State<ChefLoginScreen> {
             ),
           ),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Content
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  topContainer(context),
-                  const SizedBox(height: 20),
-                  Image.asset('assets/images/chef.png'),
-                  const SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
-                    child: buildLoginForm(),
-                  ),
-                ],
+              topContainer(context),
+              Image.asset('assets/images/chef.png'),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: buildLoginForm(),
               ),
             ],
           ),
@@ -346,7 +339,6 @@ class _ChefLoginScreenState extends State<ChefLoginScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 10),
           Align(
             alignment: Alignment.centerRight,
             child: TextButton(
@@ -367,7 +359,6 @@ class _ChefLoginScreenState extends State<ChefLoginScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 20),
           SizedBox(
             height: 50,
             width: MediaQuery.of(context).size.width,

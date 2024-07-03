@@ -24,7 +24,7 @@ class _RiderSignUpScreenState extends State<RiderSignUpScreen> {
   bool _repeatPasswordVisible = false;
 
   void _uploadData() {
-    RiderDataUploader.uploadRiderData(
+    RunnerDataUploader.uploadRunnerData(
       name: _nameController.text,
       userName: _userNameController.text,
       email: _emailController.text,
@@ -36,7 +36,6 @@ class _RiderSignUpScreenState extends State<RiderSignUpScreen> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
-
     try {
       String email = _emailController.text;
       String password = _passwordController.text;
@@ -45,30 +44,28 @@ class _RiderSignUpScreenState extends State<RiderSignUpScreen> {
       User? user = userCredential.user;
 
       if (user != null) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
             content: const Row(
               children: [
-                Icon(Icons.notifications_active_outlined, color: Colors.white),
+                Icon(Icons.done_all_sharp, color: Colors.white),
                 SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    "Welcome to QUICK BITES",
-                    style: TextStyle(color: Colors.red, fontSize: 16),
+                    "Account Request has been send",
+                    style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
                 ),
               ],
             ),
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.blue[300],
             behavior: SnackBarBehavior.floating,
-            duration: const Duration(seconds: 3),
+            duration: const Duration(seconds: 5),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
             elevation: 6,
-          ),);
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const RiderHomeScreen()),
+          ),
         );
         _uploadData();
         print("Data uploaded successfully");

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:quick_bites/Presentation/Admin_Panel/Add_Delivery_Zone/add_delivery_zone.dart';
+import 'package:quick_bites/Presentation/Admin_Panel/Approve/account_control.dart';
 import 'package:quick_bites/Presentation/Admin_Panel/Finance/total_finance.dart';
 import 'package:quick_bites/Presentation/Chef_Panel/Chef_login/chef_login.dart';
 import '../../Core/Repository_and_Authentication/profile_image_picker.dart';
 import '../../Theme/const.dart';
 import '../../Theme/constant.dart';
 import '../Admin_Panel/Admin_HomePage/Admin_Home_Screen.dart';
-import '../Admin_Panel/Approve/approve_chef.dart';
-import '../Admin_Panel/Create_Menu/create_menu.dart';
+import '../Admin_Panel/List/chef_list.dart';
+import '../Admin_Panel/List/runner_list.dart';
 
 
 class AdminDrawer extends StatelessWidget {
@@ -74,27 +74,28 @@ class AdminDrawer extends StatelessWidget {
               const SizedBox(height: 20),
               _buildDrawerButton(
                 context,
-                icon: Icons.add_business_outlined,
-                label: 'Add Menu',
+                icon: Icons.restaurant,
+                label: 'Chef List',
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const CreateMenu()),
+                    MaterialPageRoute(builder: (context) => const ChefListPage()),
                   );
                 },
               ),
               const SizedBox(height: 20),
               _buildDrawerButton(
                 context,
-                icon: Icons.library_add_check_outlined,
-                label: 'Approve Chef',
+                icon: Icons.directions_bike_rounded,
+                label: 'Runner List',
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const ApproveChef()),
+                    MaterialPageRoute(builder: (context) => const RunnerListPage()),
                   );
                 },
               ),
+
               const SizedBox(height: 20),
               _buildDrawerButton(
                 context,
@@ -107,15 +108,16 @@ class AdminDrawer extends StatelessWidget {
                   );
                 },
               ),
+
               const SizedBox(height: 20),
               _buildDrawerButton(
                 context,
-                icon: Icons.delivery_dining_outlined,
-                label: 'Add Delivery Zone',
+                icon: Icons.settings_outlined,
+                label: 'Account Control',
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const AddDeliveryZone()),
+                    MaterialPageRoute(builder: (context) => const ApproveAccountList()),
                   );
                 },
               ),
