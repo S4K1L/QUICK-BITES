@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../../Core/Firebase/Authentication.dart';
-import '../Rider_HomeScreen/rider_homescreen.dart';
 
 
 class RiderSignUpScreen extends StatefulWidget {

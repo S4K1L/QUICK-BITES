@@ -6,8 +6,8 @@ import '../../Core/Repository_and_Authentication/profile_image_picker.dart';
 import '../../Theme/const.dart';
 import '../../Theme/constant.dart';
 import '../Chef_Panel/Add_Delivery_Zone/add_delivery_zone.dart';
+import '../Chef_Panel/Add_Menu/Add_menu.dart';
 import '../Chef_Panel/Chef_HomeScreen/chef_homescreen.dart';
-import '../Chef_Panel/Create_Menu/create_menu.dart';
 import '../Chef_Panel/New_Order/new_order.dart';
 import '../Chef_Panel/Order_History/order_history.dart';
 
@@ -80,7 +80,7 @@ class ChefDrawer extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const CreateMenu()),
+                    MaterialPageRoute(builder: (context) => const AddMenu()),
                   );
                 },
               ),

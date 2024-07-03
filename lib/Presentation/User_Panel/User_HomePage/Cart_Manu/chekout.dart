@@ -5,7 +5,7 @@ import 'package:quick_bites/Theme/const.dart';
 import '../../../Drawer/user_Drawer.dart';
 import 'dart:math';
 
-import '../manu_model.dart';
+import '../Details_Model/manu_model.dart';
 
 class CheckOut extends StatefulWidget {
   final Map<String, int> quantities;
@@ -225,6 +225,8 @@ class _CheckOutState extends State<CheckOut> {
           docId: doc.id,
           moreImagesUrl: moreImagesUrl.map((url) => url as String).toList(),
           isFav: true,
+          details: doc['details'],
+          shopName: doc['shopName'],
         ),
         quantity: quantity,
       );
@@ -363,7 +365,6 @@ class _CheckOutState extends State<CheckOut> {
       final User? user = auth.currentUser;
       if (user == null) return;
 
-      final userUid = user.uid;
       await FirebaseFirestore.instance
           .collection('checkout')
           .doc(docId)

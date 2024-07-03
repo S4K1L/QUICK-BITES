@@ -9,24 +9,42 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:quick_bites/Presentation/Drawer/chef_Drawer.dart';
 import '../../../Theme/constant.dart';
 
-
-class CreateMenu extends StatefulWidget {
-  const CreateMenu({super.key});
+class AddMenu extends StatefulWidget {
+  const AddMenu({super.key});
 
   static String routeName = 'CreateMenu';
 
   @override
-  _CreateMenuState createState() => _CreateMenuState();
+  _AddMenuState createState() => _AddMenuState();
 }
 
-class _CreateMenuState extends State<CreateMenu> {
+class _AddMenuState extends State<AddMenu> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
+  final TextEditingController _detailsController = TextEditingController();
 
   final List<File> _images = [];
   bool _isUploading = false;
   double _uploadProgress = 0.0;
+
+  String _shopName = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData();
+  }
+
+  Future<void> _fetchUserData() async {
+    User? firebaseUser = FirebaseAuth.instance.currentUser;
+    if (firebaseUser != null) {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(firebaseUser.uid).get();
+      setState(() {
+        _shopName = userDoc['shopName'] ?? '';
+      });
+    }
+  }
 
   Future<void> _getImage() async {
     final picker = ImagePicker();
@@ -51,7 +69,8 @@ class _CreateMenuState extends State<CreateMenu> {
 
         if (firebaseUser != null) {
           String name = _nameController.text;
-          String price = _priceController.text;
+          String details = _detailsController.text;
+          int price = _priceController as int;
 
           List<String> imageUrl = [];
           double totalProgress = 0.0;
@@ -74,7 +93,9 @@ class _CreateMenuState extends State<CreateMenu> {
           await FirebaseFirestore.instance.collection("menu").add({
             "name": name,
             "price": price,
+            "details": details,
             "chefUid": firebaseUser.uid,
+            "shopName": _shopName,
             "isFav": false,
             "imageUrl": imageUrl[0],
             "moreImagesUrl": imageUrl,
@@ -91,7 +112,7 @@ class _CreateMenuState extends State<CreateMenu> {
                   SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                      "Menu Created",
+                      "New Food Added",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,
@@ -163,8 +184,8 @@ class _CreateMenuState extends State<CreateMenu> {
         backgroundColor: sWhiteColor,
         centerTitle: true,
         title: const Text(
-          'Create Menu',
-          style: TextStyle(color: Colors.red),
+          'Add Menu',
+          style: TextStyle(color: Colors.deepPurpleAccent),
         ),
       ),
       drawer: const ChefDrawer(),
@@ -185,10 +206,15 @@ class _CreateMenuState extends State<CreateMenu> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              Text("Shop Name: $_shopName",style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 22,color: Colors.deepPurpleAccent),),
+              const SizedBox(height: 16.0),
               _buildInputField(_nameController, 'Food Name'),
               const SizedBox(height: 16.0),
-              _buildInputField(_priceController, 'Price'),
+              _buildInputField(_detailsController, 'Details'),
               const SizedBox(height: 16.0),
+               _buildInputField(_priceController, 'Price'),
+              const SizedBox(height: 16.0),
+
               Row(
                 children: [
                   SizedBox(
@@ -208,7 +234,7 @@ class _CreateMenuState extends State<CreateMenu> {
                         'Publish Now',
                         style: GoogleFonts.poppins(
                           textStyle: const TextStyle(
-                            fontSize: 22,
+                            fontSize: 16,
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),

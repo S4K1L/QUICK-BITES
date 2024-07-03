@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:quick_bites/Theme/const.dart';
 import '../../../Core/Repository_and_Authentication/profile_image_picker.dart';
-import '../../Admin_Panel/Admin_HomePage/menu_post.dart';
 import '../../Drawer/chef_Drawer.dart';
+import 'chef_menu_post.dart';
 
 class ChefHomeScreen extends StatefulWidget {
   const ChefHomeScreen({super.key});
@@ -58,7 +58,7 @@ class _ChefHomeScreenState extends State<ChefHomeScreen> {
           children: [
             SizedBox(height: MediaQuery.of(context).size.height * 0.01),
             const Expanded(
-              child: MenuPost(),
+              child: ChefMenuPost(),
             ),
           ],
         ),

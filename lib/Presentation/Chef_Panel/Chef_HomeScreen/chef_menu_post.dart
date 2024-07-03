@@ -2,19 +2,19 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:quick_bites/Presentation/User_Panel/User_HomePage/Details_Model/manu_model.dart';
-import 'package:quick_bites/Presentation/User_Panel/User_HomePage/post_details/details_screen.dart';
 import '../../../Theme/constant.dart';
 import '../../Admin_Panel/Admin_HomePage/Search_button/custom_search.dart';
+import '../../User_Panel/User_HomePage/Details_Model/manu_model.dart';
+import '../../User_Panel/User_HomePage/post_details/details_screen.dart';
 
-class MenuPost extends StatefulWidget {
-  const MenuPost({super.key});
+class ChefMenuPost extends StatefulWidget {
+  const ChefMenuPost({super.key});
 
   @override
-  _MenuPostState createState() => _MenuPostState();
+  _ChefMenuPostState createState() => _ChefMenuPostState();
 }
 
-class _MenuPostState extends State<MenuPost> {
+class _ChefMenuPostState extends State<ChefMenuPost> {
   late StreamSubscription<List<MenuModel>> _subscription;
   late Stream<List<MenuModel>> _menuStream;
   String _searchText = '';
@@ -27,11 +27,6 @@ class _MenuPostState extends State<MenuPost> {
     super.initState();
     _user = _auth.currentUser;
     _menuStream = _fetchMenuFromFirebase();
-    _subscription = _menuStream.listen((menuList) {
-      setState(() {
-        // Update your state with the fetched menu
-      });
-    });
   }
 
   @override
@@ -54,11 +49,7 @@ class _MenuPostState extends State<MenuPost> {
 
         bool isFav = false;
         if (_user != null) {
-          FirebaseFirestore.instance.collection('cart')
-              .where('userUid', isEqualTo: _user!.uid)
-              .where('docId', isEqualTo: doc.id)
-              .get()
-              .then((value) {
+          FirebaseFirestore.instance.collection('card').where('userUid', isEqualTo: _user!.uid).where('docId', isEqualTo: doc.id).get().then((value) {
             if (value.docs.isNotEmpty) {
               setState(() {
                 _favorites[doc.id] = true;
@@ -74,8 +65,8 @@ class _MenuPostState extends State<MenuPost> {
           docId: doc.id,
           moreImagesUrl: imageUrlList.map((url) => url as String).toList(),
           isFav: isFav,
-          shopName: doc['shopName'],
           details: doc['details'],
+          shopName: doc['shopName'],
         );
       }).toList();
     });
@@ -125,7 +116,7 @@ class _MenuPostState extends State<MenuPost> {
                       ),
                       child: IconButton(
                         icon: Icon(
-                          isFavorite ? Icons.favorite : Icons.favorite_border,
+                          isFavorite ? Icons.favorite : Icons.favorite,
                           color: isFavorite ? Colors.red : Colors.white,
                         ),
                         onPressed: () {
@@ -142,7 +133,6 @@ class _MenuPostState extends State<MenuPost> {
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           menu.name,
@@ -324,3 +314,4 @@ class _MenuPostState extends State<MenuPost> {
         campaign.price.toString().contains(term));
   }
 }
+

@@ -4,14 +4,22 @@ import '../../Core/Repository_and_Authentication/profile_image_picker.dart';
 import '../../Theme/const.dart';
 import '../../Theme/constant.dart';
 import '../User_Panel/User_HomePage/Cart_Manu/cart_menu.dart';
+import '../User_Panel/User_HomePage/Cart_Manu/chekout.dart';
 import '../User_Panel/User_HomePage/My_Order/my_order.dart';
 import '../User_Panel/User_HomePage/Order_History/order_history.dart';
 import '../User_Panel/User_HomePage/user_Home_Screen.dart';
 import '../User_Panel/User_Login/user_login.dart';
 
 
-class UserDrawer extends StatelessWidget {
+class UserDrawer extends StatefulWidget {
   const UserDrawer({super.key});
+
+  @override
+  State<UserDrawer> createState() => _UserDrawerState();
+}
+
+class _UserDrawerState extends State<UserDrawer> {
+  final Map<String, int> _quantities = {};
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +82,7 @@ class UserDrawer extends StatelessWidget {
               _buildDrawerButton(
                 context,
                 icon: Icons.shopping_cart_outlined,
-                label: 'Cart',
+                label: 'My Cart',
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -112,6 +120,21 @@ class UserDrawer extends StatelessWidget {
                   );
                 },
               ),
+              const SizedBox(height: 20),
+              _buildDrawerButton(
+                context,
+                icon: Icons.checklist,
+                label: 'Checkout',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CheckOut(quantities: _quantities),
+                    ),
+                  );
+                },
+              ),
+
               const SizedBox(height: 20),
               _buildDrawerButton(
                 context,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../manu_model.dart';
+import '../Details_Model/manu_model.dart';
 import 'chekout.dart';
 
 
@@ -30,7 +30,6 @@ class _CartListState extends State<CartList> {
     if (_user == null) {
       return const Stream.empty();
     }
-    final userUid = _user!.uid;
     return FirebaseFirestore.instance
         .collection('menu')
         .snapshots()
@@ -47,7 +46,9 @@ class _CartListState extends State<CartList> {
           price: doc['price'],
           docId: doc.id,
           moreImagesUrl: imageUrlList.map((url) => url as String).toList(),
-          isFav: false, // Change this if needed
+          isFav: false,
+          details: doc['details'],
+          shopName: doc['shopName'],
         );
       }).toList();
     });

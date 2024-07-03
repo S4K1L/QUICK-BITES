@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../Drawer/admin_Drawer.dart';
-import 'menu_post.dart';
+import 'admin_menu_post.dart';
 
 class AdminHomeScreen extends StatefulWidget {
   const AdminHomeScreen({super.key});
@@ -42,7 +42,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
           children: [
             SizedBox(height: MediaQuery.of(context).size.height * 0.01),
             const Expanded(
-              child: MenuPost(),
+              child: AdminMenuPost(),
             ),
           ],
         ),

@@ -85,7 +85,7 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
 
   void route() async {
     User? user = FirebaseAuth.instance.currentUser;
-    var kk = FirebaseFirestore.instance
+    FirebaseFirestore.instance
         .collection('users')
         .doc(user!.uid)
         .get()

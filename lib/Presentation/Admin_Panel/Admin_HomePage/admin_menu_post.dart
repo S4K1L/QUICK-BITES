@@ -4,16 +4,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../../Theme/constant.dart';
 import '../../Admin_Panel/Admin_HomePage/Search_button/custom_search.dart';
-import '../../User_Panel/User_HomePage/manu_model.dart';
+import '../../User_Panel/User_HomePage/Details_Model/manu_model.dart';
+import '../../User_Panel/User_HomePage/post_details/details_screen.dart';
 
-class MenuPost extends StatefulWidget {
-  const MenuPost({super.key});
+class AdminMenuPost extends StatefulWidget {
+  const AdminMenuPost({super.key});
 
   @override
-  _MenuPostState createState() => _MenuPostState();
+  _AdminMenuPostState createState() => _AdminMenuPostState();
 }
 
-class _MenuPostState extends State<MenuPost> {
+class _AdminMenuPostState extends State<AdminMenuPost> {
   late StreamSubscription<List<MenuModel>> _subscription;
   late Stream<List<MenuModel>> _menuStream;
   String _searchText = '';
@@ -64,6 +65,8 @@ class _MenuPostState extends State<MenuPost> {
           docId: doc.id,
           moreImagesUrl: imageUrlList.map((url) => url as String).toList(),
           isFav: isFav,
+          details: doc['details'],
+          shopName: doc['shopName'],
         );
       }).toList();
     });
@@ -71,79 +74,89 @@ class _MenuPostState extends State<MenuPost> {
 
   Widget _buildMenu(BuildContext context, MenuModel menu) {
     bool isFavorite = _favorites[menu.docId] ?? false;
-    return Padding(
-      padding: const EdgeInsets.only(left: 10, right: 10),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: Colors.white,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.network(
-                    menu.imageUrl,
-                    height: 150,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Positioned(
-                  right: 10,
-                  top: 10,
-                  child: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.purple.withOpacity(0.9),
-                    ),
-                    child: IconButton(
-                      icon: Icon(
-                        isFavorite ? Icons.favorite : Icons.favorite,
-                        color: isFavorite ? Colors.red : Colors.white,
-                      ),
-                      onPressed: () {
-                        _toggleFavorite(menu);
-                      },
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => DetailsScreen(menu: menu),
+          ),
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(left: 10, right: 10),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: Colors.white,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(
+                      menu.imageUrl,
+                      height: 150,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
                     ),
                   ),
-                ),
-              ],
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 10, top: 3),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Column(
-                    children: [
-                      Text(
-                        menu.name,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.normal,
-                          color: Colors.black,
-                        ),
+                  Positioned(
+                    right: 10,
+                    top: 10,
+                    child: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.purple.withOpacity(0.9),
                       ),
-                      Text(
-                        'RM ${menu.price}',
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.normal,
-                          color: Colors.black,
+                      child: IconButton(
+                        icon: Icon(
+                          isFavorite ? Icons.favorite : Icons.favorite,
+                          color: isFavorite ? Colors.red : Colors.white,
                         ),
+                        onPressed: () {
+                          _toggleFavorite(menu);
+                        },
                       ),
-                    ],
+                    ),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10, top: 3),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Column(
+                      children: [
+                        Text(
+                          menu.name,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.black,
+                          ),
+                        ),
+                        Text(
+                          'RM ${menu.price}',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

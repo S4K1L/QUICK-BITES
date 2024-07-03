@@ -6,7 +6,7 @@ import 'package:quick_bites/Presentation/User_Panel/User_HomePage/Cart_Manu/chek
 import 'package:quick_bites/Theme/constant.dart';
 import '../../../../Theme/const.dart';
 import '../../../Drawer/user_Drawer.dart';
-import '../manu_model.dart';
+import '../Details_Model/manu_model.dart';
 
 class CartMenuPage extends StatefulWidget {
   const CartMenuPage({super.key});
@@ -61,6 +61,8 @@ class _CartMenuPageState extends State<CartMenuPage> {
           docId: doc.id,
           moreImagesUrl: imageUrlList.map((url) => url as String).toList(),
           isFav: true,
+          details: doc['details'],
+          shopName: doc['shopName'],
         );
       }).toList();
     });
