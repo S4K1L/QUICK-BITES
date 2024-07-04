@@ -97,10 +97,12 @@ class _CheckOutState extends State<CheckOut> {
             final cartItems = snapshot.data!;
             double subTotal = 0;
             String shopName = '';
+            String shopStatus = '';
             for (var item in cartItems) {
               int price = item.menuModel.price;
               subTotal += price * item.quantity;
               shopName = item.menuModel.shopName;
+              shopStatus = item.menuModel.shopStatus;
             }
             double total = subTotal + _deliveryFee;
 
@@ -139,7 +141,7 @@ class _CheckOutState extends State<CheckOut> {
                             color: Colors.purple[400]),
                         child: TextButton(
                           onPressed: () {
-                            _showCheckoutDialog(context, cartItems, total, subTotal, shopName);
+                            _showCheckoutDialog(context, cartItems, total, subTotal, shopName,shopStatus);
                           },
                           child: const Text(
                             'CHECKOUT',
@@ -264,6 +266,7 @@ class _CheckOutState extends State<CheckOut> {
           _buildPaymentDetailRow('Delivery Fee', deliveryFee),
           const Divider(),
           _buildPaymentDetailRow('Total', total, isTotal: true),
+          Center(child: Text('Only Cash on Delivery (COD)',style: TextStyle(fontWeight: FontWeight.bold),)),
         ],
       ),
     );
@@ -382,7 +385,7 @@ class _CheckOutState extends State<CheckOut> {
     }
   }
 
-  void _showCheckoutDialog(BuildContext context, List<MenuModelWithQuantity> cartItems, double total, double subTotal, String shopName) {
+  void _showCheckoutDialog(BuildContext context, List<MenuModelWithQuantity> cartItems, double total, double subTotal, String shopName, String shopStatus) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -432,7 +435,7 @@ class _CheckOutState extends State<CheckOut> {
               child: const Text('Cancel'),
             ),
             TextButton(
-              onPressed: () => _handleCheckout(context, cartItems, total, subTotal, shopName),
+              onPressed: () => _handleCheckout(context, cartItems, total, subTotal, shopName,shopStatus),
               child: const Text('Submit'),
             ),
           ],
@@ -441,7 +444,7 @@ class _CheckOutState extends State<CheckOut> {
     );
   }
 
-  Future<void> _handleCheckout(BuildContext context, List<MenuModelWithQuantity> cartItems, double total, double subTotal, String shopName) async {
+  Future<void> _handleCheckout(BuildContext context, List<MenuModelWithQuantity> cartItems, double total, double subTotal, String shopName, String shopStatus) async {
     if (_formKey.currentState?.validate() != true) {
       return;
     }
@@ -468,6 +471,7 @@ class _CheckOutState extends State<CheckOut> {
       'total': total,
       'subTotal': subTotal,
       'shopName': shopName,
+      'shopStatus': shopStatus,
       'deliveryFee': _deliveryFee, // Include the delivery fee
       'status': 'Ongoing', // Set the delivery status to "Ongoing"
       'items': cartItems.map((item) {

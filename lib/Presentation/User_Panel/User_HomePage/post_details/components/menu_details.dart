@@ -77,6 +77,7 @@ class _MenuDetailsState extends State<MenuDetails> {
           'price': menu.price,
           'details': menu.details,
           'shopName': menu.shopName,
+          'shopStatus': menu.shopStatus,
           'quantity': quantity,
           'imageUrl': menu.imageUrl,
           'moreImagesUrl': menu.moreImagesUrl,

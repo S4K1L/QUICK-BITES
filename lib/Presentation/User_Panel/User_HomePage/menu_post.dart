@@ -194,6 +194,9 @@ class _MenuPostState extends State<MenuPost> {
         'name': menu.name,
         'price': menu.price,
         'docId': menu.docId,
+        'details': menu.details,
+        'shopStatus': menu.shopStatus,
+        'shopName': menu.shopName,
         'moreImagesUrl': menu.moreImagesUrl,
         'userUid': userUid,
       });
