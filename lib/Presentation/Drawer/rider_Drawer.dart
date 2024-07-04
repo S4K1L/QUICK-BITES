@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quick_bites/Presentation/Rider_Panel/Rider_HomeScreen/rider_homescreen.dart';
@@ -48,7 +50,7 @@ class RiderDrawer extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 const Text(
-                  'Rider Profile',
+                  'Runner Profile',
                   style: TextStyle(fontSize: 20, color: sBlackColor),
                 )
               ],

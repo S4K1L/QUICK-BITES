@@ -4,8 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../Details_Model/manu_model.dart';
 import 'chekout.dart';
 
-
-
 class CartList extends StatefulWidget {
   const CartList({super.key});
 
@@ -49,6 +47,7 @@ class _CartListState extends State<CartList> {
           isFav: false,
           details: doc['details'],
           shopName: doc['shopName'],
+          shopStatus: doc['shopStatus'],
         );
       }).toList();
     });

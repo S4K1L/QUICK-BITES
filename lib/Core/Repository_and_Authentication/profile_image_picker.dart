@@ -1,3 +1,5 @@
+// ignore_for_file: empty_catches
+
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -20,10 +22,19 @@ class ProfileImagePicker extends StatefulWidget {
 
 class _ProfileImagePickerState extends State<ProfileImagePicker> {
   Uint8List? _image;
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
+  String? userUID;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      userUID = _auth.currentUser?.uid;
+    });
+  }
 
   void selectImage() async {
     Uint8List img = await pickImage(ImageSource.gallery);
@@ -54,7 +65,6 @@ class _ProfileImagePickerState extends State<ProfileImagePicker> {
         'profile_image': imageUrl,
       });
     } catch (error) {
-      print('Error uploading image and updating profile: $error');
     }
   }
 
@@ -66,12 +76,12 @@ class _ProfileImagePickerState extends State<ProfileImagePicker> {
         children: [
           _image != null
               ? CircleAvatar(
-            minRadius: 60.0,
-            maxRadius: 60.0,
+            minRadius: 40.0,
+            maxRadius: 40.0,
             backgroundImage: MemoryImage(_image!),
           )
               : FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-            future: _firestore.collection('users').doc(_auth.currentUser!.uid).get(),
+            future: _firestore.collection('users').doc(userUID).get(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const CircularProgressIndicator();
@@ -81,8 +91,8 @@ class _ProfileImagePickerState extends State<ProfileImagePicker> {
                 if (snapshot.data!.exists && snapshot.data!.data()!.containsKey('profile_image')) {
                   String? imageUrl = snapshot.data!.data()!['profile_image'];
                   return CircleAvatar(
-                    minRadius: 60.0,
-                    maxRadius: 60.0,
+                    minRadius: 40.0,
+                    maxRadius: 40.0,
                     backgroundColor: Colors.white,
                     backgroundImage: imageUrl != null
                         ? NetworkImage(imageUrl)
@@ -92,8 +102,8 @@ class _ProfileImagePickerState extends State<ProfileImagePicker> {
                 } else {
                   // Handle the case when 'profile_image' field doesn't exist or is null
                   return const CircleAvatar(
-                    minRadius: 60.0,
-                    maxRadius: 60.0,
+                    minRadius: 40.0,
+                    maxRadius: 40.0,
                     backgroundColor: Colors.white,
                     backgroundImage: NetworkImage(
                       'https://cdn.iconscout.com/icon/free/png-256/free-avatar-370-456322.png?f=webp',

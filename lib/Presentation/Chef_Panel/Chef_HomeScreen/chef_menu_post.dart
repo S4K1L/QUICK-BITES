@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api, avoid_print
+
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,6 +8,7 @@ import '../../../Theme/constant.dart';
 import '../../Admin_Panel/Admin_HomePage/Search_button/custom_search.dart';
 import '../../User_Panel/User_HomePage/Details_Model/manu_model.dart';
 import '../../User_Panel/User_HomePage/post_details/details_screen.dart';
+import 'edit_Screen.dart';
 
 class ChefMenuPost extends StatefulWidget {
   const ChefMenuPost({super.key});
@@ -15,24 +18,48 @@ class ChefMenuPost extends StatefulWidget {
 }
 
 class _ChefMenuPostState extends State<ChefMenuPost> {
-  late StreamSubscription<List<MenuModel>> _subscription;
-  late Stream<List<MenuModel>> _menuStream;
+  Stream<List<MenuModel>>? _menuStream;
   String _searchText = '';
-  final Map<String, bool> _favorites = {};
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  User? _user;
+  String? _shopName;
 
   @override
   void initState() {
     super.initState();
-    _user = _auth.currentUser;
-    _menuStream = _fetchMenuFromFirebase();
+    _initialize();
   }
 
-  @override
-  void dispose() {
-    _subscription.cancel();
-    super.dispose();
+  Future<void> _initialize() async {
+    _shopName = await fetchUserShopName();
+    if (_shopName != null) {
+      setState(() {
+        _menuStream = _fetchMenuFromFirebase(_shopName!);
+      });
+    }
+  }
+
+  Future<String?> fetchUserShopName() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+
+    if (user == null) {
+      return null; // User not logged in
+    }
+
+    try {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+
+      if (userDoc.exists && userDoc.data() != null) {
+        return userDoc['shopName'];
+      } else {
+        return null; // User document doesn't exist
+      }
+    } catch (e) {
+      print("Error fetching user shopName: $e");
+      return null;
+    }
   }
 
   void _onSearch(String searchText) {
@@ -41,39 +68,31 @@ class _ChefMenuPostState extends State<ChefMenuPost> {
     });
   }
 
-  Stream<List<MenuModel>> _fetchMenuFromFirebase() {
-    return FirebaseFirestore.instance.collection('menu').snapshots().map((snapshot) {
+  Stream<List<MenuModel>> _fetchMenuFromFirebase(String shopName) {
+    return FirebaseFirestore.instance
+        .collection('menu')
+        .where('shopName', isEqualTo: shopName)
+        .snapshots()
+        .map((snapshot) {
       return snapshot.docs.map((doc) {
         final moreImagesUrl = doc['moreImagesUrl'];
         final imageUrlList = moreImagesUrl is List ? moreImagesUrl : [moreImagesUrl];
-
-        bool isFav = false;
-        if (_user != null) {
-          FirebaseFirestore.instance.collection('card').where('userUid', isEqualTo: _user!.uid).where('docId', isEqualTo: doc.id).get().then((value) {
-            if (value.docs.isNotEmpty) {
-              setState(() {
-                _favorites[doc.id] = true;
-              });
-            }
-          });
-        }
-
         return MenuModel(
           imageUrl: doc['imageUrl'],
           name: doc['name'],
           price: doc['price'],
           docId: doc.id,
           moreImagesUrl: imageUrlList.map((url) => url as String).toList(),
-          isFav: isFav,
+          isFav: doc['isFav'],
           details: doc['details'],
           shopName: doc['shopName'],
+          shopStatus: doc['shopStatus'],
         );
       }).toList();
     });
   }
 
   Widget _buildMenu(BuildContext context, MenuModel menu) {
-    bool isFavorite = _favorites[menu.docId] ?? false;
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -112,15 +131,41 @@ class _ChefMenuPostState extends State<ChefMenuPost> {
                       height: 40,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        color: Colors.purple.withOpacity(0.9),
+                        color: Colors.red.withOpacity(0.9),
                       ),
                       child: IconButton(
-                        icon: Icon(
-                          isFavorite ? Icons.favorite : Icons.favorite,
-                          color: isFavorite ? Colors.red : Colors.white,
+                        icon: const Icon(
+                          Icons.delete_rounded,
+                          color: Colors.white,
                         ),
                         onPressed: () {
-                          _toggleFavorite(menu);
+                          _deleteMenu(menu.docId);
+                        },
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    right: 10,
+                    top: 60,
+                    child: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.red.withOpacity(0.9),
+                      ),
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.edit,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EditMenuScreen(menu: menu),
+                            ),
+                          );
                         },
                       ),
                     ),
@@ -133,6 +178,7 @@ class _ChefMenuPostState extends State<ChefMenuPost> {
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           menu.name,
@@ -162,38 +208,8 @@ class _ChefMenuPostState extends State<ChefMenuPost> {
     );
   }
 
-  void _toggleFavorite(MenuModel menu) {
-    if (_user == null) {
-      // User not logged in, handle appropriately
-      return;
-    }
-    final userUid = _user!.uid;
-
-    setState(() {
-      _favorites[menu.docId] = !(_favorites[menu.docId] ?? false);
-    });
-
-    if (_favorites[menu.docId]!) {
-      FirebaseFirestore.instance.collection('cart').add({
-        'imageUrl': menu.imageUrl,
-        'name': menu.name,
-        'price': menu.price,
-        'docId': menu.docId,
-        'moreImagesUrl': menu.moreImagesUrl,
-        'userUid': userUid,
-      });
-    } else {
-      FirebaseFirestore.instance
-          .collection('cart')
-          .where('docId', isEqualTo: menu.docId)
-          .where('userUid', isEqualTo: userUid)
-          .get()
-          .then((querySnapshot) {
-        for (var doc in querySnapshot.docs) {
-          doc.reference.delete();
-        }
-      });
-    }
+  void _deleteMenu(String docId) async {
+    await FirebaseFirestore.instance.collection('menu').doc(docId).delete();
   }
 
   @override
@@ -207,7 +223,11 @@ class _ChefMenuPostState extends State<ChefMenuPost> {
           height: 20,
         ),
         Expanded(
-          child: StreamBuilder<List<MenuModel>>(
+          child: _menuStream == null
+              ? const Center(
+            child: CircularProgressIndicator(),
+          )
+              : StreamBuilder<List<MenuModel>>(
             stream: _menuStream,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -237,7 +257,8 @@ class _ChefMenuPostState extends State<ChefMenuPost> {
                       ),
                       itemCount: filteredMenu.length,
                       itemBuilder: (context, index) {
-                        return _buildMenu(context, filteredMenu[index]);
+                        return _buildMenu(
+                            context, filteredMenu[index]);
                       },
                     );
                   } else {
@@ -314,4 +335,3 @@ class _ChefMenuPostState extends State<ChefMenuPost> {
         campaign.price.toString().contains(term));
   }
 }
-

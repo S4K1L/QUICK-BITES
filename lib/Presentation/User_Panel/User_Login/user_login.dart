@@ -1,14 +1,16 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quick_bites/Presentation/Admin_Panel/Admin_HomePage/Admin_Home_Screen.dart';
 import 'package:quick_bites/Presentation/User_Panel/Forget_password/user_forget_password.dart';
-import 'package:quick_bites/Presentation/User_Panel/User_HomePage/user_Home_Screen.dart';
 import 'package:quick_bites/Presentation/Welcome_Screen/welcome_screen.dart';
 import 'package:quick_bites/Theme/const.dart';
 import '../../../Core/Firebase/Authentication.dart';
 import '../SignUp_Screen/signUp_screen.dart';
+import '../User_HomePage/shop_select/shop_select.dart';
 
 class UserLoginScreen extends StatefulWidget {
   const UserLoginScreen({super.key});
@@ -41,14 +43,11 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
 
         if (user != null) {
           route();
-          print("User is successfully SignIn");
         } else {
           _showErrorSnackbar("Email or Password Incorrect");
-          print("Unexpected error: User is null");
         }
       }
     } catch (e) {
-      print("Sign-up failed: $e");
       _showErrorSnackbar("Sign-up failed: $e");
     }
   }
@@ -95,7 +94,7 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
           _showSuccessSnackbar("Welcome to QUICK BITES");
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const UserHomeScreen()),
+            MaterialPageRoute(builder: (context) => const ShopSelectionPopup()),
           );
         } else if (documentSnapshot.get('type') == "admin") {
           _showSuccessSnackbar("Welcome back Sir");

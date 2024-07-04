@@ -28,7 +28,6 @@ class AuthService {
       User? user = result.user;
       return _convertUser(user);
     } catch (e) {
-      print("Error in registering: $e");
       return null;
     }
   }
@@ -41,7 +40,6 @@ class AuthService {
       User? user = result.user;
       return _convertUser(user);
     } catch (e) {
-      print("Error in login: $e");
       return null;
     }
   }
@@ -52,10 +50,8 @@ class AuthService {
       if (_auth.currentUser != null) {
         await _auth.signOut();
       } else {
-        print("No user is currently signed in");
       }
     } catch (e) {
-      print("Error logging out: $e");
       rethrow; // Throw the error to handle it in the UI
     }
   }

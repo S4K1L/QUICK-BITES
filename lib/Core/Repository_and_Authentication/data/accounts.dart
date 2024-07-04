@@ -40,10 +40,8 @@ class Account {
           email: data["email"],
         ));
       }
-      print("\t\t\t\tGot Account list");
       return true;
     } else {
-      print("\t\t\t\tFailed to fetch Account list");
       return false;
     }
   }

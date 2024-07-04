@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -63,6 +65,7 @@ class _CartMenuPageState extends State<CartMenuPage> {
           isFav: true,
           details: doc['details'],
           shopName: doc['shopName'],
+          shopStatus: doc['shopStatus'],
         );
       }).toList();
     });

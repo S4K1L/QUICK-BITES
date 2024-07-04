@@ -1,3 +1,6 @@
+// ignore_for_file: file_names, use_build_context_synchronously
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../Core/Repository_and_Authentication/profile_image_picker.dart';
@@ -7,7 +10,7 @@ import '../User_Panel/User_HomePage/Cart_Manu/cart_menu.dart';
 import '../User_Panel/User_HomePage/Cart_Manu/chekout.dart';
 import '../User_Panel/User_HomePage/My_Order/my_order.dart';
 import '../User_Panel/User_HomePage/Order_History/order_history.dart';
-import '../User_Panel/User_HomePage/user_Home_Screen.dart';
+import '../User_Panel/User_HomePage/shop_select/shop_select.dart';
 import '../User_Panel/User_Login/user_login.dart';
 
 
@@ -20,6 +23,25 @@ class UserDrawer extends StatefulWidget {
 
 class _UserDrawerState extends State<UserDrawer> {
   final Map<String, int> _quantities = {};
+  String? _name = '';
+  String? _email = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData();
+  }
+
+  Future<void> _fetchUserData() async {
+    User? firebaseUser = FirebaseAuth.instance.currentUser;
+    if (firebaseUser != null) {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(firebaseUser.uid).get();
+      setState(() {
+        _name = userDoc['name'] ?? '';
+        _email = userDoc['email'] ?? '';
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +67,8 @@ class _UserDrawerState extends State<UserDrawer> {
                 Padding(
                   padding: const EdgeInsets.only(top: 30),
                   child: Container(
-                    width: 145,
-                    height: 145,
+                    width: 90,
+                    height: 90,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(70),
                       color: kTextWhiteColor,
@@ -55,10 +77,15 @@ class _UserDrawerState extends State<UserDrawer> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Text(
-                  'My Profile',
-                  style: TextStyle(fontSize: 20, color: sBlackColor),
-                )
+                Text(
+                  style: const TextStyle(fontSize: 20, color: sBlackColor),
+                  _name!,
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  style: const TextStyle(fontSize: 16, color: sBlackColor),
+                  'Email : ${_email!}',
+                ),
               ],
             ),
           ),
@@ -73,7 +100,7 @@ class _UserDrawerState extends State<UserDrawer> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const UserHomeScreen(),
+                      builder: (context) => const ShopSelectionPopup(),
                     ),
                   );
                 },

@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -115,7 +117,7 @@ class _RiderNewOrdersState extends State<RiderNewOrders> {
   Future<List<Order>> _getOrders() async {
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('orders')
-        .where('status', whereIn: ['Ready to Delivery', 'On the Way'])
+        .where('status', whereIn: ['Ready to Delivery','On the Way'])
         .get();
 
     return snapshot.docs.map((doc) {
@@ -180,7 +182,7 @@ class _RiderNewOrdersState extends State<RiderNewOrders> {
                         style: const TextStyle(fontSize: 14),
                       ),
                       const SizedBox(height: 5),
-                      Text(item.name),
+                      Text(item.name,style: const TextStyle(fontWeight: FontWeight.bold),),
                     ],
                   ),
                   subtitle: Column(
@@ -192,21 +194,20 @@ class _RiderNewOrdersState extends State<RiderNewOrders> {
                         'RM ${(item.price * item.quantity).toStringAsFixed(2)}',
                         style: const TextStyle(fontSize: 14),
                       ),
+                      const SizedBox(height: 5),
+                      Text(
+                        'Place: ${order.location}',
+                        style: const TextStyle(fontSize: 14),
+                        maxLines: 3,
+                      ),
                     ],
                   ),
                   trailing: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Delivery: ${order.deliveryFee}',
+                        'Delivery Fee: ${order.deliveryFee}',
                         style: const TextStyle(fontSize: 14),
-                      ),
-                      const SizedBox(height: 5),
-                      Expanded(
-                        child: Text(
-                          'Place: ${order.location}',
-                          style: const TextStyle(fontSize: 14),
-                        ),
                       ),
                     ],
                   ),

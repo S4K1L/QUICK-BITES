@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -76,7 +78,7 @@ class _ChefEarningsState extends State<ChefEarnings> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
       ),
-      drawer: const ChefDrawer(),
+      drawer: ChefDrawer(),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(

@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_const, use_build_context_synchronously, avoid_print, library_private_types_in_public_api
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,7 +18,7 @@ class MenuDetails extends StatefulWidget {
 
 class _MenuDetailsState extends State<MenuDetails> {
   int _itemCount = 0;
-  Map<String, int> _quantities = {};
+  final Map<String, int> _quantities = {};
   User? _user;
 
   @override
@@ -58,7 +60,7 @@ class _MenuDetailsState extends State<MenuDetails> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('${menu.name} added to checkout!'),
-          duration: Duration(seconds: 2),
+          duration: const Duration(seconds: 2),
         ),
       );
     });
@@ -84,7 +86,7 @@ class _MenuDetailsState extends State<MenuDetails> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Error adding ${menu.name} to checkout.'),
-            duration: Duration(seconds: 2),
+            duration: const Duration(seconds: 2),
           ),
         );
       }
@@ -138,13 +140,46 @@ class _MenuDetailsState extends State<MenuDetails> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        menu.name,
-                        style: const TextStyle(
-                          fontSize: 22,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Row(
+                        children: [
+                          Text(
+                            menu.name,
+                            style: const TextStyle(
+                              fontSize: 22,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const Spacer(),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 30),
+                            child: Container(
+                              width: 60,
+                              height: 35,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: Colors.lightGreen,
+                              ),
+                              child: Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      menu.shopStatus,
+                                      style:  const TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 8),
                       Row(
@@ -157,7 +192,7 @@ class _MenuDetailsState extends State<MenuDetails> {
                               color: Colors.lightGreen[600],
                             ),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -182,9 +217,9 @@ class _MenuDetailsState extends State<MenuDetails> {
                         ],
                       ),
                       const SizedBox(height: 40),
-                      Text(
+                      const Text(
                         'Details',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                           color: Colors.black,
                           fontWeight: FontWeight.bold,

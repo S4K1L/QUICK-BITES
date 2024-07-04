@@ -70,19 +70,19 @@ class _ChefListPageState extends State<ChefListPage> {
 
   Padding chefListTile(QueryDocumentSnapshot<Object?> chef) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.only(left:  20,right: 20,bottom: 10),
       child: Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16), color: Colors.white),
         child: ListTile(
           title: Text(
-            'Name: ${chef['name']}',
+            chef['shopName'],
             style: TextStyle(color: Colors.green[300]),
           ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Shop Name: ${chef['shopName']}'),
+              Text('Chef Name: ${chef['name']}'),
               Text('Email: ${chef['email']}'),
             ],
           ),

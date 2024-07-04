@@ -1,5 +1,8 @@
+// ignore_for_file: file_names, library_private_types_in_public_api, use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:quick_bites/Presentation/Chef_Panel/Chef_Earning/chef_earning.dart';
 import 'package:quick_bites/Presentation/Chef_Panel/Chef_login/chef_login.dart';
 import '../../Core/Repository_and_Authentication/profile_image_picker.dart';
@@ -11,9 +14,73 @@ import '../Chef_Panel/Chef_HomeScreen/chef_homescreen.dart';
 import '../Chef_Panel/New_Order/new_order.dart';
 import '../Chef_Panel/Order_History/order_history.dart';
 
-
-class ChefDrawer extends StatelessWidget {
+class ChefDrawer extends StatefulWidget {
   const ChefDrawer({super.key});
+
+  @override
+  _ChefDrawerState createState() => _ChefDrawerState();
+}
+
+class _ChefDrawerState extends State<ChefDrawer> {
+  bool _storeStatus = false;
+  String _shopName = "";
+  String _name = '';
+  String _email = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData();
+  }
+
+  Future<void> _fetchUserData() async {
+    User? firebaseUser = FirebaseAuth.instance.currentUser;
+    if (firebaseUser != null) {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(firebaseUser.uid).get();
+      setState(() {
+        _shopName = userDoc['shopName'] ?? '';
+        _name = userDoc['name'] ?? '';
+        _email = userDoc['email'] ?? '';
+      });
+      _fetchStoreStatus();
+    }
+  }
+
+  Future<void> _fetchStoreStatus() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+
+    if (user != null && _shopName.isNotEmpty) {
+      QuerySnapshot menuSnapshot = await FirebaseFirestore.instance
+          .collection('menu')
+          .where('shopName', isEqualTo: _shopName)
+          .get();
+
+      if (menuSnapshot.docs.isNotEmpty) {
+        setState(() {
+          _storeStatus = menuSnapshot.docs.first['shopStatus'] == 'OPEN';
+        });
+      }
+    }
+  }
+
+  Future<void> _updateStoreStatus(bool status) async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    String storeStatus = status ? 'OPEN' : 'CLOSED';
+
+    if (user != null) {
+      WriteBatch batch = FirebaseFirestore.instance.batch();
+      QuerySnapshot menuSnapshot = await FirebaseFirestore.instance
+          .collection('menu')
+          .where('shopName', isEqualTo: _shopName)
+          .get();
+      for (DocumentSnapshot doc in menuSnapshot.docs) {
+        batch.update(doc.reference, {'shopStatus': storeStatus});
+      }
+      await batch.commit();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +106,8 @@ class ChefDrawer extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 30),
                   child: Container(
-                    width: 145,
-                    height: 145,
+                    width: 90,
+                    height: 90,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(70),
                       color: kTextWhiteColor,
@@ -49,16 +116,42 @@ class ChefDrawer extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Text(
-                  'Chef Profile',
-                  style: TextStyle(fontSize: 20, color: sBlackColor),
-                )
+                 Text(
+                  style: const TextStyle(fontSize: 20, color: sBlackColor),
+                  _name,
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  style: const TextStyle(fontSize: 16, color: sBlackColor),
+                  'Email : $_email',
+                ),
               ],
             ),
           ),
           const SizedBox(height: 20),
           Column(
             children: [
+              ListTile(
+                leading: const Icon(Icons.store, color: sBlackColor),
+                title: const Text(
+                  'Shop Status',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: sBlackColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                trailing: Switch(
+                  value: _storeStatus,
+                  onChanged: (value) {
+                    setState(() {
+                      _storeStatus = value;
+                    });
+                    _updateStoreStatus(value);
+                  },
+                  activeColor: Colors.green,
+                ),
+              ),
               _buildDrawerButton(
                 context,
                 icon: Icons.home_outlined,

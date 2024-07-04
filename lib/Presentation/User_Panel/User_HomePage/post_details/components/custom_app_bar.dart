@@ -13,7 +13,7 @@ class CustomAppBar extends StatelessWidget {
         left: appPadding,
         right: appPadding,
       ),
-      child: Container(
+      child: SizedBox(
         height: size.height * 0.1,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -22,7 +22,7 @@ class CustomAppBar extends StatelessWidget {
               onTap: () {
                 Navigator.pop(context);
               },
-              child: Icon(
+              child: const Icon(
                 Icons.chevron_left_rounded,
                 color: Colors.black,
                 size: 28,

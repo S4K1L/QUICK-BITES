@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import '../../Drawer/admin_Drawer.dart';
 import 'admin_menu_post.dart';

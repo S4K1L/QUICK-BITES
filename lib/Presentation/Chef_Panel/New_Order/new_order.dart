@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api, avoid_print, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,14 +16,46 @@ class ChefNewOrders extends StatefulWidget {
 class _ChefNewOrdersState extends State<ChefNewOrders> {
   late User _currentUser;
   bool _isLoading = true;
+  String? _shopName;
 
   @override
   void initState() {
     super.initState();
+    _initialize();
     _getCurrentUser().then((_) => setState(() {
       _isLoading = false;
     }));
   }
+
+  Future<void> _initialize() async {
+    _shopName = await fetchUserShopName();
+  }
+
+  Future<String?> fetchUserShopName() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+
+    if (user == null) {
+      return null; // User not logged in
+    }
+
+    try {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+
+      if (userDoc.exists && userDoc.data() != null) {
+        return userDoc['shopName'];
+      } else {
+        return null; // User document doesn't exist
+      }
+    } catch (e) {
+      print("Error fetching user shopName: $e");
+      return null;
+    }
+  }
+
 
   Future<void> _getCurrentUser() async {
     final FirebaseAuth auth = FirebaseAuth.instance;
@@ -59,7 +93,7 @@ class _ChefNewOrdersState extends State<ChefNewOrders> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
       ),
-      drawer: const ChefDrawer(),
+      drawer: ChefDrawer(),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
@@ -106,6 +140,7 @@ class _ChefNewOrdersState extends State<ChefNewOrders> {
   Future<List<Order>> _getOrders() async {
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('orders')
+        .where('shopName', isEqualTo: _shopName)
         .where('status', whereIn: ['Ongoing', 'Preparing'])
         .get();
 

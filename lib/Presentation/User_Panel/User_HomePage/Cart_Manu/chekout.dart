@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api, avoid_print, use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -94,9 +96,11 @@ class _CheckOutState extends State<CheckOut> {
           } else {
             final cartItems = snapshot.data!;
             double subTotal = 0;
+            String shopName = '';
             for (var item in cartItems) {
               int price = item.menuModel.price;
               subTotal += price * item.quantity;
+              shopName = item.menuModel.shopName;
             }
             double total = subTotal + _deliveryFee;
 
@@ -135,7 +139,7 @@ class _CheckOutState extends State<CheckOut> {
                             color: Colors.purple[400]),
                         child: TextButton(
                           onPressed: () {
-                            _showCheckoutDialog(context, cartItems, total, subTotal);
+                            _showCheckoutDialog(context, cartItems, total, subTotal, shopName);
                           },
                           child: const Text(
                             'CHECKOUT',
@@ -227,6 +231,7 @@ class _CheckOutState extends State<CheckOut> {
           isFav: true,
           details: doc['details'],
           shopName: doc['shopName'],
+          shopStatus: doc['shopStatus'],
         ),
         quantity: quantity,
       );
@@ -377,7 +382,7 @@ class _CheckOutState extends State<CheckOut> {
     }
   }
 
-  void _showCheckoutDialog(BuildContext context, List<MenuModelWithQuantity> cartItems, double total, double subTotal) {
+  void _showCheckoutDialog(BuildContext context, List<MenuModelWithQuantity> cartItems, double total, double subTotal, String shopName) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -427,7 +432,7 @@ class _CheckOutState extends State<CheckOut> {
               child: const Text('Cancel'),
             ),
             TextButton(
-              onPressed: () => _handleCheckout(context, cartItems, total, subTotal),
+              onPressed: () => _handleCheckout(context, cartItems, total, subTotal, shopName),
               child: const Text('Submit'),
             ),
           ],
@@ -436,7 +441,7 @@ class _CheckOutState extends State<CheckOut> {
     );
   }
 
-  Future<void> _handleCheckout(BuildContext context, List<MenuModelWithQuantity> cartItems, double total, double subTotal) async {
+  Future<void> _handleCheckout(BuildContext context, List<MenuModelWithQuantity> cartItems, double total, double subTotal, String shopName) async {
     if (_formKey.currentState?.validate() != true) {
       return;
     }
@@ -450,14 +455,19 @@ class _CheckOutState extends State<CheckOut> {
     final random = Random();
     final orderId = random.nextInt(1000000).toString();
 
+    String subLocation = _locationController.text;
+    String location = '$subLocation , $_selectedZone';
+
+
     final orderData = {
       'orderId': orderId,
       'userUid': userUid,
       'name': _nameController.text,
       'phone': _phoneController.text,
-      'location': _locationController.text,
+      'location': location,
       'total': total,
       'subTotal': subTotal,
+      'shopName': shopName,
       'deliveryFee': _deliveryFee, // Include the delivery fee
       'status': 'Ongoing', // Set the delivery status to "Ongoing"
       'items': cartItems.map((item) {

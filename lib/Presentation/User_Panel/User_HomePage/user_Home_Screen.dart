@@ -1,11 +1,13 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
-import 'package:quick_bites/Theme/const.dart';
-import '../../../Core/Repository_and_Authentication/profile_image_picker.dart';
 import '../../Drawer/user_Drawer.dart';
+import 'Cart_Manu/cart_menu.dart';
 import 'menu_post.dart';
 
 class UserHomeScreen extends StatefulWidget {
-  const UserHomeScreen({super.key});
+  final String shopName;
+   const UserHomeScreen({required this.shopName, super.key});
 
   @override
   State<UserHomeScreen> createState() => _UserHomeScreenState();
@@ -28,17 +30,16 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
               ),
             ),
             const Spacer(),
-            Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child: Container(
-                width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(32),
-                    color: kTextWhiteColor
-                  ),
-                  child: const ProfileImagePicker()),
-            ),
+            TextButton(
+                onPressed: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CartMenuPage(),
+                    ),
+                  );
+                },
+                child: const Icon(Icons.shopping_cart,color: Colors.red,)),
           ],
         ),
         centerTitle: true,
@@ -58,7 +59,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
           children: [
             SizedBox(height: MediaQuery.of(context).size.height * 0.01),
              Expanded(
-              child: MenuPost(),
+              child: MenuPost(shopName: widget.shopName,),
             ),
           ],
         ),

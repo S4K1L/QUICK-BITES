@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, library_private_types_in_public_api, use_build_context_synchronously, avoid_print
+
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,7 +29,6 @@ class _AddMenuState extends State<AddMenu> {
   final List<File> _images = [];
   bool _isUploading = false;
   double _uploadProgress = 0.0;
-
   String _shopName = "";
 
   @override
@@ -70,7 +71,9 @@ class _AddMenuState extends State<AddMenu> {
         if (firebaseUser != null) {
           String name = _nameController.text;
           String details = _detailsController.text;
-          int price = _priceController as int;
+          String price = _priceController.text;
+
+          int price2 = int.parse(price); // Convert price to integer
 
           List<String> imageUrl = [];
           double totalProgress = 0.0;
@@ -92,10 +95,11 @@ class _AddMenuState extends State<AddMenu> {
 
           await FirebaseFirestore.instance.collection("menu").add({
             "name": name,
-            "price": price,
+            "price": price2, // Store price as integer
             "details": details,
             "chefUid": firebaseUser.uid,
             "shopName": _shopName,
+            "shopStatus": 'OPEN',
             "isFav": false,
             "imageUrl": imageUrl[0],
             "moreImagesUrl": imageUrl,
@@ -177,6 +181,7 @@ class _AddMenuState extends State<AddMenu> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -214,7 +219,6 @@ class _AddMenuState extends State<AddMenu> {
               const SizedBox(height: 16.0),
                _buildInputField(_priceController, 'Price'),
               const SizedBox(height: 16.0),
-
               Row(
                 children: [
                   SizedBox(

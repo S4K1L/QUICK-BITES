@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -90,7 +92,7 @@ class _MyOrdersState extends State<MyOrders> {
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('orders')
         .where('userUid', isEqualTo: userUid)
-        .where('status', isEqualTo: 'Ongoing')
+        .where('status', whereIn: ['Ongoing','Preparing','Ready to Delivery','On the Way'])
         .get();
 
     return snapshot.docs.map((doc) {

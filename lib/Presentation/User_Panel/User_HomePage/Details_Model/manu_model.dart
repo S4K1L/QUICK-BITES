@@ -3,6 +3,7 @@ class MenuModel {
   String name;
   String details;
   String shopName;
+  String shopStatus;
   int price;
   bool isFav;
   List<String> moreImagesUrl;
@@ -13,6 +14,7 @@ class MenuModel {
     required this.name,
     required this.details,
     required this.shopName,
+    required this.shopStatus,
     required this.price,
     required this.moreImagesUrl,
     required this.docId,

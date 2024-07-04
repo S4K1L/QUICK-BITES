@@ -77,7 +77,7 @@ class _RunnerListPageState extends State<RunnerListPage> {
         child: ListTile(
           title: Text(
             'Name: ${chef['name']}',
-            style: TextStyle(color: Colors.blue[300]),
+            style: TextStyle(color: Colors.green[300]),
           ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -12,14 +14,12 @@ class CarouselImages extends StatefulWidget {
 
 class _CarouselImagesState extends State<CarouselImages> {
   final PageController _pageController = PageController();
-  int _currentPage = 0;
 
   @override
   void initState() {
     super.initState();
     _pageController.addListener(() {
       setState(() {
-        _currentPage = _pageController.page!.round();
       });
     });
   }
@@ -53,16 +53,4 @@ class _CarouselImagesState extends State<CarouselImages> {
     );
   }
 
-  Widget _buildDot(int index) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 200),
-      margin: const EdgeInsets.symmetric(horizontal: 4.0),
-      width: _currentPage == index ? 12.0 : 8.0,
-      height: _currentPage == index ? 12.0 : 8.0,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: _currentPage == index ? Colors.blue : Colors.grey,
-      ),
-    );
-  }
 }

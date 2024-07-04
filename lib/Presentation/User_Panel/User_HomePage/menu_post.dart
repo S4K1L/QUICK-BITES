@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,7 +10,8 @@ import '../../../Theme/constant.dart';
 import '../../Admin_Panel/Admin_HomePage/Search_button/custom_search.dart';
 
 class MenuPost extends StatefulWidget {
-  const MenuPost({super.key});
+  final String shopName;
+  const MenuPost({required this.shopName,super.key});
 
   @override
   _MenuPostState createState() => _MenuPostState();
@@ -18,6 +21,7 @@ class _MenuPostState extends State<MenuPost> {
   late StreamSubscription<List<MenuModel>> _subscription;
   late Stream<List<MenuModel>> _menuStream;
   String _searchText = '';
+  String? _selectedShop;
   final Map<String, bool> _favorites = {};
   final FirebaseAuth _auth = FirebaseAuth.instance;
   User? _user;
@@ -46,8 +50,9 @@ class _MenuPostState extends State<MenuPost> {
     });
   }
 
+
   Stream<List<MenuModel>> _fetchMenuFromFirebase() {
-    return FirebaseFirestore.instance.collection('menu').snapshots().map((snapshot) {
+    return FirebaseFirestore.instance.collection('menu').where('shopName', isEqualTo: widget.shopName).snapshots().map((snapshot) {
       return snapshot.docs.map((doc) {
         final moreImagesUrl = doc['moreImagesUrl'];
         final imageUrlList = moreImagesUrl is List ? moreImagesUrl : [moreImagesUrl];
@@ -76,6 +81,7 @@ class _MenuPostState extends State<MenuPost> {
           isFav: isFav,
           shopName: doc['shopName'],
           details: doc['details'],
+          shopStatus: doc['shopStatus'],
         );
       }).toList();
     });
@@ -174,7 +180,6 @@ class _MenuPostState extends State<MenuPost> {
 
   void _toggleFavorite(MenuModel menu) {
     if (_user == null) {
-      // User not logged in, handle appropriately
       return;
     }
     final userUid = _user!.uid;
@@ -209,63 +214,64 @@ class _MenuPostState extends State<MenuPost> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
-        SearchField(onSearch: _onSearch),
-        const SizedBox(height: 20),
-        flowerBuild(context),
-        const SizedBox(
-          height: 20,
-        ),
-        Expanded(
-          child: StreamBuilder<List<MenuModel>>(
-            stream: _menuStream,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text('Error: ${snapshot.error}'),
-                );
-              } else {
-                List<MenuModel>? campaigns = snapshot.data;
-                if (campaigns != null && campaigns.isNotEmpty) {
-                  List<MenuModel> filteredMenu = campaigns
-                      .where((campaign) => _matchesSearchText(campaign))
-                      .toList();
-                  if (filteredMenu.isNotEmpty) {
-                    return GridView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      gridDelegate:
-                      const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, // Number of posts per line
-                        crossAxisSpacing: 4.0,
-                        mainAxisSpacing: 20.0,
-                        childAspectRatio:
-                        0.95, // Adjust the aspect ratio as needed
-                      ),
-                      itemCount: filteredMenu.length,
-                      itemBuilder: (context, index) {
-                        return _buildMenu(context, filteredMenu[index]);
-                      },
-                    );
+        children: [
+          SearchField(onSearch: _onSearch),
+          const SizedBox(height: 20),
+          flowerBuild(context),
+          const SizedBox(
+            height: 20,
+          ),
+          Expanded(
+            child: StreamBuilder<List<MenuModel>>(
+              stream: _menuStream,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text('Error: ${snapshot.error}'),
+                  );
+                } else {
+                  List<MenuModel>? campaigns = snapshot.data;
+                  if (campaigns != null && campaigns.isNotEmpty) {
+                    List<MenuModel> filteredMenu = campaigns
+                        .where((campaign) => _matchesSearchText(campaign))
+                        .where((campaign) => _selectedShop == null || campaign.shopName == _selectedShop)
+                        .toList();
+                    if (filteredMenu.isNotEmpty) {
+                      return GridView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2, // Number of posts per line
+                          crossAxisSpacing: 4.0,
+                          mainAxisSpacing: 20.0,
+                          childAspectRatio:
+                          0.95, // Adjust the aspect ratio as needed
+                        ),
+                        itemCount: filteredMenu.length,
+                        itemBuilder: (context, index) {
+                          return _buildMenu(context, filteredMenu[index]);
+                        },
+                      );
+                    } else {
+                      return const Center(
+                        child: Text('No matching items found.'),
+                      );
+                    }
                   } else {
                     return const Center(
-                      child: Text('No matching items found.'),
+                      child: Text('No items available.'),
                     );
                   }
-                } else {
-                  return const Center(
-                    child: Text('No items available.'),
-                  );
                 }
-              }
-            },
+              },
+            ),
           ),
-        ),
-      ],
-    );
+        ],
+      );
   }
 
   Padding flowerBuild(BuildContext context) {
@@ -324,3 +330,5 @@ class _MenuPostState extends State<MenuPost> {
         campaign.price.toString().contains(term));
   }
 }
+
+

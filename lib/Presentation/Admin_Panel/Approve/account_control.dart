@@ -76,7 +76,7 @@ class _ApproveAccountListState extends State<ApproveAccountList> {
             borderRadius: BorderRadius.circular(16), color: Colors.white),
         child: ListTile(
           title: Text(
-            'Name: ${user['name']}',
+            user['name'],
             style: TextStyle(color: Colors.purple[300]),
           ),
           subtitle: Column(

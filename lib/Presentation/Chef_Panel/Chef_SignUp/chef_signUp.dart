@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, use_build_context_synchronously, avoid_print
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +19,7 @@ class _ChefSignUpScreenState extends State<ChefSignUpScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _userNameController = TextEditingController();
+  final TextEditingController _shopNameController = TextEditingController();
   final TextEditingController _repeatPasswordController = TextEditingController();
   bool _passwordVisible = false;
   bool _repeatPasswordVisible = false;
@@ -25,7 +27,7 @@ class _ChefSignUpScreenState extends State<ChefSignUpScreen> {
   void _uploadData() {
     ChefDataUploader.uploadChefData(
       name: _nameController.text,
-      userName: _userNameController.text,
+      shopName: _shopNameController.text,
       email: _emailController.text,
       password: _passwordController.text,
     );
@@ -139,7 +141,7 @@ class _ChefSignUpScreenState extends State<ChefSignUpScreen> {
             const SizedBox(height: 30),
             _buildTextField(_nameController, 'Full Name'),
             const SizedBox(height: 30),
-            _buildTextField(_userNameController, 'Username'),
+            _buildTextField(_shopNameController, 'Shop Name'),
             const SizedBox(height: 30),
             _buildPasswordField(_passwordController, 'Password', _passwordVisible, () {
               setState(() {
