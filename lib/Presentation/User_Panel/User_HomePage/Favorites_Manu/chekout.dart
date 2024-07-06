@@ -345,7 +345,7 @@ class _CheckOutState extends State<CheckOut> {
                     children: [
                       Text('x$quantity'),
                       const SizedBox(height: 10),
-                      Text('RM ${item.price * quantity}'),
+                      Text('RM ${item.price * (quantity+0.0)}'),
                     ],
                   ),
                   IconButton(

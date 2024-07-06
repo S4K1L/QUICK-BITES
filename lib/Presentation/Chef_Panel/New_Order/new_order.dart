@@ -21,14 +21,24 @@ class _ChefNewOrdersState extends State<ChefNewOrders> {
   @override
   void initState() {
     super.initState();
-    _initialize();
-    _getCurrentUser().then((_) => setState(() {
-      _isLoading = false;
-    }));
+    _initialize().then((_) {
+      setState(() {
+        _isLoading = false;
+      });
+    });
   }
 
   Future<void> _initialize() async {
+    await _getCurrentUser();
     _shopName = await fetchUserShopName();
+  }
+
+  Future<void> _getCurrentUser() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    if (user != null) {
+      _currentUser = user;
+    }
   }
 
   Future<String?> fetchUserShopName() async {
@@ -53,15 +63,6 @@ class _ChefNewOrdersState extends State<ChefNewOrders> {
     } catch (e) {
       print("Error fetching user shopName: $e");
       return null;
-    }
-  }
-
-
-  Future<void> _getCurrentUser() async {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final User? user = auth.currentUser;
-    if (user != null) {
-      _currentUser = user;
     }
   }
 
@@ -166,9 +167,7 @@ class _ChefNewOrdersState extends State<ChefNewOrders> {
         status: data['status'],
         items: items,
       );
-    }).where((order) =>
-    order.status == 'Ongoing' ||
-        (order.status == 'Preparing' && order.userUid == _currentUser.uid)).toList();
+    }).toList();
   }
 
   Widget _buildOrderItem(Order order) {
@@ -218,7 +217,7 @@ class _ChefNewOrdersState extends State<ChefNewOrders> {
               },
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 180.0, right: 20, bottom: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
