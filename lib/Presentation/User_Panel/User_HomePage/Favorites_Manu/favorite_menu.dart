@@ -4,20 +4,20 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:quick_bites/Presentation/User_Panel/User_HomePage/Cart_Manu/chekout.dart';
 import 'package:quick_bites/Theme/constant.dart';
 import '../../../../Theme/const.dart';
 import '../../../Drawer/user_Drawer.dart';
 import '../Details_Model/manu_model.dart';
+import 'chekout.dart';
 
-class CartMenuPage extends StatefulWidget {
-  const CartMenuPage({super.key});
+class FavoriteMenuPage extends StatefulWidget {
+  const FavoriteMenuPage({super.key});
 
   @override
-  _CartMenuPageState createState() => _CartMenuPageState();
+  _FavoriteMenuPageState createState() => _FavoriteMenuPageState();
 }
 
-class _CartMenuPageState extends State<CartMenuPage> {
+class _FavoriteMenuPageState extends State<FavoriteMenuPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   User? _user;
   late Stream<List<MenuModel>> _menuStream;
@@ -46,7 +46,7 @@ class _CartMenuPageState extends State<CartMenuPage> {
     }
     final userUid = _user!.uid;
     return FirebaseFirestore.instance
-        .collection('cart')
+        .collection('favorite')
         .where('userUid', isEqualTo: userUid)
         .snapshots()
         .map((snapshot) {
@@ -85,7 +85,7 @@ class _CartMenuPageState extends State<CartMenuPage> {
     });
   }
 
-  void _addToCart(MenuModel menu) {
+  void _addToCheckout(MenuModel menu) {
     setState(() {
       if (_quantities[menu.docId] != null && _quantities[menu.docId]! > 0) {
         // Item has been added to the cart with a positive quantity
@@ -99,7 +99,7 @@ class _CartMenuPageState extends State<CartMenuPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: Colors.white,
-          content: Text('${menu.name} added to cart!',style: const TextStyle(color: Colors.red),),
+          content: Text('${menu.name} added to checkout!',style: const TextStyle(color: Colors.red),),
           duration: const Duration(seconds: 2),
         ),
       );
@@ -220,7 +220,7 @@ class _CartMenuPageState extends State<CartMenuPage> {
                   ),
                   const SizedBox(height: 10), // Add some spacing between the row and the button
                   ElevatedButton(
-                    onPressed: () => _addToCart(menu),
+                    onPressed: () => _addToCheckout(menu),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.purple[300],
                       shape: RoundedRectangleBorder(
@@ -254,7 +254,7 @@ class _CartMenuPageState extends State<CartMenuPage> {
           children: [
             const Spacer(),
             Text(
-              'Cart List',
+              'Favorite List',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 22,

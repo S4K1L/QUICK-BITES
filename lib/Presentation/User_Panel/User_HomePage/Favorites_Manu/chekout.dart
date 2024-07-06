@@ -95,12 +95,12 @@ class _CheckOutState extends State<CheckOut> {
             return const Center(child: Text('No items in checkout.'));
           } else {
             final cartItems = snapshot.data!;
-            double subTotal = 0;
+            double subTotal = 0.0;
             String shopName = '';
             String shopStatus = '';
             for (var item in cartItems) {
-              int price = item.menuModel.price;
-              subTotal += price * item.quantity;
+              double price = item.menuModel.price;
+              subTotal += price * (item.quantity +0.0);
               shopName = item.menuModel.shopName;
               shopStatus = item.menuModel.shopStatus;
             }
@@ -212,13 +212,11 @@ class _CheckOutState extends State<CheckOut> {
       final moreImagesUrl = data['moreImagesUrl'] as List<dynamic>;
 
       // Ensure the price is treated as an integer
-      int price = 0;
-      if (data['price'] is int) {
+      double price = 0.0;
+       if (data['price'] is double) {
         price = data['price'];
-      } else if (data['price'] is double) {
-        price = data['price'].toInt();
       } else if (data['price'] is String) {
-        price = int.tryParse(data['price']) ?? 0;
+        price = double.tryParse(data['price']) ?? 0.0;
       }
 
       int quantity = data['quantity'] ?? 1;

@@ -73,7 +73,7 @@ class _AddMenuState extends State<AddMenu> {
           String details = _detailsController.text;
           String price = _priceController.text;
 
-          int price2 = int.parse(price); // Convert price to integer
+          double price2 = double.parse(price);
 
           List<String> imageUrl = [];
           double totalProgress = 0.0;
@@ -95,7 +95,7 @@ class _AddMenuState extends State<AddMenu> {
 
           await FirebaseFirestore.instance.collection("menu").add({
             "name": name,
-            "price": price2, // Store price as integer
+            "price": price2,
             "details": details,
             "chefUid": firebaseUser.uid,
             "shopName": _shopName,

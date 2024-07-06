@@ -6,12 +6,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../../Core/Repository_and_Authentication/profile_image_picker.dart';
 import '../../Theme/const.dart';
 import '../../Theme/constant.dart';
-import '../User_Panel/User_HomePage/Cart_Manu/cart_menu.dart';
-import '../User_Panel/User_HomePage/Cart_Manu/chekout.dart';
+import '../User_Panel/User_HomePage/Favorites_Manu/chekout.dart';
+import '../User_Panel/User_HomePage/Favorites_Manu/favorite_menu.dart';
 import '../User_Panel/User_HomePage/My_Order/my_order.dart';
 import '../User_Panel/User_HomePage/Order_History/order_history.dart';
 import '../User_Panel/User_HomePage/shop_select/shop_select.dart';
 import '../User_Panel/User_Login/user_login.dart';
+import 'edit_profile.dart';
 
 
 class UserDrawer extends StatefulWidget {
@@ -46,27 +47,36 @@ class _UserDrawerState extends State<UserDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: Column(
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height / 3.5,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              gradient: const LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-                colors: [
-                  Color(0xFFFD6FBB),
-                  Color(0xFFFDD064),
-                ],
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height / 3.5,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                gradient: const LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                    Color(0xFFFD6FBB),
+                    Color(0xFFFDD064),
+                  ],
+                ),
               ),
-            ),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 30),
-                  child: Container(
+              child: Column(
+                children: [
+                  Align(
+                      alignment: Alignment.centerRight,
+                      child: IconButton(onPressed: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EditUserProfile(name: _name!, email: _email!),
+                          ),
+                        );
+                      }, icon: const Icon(Icons.edit,color: Colors.red,))),
+                  Container(
                     width: 90,
                     height: 90,
                     decoration: BoxDecoration(
@@ -75,111 +85,110 @@ class _UserDrawerState extends State<UserDrawer> {
                     ),
                     child: const Center(child: ProfileImagePicker()),
                   ),
+                  const SizedBox(height: 10),
+                  Text(
+                    style: const TextStyle(fontSize: 20, color: sBlackColor),
+                    _name!,
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    style: const TextStyle(fontSize: 16, color: sBlackColor),
+                    'Email : ${_email!}',
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
+            Column(
+              children: [
+                _buildDrawerButton(
+                  context,
+                  icon: Icons.home_outlined,
+                  label: 'Home',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ShopSelectionPopup(),
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(height: 20),
-                Text(
-                  style: const TextStyle(fontSize: 20, color: sBlackColor),
-                  _name!,
+                _buildDrawerButton(
+                  context,
+                  icon: Icons.edit_note,
+                  label: 'My Order',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const MyOrders(),
+                      ),
+                    );
+                  },
                 ),
-                const SizedBox(height: 5),
-                Text(
-                  style: const TextStyle(fontSize: 16, color: sBlackColor),
-                  'Email : ${_email!}',
+                const SizedBox(height: 20),
+                _buildDrawerButton(
+                  context,
+                  icon: Icons.checklist,
+                  label: 'Checkout',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CheckOut(quantities: _quantities),
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 20),
+                _buildDrawerButton(
+                  context,
+                  icon: Icons.history,
+                  label: 'Order History',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const OrderHistory(),
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 20),
+                _buildDrawerButton(
+                  context,
+                  icon: Icons.favorite_border_sharp,
+                  label: 'My Favorite',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const FavoriteMenuPage(),
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 20),
+                _buildDrawerButton(
+                  context,
+                  icon: Icons.logout,
+                  label: 'Logout',
+                  onPressed: () async {
+                    await FirebaseAuth.instance.signOut();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const UserLoginScreen(),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
-          ),
-          const SizedBox(height: 20),
-          Column(
-            children: [
-              _buildDrawerButton(
-                context,
-                icon: Icons.home_outlined,
-                label: 'Home',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ShopSelectionPopup(),
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(height: 20),
-              _buildDrawerButton(
-                context,
-                icon: Icons.shopping_cart_outlined,
-                label: 'My Cart',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const CartMenuPage(),
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(height: 20),
-              _buildDrawerButton(
-                context,
-                icon: Icons.edit_note,
-                label: 'My Order',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const MyOrders(),
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(height: 20),
-              _buildDrawerButton(
-                context,
-                icon: Icons.checklist,
-                label: 'Order History',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const OrderHistory(),
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(height: 20),
-              _buildDrawerButton(
-                context,
-                icon: Icons.checklist,
-                label: 'Checkout',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => CheckOut(quantities: _quantities),
-                    ),
-                  );
-                },
-              ),
-
-              const SizedBox(height: 20),
-              _buildDrawerButton(
-                context,
-                icon: Icons.logout,
-                label: 'Logout',
-                onPressed: () async {
-                  await FirebaseAuth.instance.signOut();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const UserLoginScreen(),
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -59,7 +59,7 @@ class _MenuPostState extends State<MenuPost> {
 
         bool isFav = false;
         if (_user != null) {
-          FirebaseFirestore.instance.collection('cart')
+          FirebaseFirestore.instance.collection('favorite')
               .where('userUid', isEqualTo: _user!.uid)
               .where('docId', isEqualTo: doc.id)
               .get()
@@ -99,14 +99,16 @@ class _MenuPostState extends State<MenuPost> {
         );
       },
       child: Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10),
+        padding: const EdgeInsets.only(left: 20, right: 20),
         child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             color: Colors.white,
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Stack(
                 children: [
@@ -114,7 +116,7 @@ class _MenuPostState extends State<MenuPost> {
                     borderRadius: BorderRadius.circular(20),
                     child: Image.network(
                       menu.imageUrl,
-                      height: 150,
+                      height: 110,
                       width: double.infinity,
                       fit: BoxFit.cover,
                     ),
@@ -142,33 +144,28 @@ class _MenuPostState extends State<MenuPost> {
                   ),
                 ],
               ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10, top: 3),
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          menu.name,
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.black,
-                          ),
-                        ),
-                        Text(
-                          'RM ${menu.price}',
-                          style: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
+              Padding(
+                padding: const EdgeInsets.only(left: 10,top: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      menu.name,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black,
+                      ),
                     ),
-                  ),
+                    Text(
+                      'RM ${menu.price}',
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -189,7 +186,7 @@ class _MenuPostState extends State<MenuPost> {
     });
 
     if (_favorites[menu.docId]!) {
-      FirebaseFirestore.instance.collection('cart').add({
+      FirebaseFirestore.instance.collection('favorite').add({
         'imageUrl': menu.imageUrl,
         'name': menu.name,
         'price': menu.price,
@@ -202,7 +199,7 @@ class _MenuPostState extends State<MenuPost> {
       });
     } else {
       FirebaseFirestore.instance
-          .collection('cart')
+          .collection('favorite')
           .where('docId', isEqualTo: menu.docId)
           .where('userUid', isEqualTo: userUid)
           .get()
@@ -249,10 +246,9 @@ class _MenuPostState extends State<MenuPost> {
                         gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2, // Number of posts per line
-                          crossAxisSpacing: 4.0,
                           mainAxisSpacing: 20.0,
                           childAspectRatio:
-                          0.95, // Adjust the aspect ratio as needed
+                          1.0, // Adjust the aspect ratio as needed
                         ),
                         itemCount: filteredMenu.length,
                         itemBuilder: (context, index) {

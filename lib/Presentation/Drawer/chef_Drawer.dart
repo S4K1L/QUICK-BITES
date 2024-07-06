@@ -13,6 +13,7 @@ import '../Chef_Panel/Add_Menu/Add_menu.dart';
 import '../Chef_Panel/Chef_HomeScreen/chef_homescreen.dart';
 import '../Chef_Panel/New_Order/new_order.dart';
 import '../Chef_Panel/Order_History/order_history.dart';
+import 'edit_profile.dart';
 
 class ChefDrawer extends StatefulWidget {
   const ChefDrawer({super.key});
@@ -85,27 +86,36 @@ class _ChefDrawerState extends State<ChefDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: Column(
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height / 3.5,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              gradient: const LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-                colors: [
-                  Color(0xFF1EC1D4),
-                  Color(0xFFEADB64),
-                ],
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height / 3.5,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                gradient: const LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                    Color(0xFF1EC1D4),
+                    Color(0xFFEADB64),
+                  ],
+                ),
               ),
-            ),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 30),
-                  child: Container(
+              child: Column(
+                children: [
+                  Align(
+                      alignment: Alignment.centerRight,
+                      child: IconButton(onPressed: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EditUserProfile(name: _name, email: _email),
+                          ),
+                        );
+                      }, icon: const Icon(Icons.edit,color: Colors.lightGreen,))),
+                  Container(
                     width: 90,
                     height: 90,
                     decoration: BoxDecoration(
@@ -114,141 +124,141 @@ class _ChefDrawerState extends State<ChefDrawer> {
                     ),
                     child: const Center(child: ProfileImagePicker()),
                   ),
+                  const SizedBox(height: 20),
+                   Text(
+                    style: const TextStyle(fontSize: 20, color: sBlackColor),
+                    _name,
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    style: const TextStyle(fontSize: 16, color: sBlackColor),
+                    'Email : $_email',
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
+            Column(
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.store, color: sBlackColor),
+                  title: const Text(
+                    'Shop Status',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: sBlackColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  trailing: Switch(
+                    value: _storeStatus,
+                    onChanged: (value) {
+                      setState(() {
+                        _storeStatus = value;
+                      });
+                      _updateStoreStatus(value);
+                    },
+                    activeColor: Colors.green,
+                  ),
+                ),
+                _buildDrawerButton(
+                  context,
+                  icon: Icons.home_outlined,
+                  label: 'Home',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ChefHomeScreen(),
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(height: 20),
-                 Text(
-                  style: const TextStyle(fontSize: 20, color: sBlackColor),
-                  _name,
+                _buildDrawerButton(
+                  context,
+                  icon: Icons.add_business_outlined,
+                  label: 'Add Menu',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const AddMenu()),
+                    );
+                  },
                 ),
-                const SizedBox(height: 10),
-                Text(
-                  style: const TextStyle(fontSize: 16, color: sBlackColor),
-                  'Email : $_email',
+                const SizedBox(height: 20),
+                _buildDrawerButton(
+                  context,
+                  icon: Icons.account_balance_wallet_outlined,
+                  label: 'My Earning',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ChefEarnings(),
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 20),
+                _buildDrawerButton(
+                  context,
+                  icon: Icons.edit_note,
+                  label: 'New Orders',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ChefNewOrders(),
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 20),
+                _buildDrawerButton(
+                  context,
+                  icon: Icons.checklist,
+                  label: 'Orders - History',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const OrderHistory(),
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 20),
+                _buildDrawerButton(
+                  context,
+                  icon: Icons.delivery_dining_outlined,
+                  label: 'Add Delivery Zone',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const AddDeliveryZone()),
+                    );
+                  },
+                ),
+                const SizedBox(height: 20),
+                _buildDrawerButton(
+                  context,
+                  icon: Icons.logout,
+                  label: 'Logout',
+                  onPressed: () async {
+                    await FirebaseAuth.instance.signOut();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ChefLoginScreen(),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
-          ),
-          const SizedBox(height: 20),
-          Column(
-            children: [
-              ListTile(
-                leading: const Icon(Icons.store, color: sBlackColor),
-                title: const Text(
-                  'Shop Status',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: sBlackColor,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                trailing: Switch(
-                  value: _storeStatus,
-                  onChanged: (value) {
-                    setState(() {
-                      _storeStatus = value;
-                    });
-                    _updateStoreStatus(value);
-                  },
-                  activeColor: Colors.green,
-                ),
-              ),
-              _buildDrawerButton(
-                context,
-                icon: Icons.home_outlined,
-                label: 'Home',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ChefHomeScreen(),
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(height: 20),
-              _buildDrawerButton(
-                context,
-                icon: Icons.add_business_outlined,
-                label: 'Add Menu',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const AddMenu()),
-                  );
-                },
-              ),
-              const SizedBox(height: 20),
-              _buildDrawerButton(
-                context,
-                icon: Icons.account_balance_wallet_outlined,
-                label: 'My Earning',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ChefEarnings(),
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(height: 20),
-              _buildDrawerButton(
-                context,
-                icon: Icons.edit_note,
-                label: 'New Orders',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ChefNewOrders(),
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(height: 20),
-              _buildDrawerButton(
-                context,
-                icon: Icons.checklist,
-                label: 'Orders - History',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const OrderHistory(),
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(height: 20),
-              _buildDrawerButton(
-                context,
-                icon: Icons.delivery_dining_outlined,
-                label: 'Add Delivery Zone',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const AddDeliveryZone()),
-                  );
-                },
-              ),
-              const SizedBox(height: 20),
-              _buildDrawerButton(
-                context,
-                icon: Icons.logout,
-                label: 'Logout',
-                onPressed: () async {
-                  await FirebaseAuth.instance.signOut();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ChefLoginScreen(),
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

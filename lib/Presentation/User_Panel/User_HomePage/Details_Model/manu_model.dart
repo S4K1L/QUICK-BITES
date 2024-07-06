@@ -4,7 +4,7 @@ class MenuModel {
   String details;
   String shopName;
   String shopStatus;
-  int price;
+  double price;
   bool isFav;
   List<String> moreImagesUrl;
   String docId;

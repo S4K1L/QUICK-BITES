@@ -48,7 +48,7 @@ class _MenuDetailsState extends State<MenuDetails> {
     });
   }
 
-  void _addToCart(MenuModel menu) {
+  void _addToCheckout(MenuModel menu) {
     setState(() {
       if (_quantities[menu.docId] != null && _quantities[menu.docId]! > 0) {
         _storeCheckoutData(menu, _quantities[menu.docId]!);
@@ -105,7 +105,7 @@ class _MenuDetailsState extends State<MenuDetails> {
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
             child: ElevatedButton(
-              onPressed: () => _addToCart(menu),
+              onPressed: () => _addToCheckout(menu),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.lightGreen[600],
                 padding: const EdgeInsets.symmetric(vertical: 12),
@@ -114,7 +114,7 @@ class _MenuDetailsState extends State<MenuDetails> {
                 ),
               ),
               child: const Text(
-                'Add to Cart',
+                'Add to Checkout',
                 style: TextStyle(color: Colors.white, fontSize: 16),
               ),
             ),

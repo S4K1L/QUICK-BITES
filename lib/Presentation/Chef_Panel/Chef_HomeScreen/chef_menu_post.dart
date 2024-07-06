@@ -118,7 +118,7 @@ class _ChefMenuPostState extends State<ChefMenuPost> {
                     borderRadius: BorderRadius.circular(20),
                     child: Image.network(
                       menu.imageUrl,
-                      height: 150,
+                      height: 110,
                       width: double.infinity,
                       fit: BoxFit.cover,
                     ),
@@ -174,7 +174,7 @@ class _ChefMenuPostState extends State<ChefMenuPost> {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 10, top: 3),
+                  padding: const EdgeInsets.only(left: 10, top: 10),
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: Column(
@@ -250,10 +250,10 @@ class _ChefMenuPostState extends State<ChefMenuPost> {
                       gridDelegate:
                       const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2, // Number of posts per line
-                        crossAxisSpacing: 4.0,
+                        crossAxisSpacing: 10.0,
                         mainAxisSpacing: 20.0,
                         childAspectRatio:
-                        0.95, // Adjust the aspect ratio as needed
+                        1.0, // Adjust the aspect ratio as needed
                       ),
                       itemCount: filteredMenu.length,
                       itemBuilder: (context, index) {
