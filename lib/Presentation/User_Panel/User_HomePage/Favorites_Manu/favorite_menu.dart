@@ -361,7 +361,7 @@ class _FavoriteMenuPageState extends State<FavoriteMenuPage> {
     return Padding(
       padding: const EdgeInsets.only(left: 20),
       child: Container(
-        width: MediaQuery.of(context).size.width / 2,
+        width: MediaQuery.of(context).size.width / 2.2,
         height: MediaQuery.of(context).size.height / 14,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
@@ -371,10 +371,10 @@ class _FavoriteMenuPageState extends State<FavoriteMenuPage> {
           children: [
             Image.asset(
               'assets/images/flower.png',
-              width: 80,
+              width: MediaQuery.of(context).size.width/5,
             ),
             const Padding(
-              padding: EdgeInsets.only(right: 5, left: 30),
+              padding: EdgeInsets.symmetric(horizontal: 10),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
