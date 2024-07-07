@@ -31,21 +31,21 @@ class _TotalFinanceState extends State<TotalFinance> {
   }
 
   Future<double> _getTotalChefEarnings() async {
-    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('chefEarnings').get();
+    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('orders').get();
     double total = 0.0;
     for (var doc in snapshot.docs) {
       final data = doc.data() as Map<String, dynamic>;
-      total += data['total'] ?? 0.0;
+      total += data['subTotal'] ?? 0.0;
     }
     return total;
   }
 
   Future<double> _getTotalRiderEarnings() async {
-    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('riderEarnings').get();
+    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('orders').get();
     double total = 0.0;
     for (var doc in snapshot.docs) {
       final data = doc.data() as Map<String, dynamic>;
-      total += data['total'] ?? 0.0;
+      total += data['deliveryFee'] ?? 0.0;
     }
     return total;
   }

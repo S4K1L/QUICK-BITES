@@ -46,7 +46,7 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
   }
 
   Future<void> _updateMenu() async {
-    int price = int.parse(_priceController.text);
+    double price = double.parse(_priceController.text);
     if (_formKey.currentState!.validate()) {
       _showLoadingDialog();
       List<String> newImageUrls = [];
@@ -161,9 +161,6 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a price';
                     }
-                    if (double.tryParse(value) == null) {
-                      return 'Please enter a valid number';
-                    }
                     return null;
                   },
                 ),
@@ -194,7 +191,7 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
                       child: TextButton(
                         onPressed: _updateMenu,
                         child: const Text(
-                          'Add New Image',
+                          'Update Now',
                           style: TextStyle(color: kTextBlackColor,fontSize: 16,fontWeight: FontWeight.bold),
                         ),
                       ),

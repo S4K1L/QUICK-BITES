@@ -116,7 +116,7 @@ class _MenuPostState extends State<MenuPost> {
                     borderRadius: BorderRadius.circular(20),
                     child: Image.network(
                       menu.imageUrl,
-                      height: 110,
+                      height: MediaQuery.of(context).size.height/7.5,
                       width: double.infinity,
                       fit: BoxFit.cover,
                     ),
@@ -144,28 +144,33 @@ class _MenuPostState extends State<MenuPost> {
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10,top: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      menu.name,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.black,
-                      ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10, top: 10),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          menu.name,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.black,
+                          ),
+                        ),
+                        Text(
+                          'RM ${menu.price}',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(
-                      'RM ${menu.price}',
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ],
@@ -247,8 +252,6 @@ class _MenuPostState extends State<MenuPost> {
                         const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2, // Number of posts per line
                           mainAxisSpacing: 20.0,
-                          childAspectRatio:
-                          1.0, // Adjust the aspect ratio as needed
                         ),
                         itemCount: filteredMenu.length,
                         itemBuilder: (context, index) {
@@ -285,10 +288,8 @@ class _MenuPostState extends State<MenuPost> {
           children: [
             Image.asset(
               'assets/images/flower.png',
-              width: 140,
-            ),
-            const SizedBox(
-              width: 40,
+              width: MediaQuery.of(context).size.width/3.5,
+              height: MediaQuery.of(context).size.height,
             ),
             Expanded(
               child: Padding(
@@ -299,14 +300,14 @@ class _MenuPostState extends State<MenuPost> {
                     Text(
                       'Free Delivery',
                       style: TextStyle(
-                          fontSize: 22,
+                          fontSize: 18,
                           color: Colors.red[500],
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
                       'Order!',
                       style: TextStyle(
-                          fontSize: 22,
+                          fontSize: 18,
                           color: Colors.red[500],
                           fontWeight: FontWeight.bold),
                     ),

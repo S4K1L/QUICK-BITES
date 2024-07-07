@@ -73,7 +73,7 @@ class _AddMenuState extends State<AddMenu> {
           String details = _detailsController.text;
           String price = _priceController.text;
 
-          double price2 = double.parse(price);
+          double price2 = double.parse(price) + 0.0;
 
           List<String> imageUrl = [];
           double totalProgress = 0.0;

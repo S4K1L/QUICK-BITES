@@ -66,7 +66,7 @@ class RiderHomeScreen extends StatelessWidget {
               mainAxisSpacing: 20,
               children: <Widget>[
                 DashboardItem(
-                  title: 'New Available Order',
+                  title: 'New Orders',
                   icon: Icons.assignment,
                   color: Colors.grey,
                   iconColor: Colors.black,

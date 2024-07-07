@@ -24,46 +24,48 @@ class _ApproveAccountListState extends State<ApproveAccountList> {
         ),
       ),
       drawer: const AdminDrawer(),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/images/welcome.jpg'),
-                    fit: BoxFit.cover,
-                    opacity: 0.3),
+      body: ListView(
+        children: [
+          Column(
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage('assets/images/welcome.jpg'),
+                      fit: BoxFit.cover,
+                      opacity: 0.3),
+                ),
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: _firestore
+                      .collection('users')
+                      .where('type', whereIn: ['chef', 'runner'])
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                      return const Center(
+                          child: Text('No users of type chef or runner.'));
+                    } else {
+                      final users = snapshot.data!.docs;
+                      return ListView.builder(
+                        itemCount: users.length,
+                        itemBuilder: (context, index) {
+                          final user = users[index];
+                          return accountList(user);
+                        },
+                      );
+                    }
+                  },
+                ),
               ),
-              child: StreamBuilder<QuerySnapshot>(
-                stream: _firestore
-                    .collection('users')
-                    .where('type', whereIn: ['chef', 'runner'])
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (snapshot.hasError) {
-                    return Center(child: Text('Error: ${snapshot.error}'));
-                  } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                    return const Center(
-                        child: Text('No users of type chef or runner.'));
-                  } else {
-                    final users = snapshot.data!.docs;
-                    return ListView.builder(
-                      itemCount: users.length,
-                      itemBuilder: (context, index) {
-                        final user = users[index];
-                        return accountList(user);
-                      },
-                    );
-                  }
-                },
-              ),
-            ),
-          ],
-        ),
+            ],
+          ),
+        ],
       ),
     );
   }

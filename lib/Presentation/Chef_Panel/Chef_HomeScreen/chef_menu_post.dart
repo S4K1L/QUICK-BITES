@@ -105,6 +105,8 @@ class _ChefMenuPostState extends State<ChefMenuPost> {
       child: Padding(
         padding: const EdgeInsets.only(left: 10, right: 10),
         child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             color: Colors.white,
@@ -118,7 +120,7 @@ class _ChefMenuPostState extends State<ChefMenuPost> {
                     borderRadius: BorderRadius.circular(20),
                     child: Image.network(
                       menu.imageUrl,
-                      height: 110,
+                      height: MediaQuery.of(context).size.height/7.5,
                       width: double.infinity,
                       fit: BoxFit.cover,
                     ),
@@ -250,10 +252,7 @@ class _ChefMenuPostState extends State<ChefMenuPost> {
                       gridDelegate:
                       const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2, // Number of posts per line
-                        crossAxisSpacing: 10.0,
                         mainAxisSpacing: 20.0,
-                        childAspectRatio:
-                        1.0, // Adjust the aspect ratio as needed
                       ),
                       itemCount: filteredMenu.length,
                       itemBuilder: (context, index) {
@@ -291,10 +290,7 @@ class _ChefMenuPostState extends State<ChefMenuPost> {
           children: [
             Image.asset(
               'assets/images/flower.png',
-              width: 140,
-            ),
-            const SizedBox(
-              width: 40,
+              width: MediaQuery.of(context).size.width/3.5,
             ),
             Expanded(
               child: Padding(
@@ -305,14 +301,14 @@ class _ChefMenuPostState extends State<ChefMenuPost> {
                     Text(
                       'Free Delivery',
                       style: TextStyle(
-                          fontSize: 22,
+                          fontSize: 18,
                           color: Colors.red[500],
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
                       'Order!',
                       style: TextStyle(
-                          fontSize: 22,
+                          fontSize: 18,
                           color: Colors.red[500],
                           fontWeight: FontWeight.bold),
                     ),

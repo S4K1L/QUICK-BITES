@@ -215,7 +215,7 @@ class _RiderNewOrdersState extends State<RiderNewOrders> {
               },
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 180.0, right: 20, bottom: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
