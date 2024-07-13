@@ -62,7 +62,7 @@ class _ChefEarningsState extends State<ChefEarnings> {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.red,
+                color: Colors.green,
               ),
             ),
             const Spacer(),
@@ -70,7 +70,7 @@ class _ChefEarningsState extends State<ChefEarnings> {
               onPressed: () {},
               icon: const Icon(
                 Icons.attach_money,
-                color: Colors.red,
+                color: Colors.green,
               ),
             ),
           ],
@@ -91,7 +91,6 @@ class _ChefEarningsState extends State<ChefEarnings> {
                     image: DecorationImage(
                       image: AssetImage('assets/images/welcome.jpg'),
                       fit: BoxFit.cover,
-                      opacity: 0.3,
                     ),
                   ),
                   child: Center(
@@ -142,7 +141,7 @@ class _ChefEarningsState extends State<ChefEarnings> {
                         height: 50,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                            color: Colors.green[300]),
+                            color: Colors.green),
                         child: TextButton(
                             onPressed: () {
                               Navigator.pop(context);

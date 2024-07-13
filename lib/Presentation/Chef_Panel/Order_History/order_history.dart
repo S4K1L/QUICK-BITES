@@ -45,7 +45,7 @@ class _OrderHistoryState extends State<OrderHistory> {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.red,
+                color: Colors.green,
               ),
             ),
             const Spacer(),
@@ -53,7 +53,7 @@ class _OrderHistoryState extends State<OrderHistory> {
               onPressed: () {},
               icon: const Icon(
                 Icons.history,
-                color: Colors.red,
+                color: Colors.green,
               ),
             ),
           ],
@@ -74,7 +74,6 @@ class _OrderHistoryState extends State<OrderHistory> {
                 image: DecorationImage(
                   image: AssetImage('assets/images/welcome.jpg'),
                   fit: BoxFit.cover,
-                  opacity: 0.3,
                 ),
               ),
               child: FutureBuilder<List<Order>>(
@@ -188,7 +187,7 @@ class _OrderHistoryState extends State<OrderHistory> {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
-                  color: kPrimaryColor,
+                  color: Colors.green,
                 ),
                 child: const Padding(
                   padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),

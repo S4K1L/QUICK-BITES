@@ -11,17 +11,17 @@ import '../../Theme/const.dart';
 import '../../Theme/constant.dart';
 import '../Rider_Panel/New Order/Rider_New_Order/rider_new_Order.dart';
 import '../Rider_Panel/Rider_Earning/rider_earning.dart';
-import 'edit_profile.dart';
+import 'Edit_Profile/runner_edit_profile.dart';
 
 
-class RiderDrawer extends StatefulWidget {
-  const RiderDrawer({super.key});
+class RunnerDrawer extends StatefulWidget {
+  const RunnerDrawer({super.key});
 
   @override
-  State<RiderDrawer> createState() => _RiderDrawerState();
+  State<RunnerDrawer> createState() => _RunnerDrawerState();
 }
 
-class _RiderDrawerState extends State<RiderDrawer> {
+class _RunnerDrawerState extends State<RunnerDrawer> {
   String? _name = '';
   String? _email = '';
 
@@ -70,7 +70,7 @@ class _RiderDrawerState extends State<RiderDrawer> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => EditUserProfile(name: _name!, email: _email!),
+                            builder: (context) => RunnerEditUserProfile(name: _name!, email: _email!),
                           ),
                         );
                       }, icon: const Icon(Icons.edit,color: Colors.red,))),
@@ -107,7 +107,7 @@ class _RiderDrawerState extends State<RiderDrawer> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const RiderHomeScreen(),
+                        builder: (context) => const RunnerHomeScreen(),
                       ),
                     );
                   },
@@ -121,7 +121,7 @@ class _RiderDrawerState extends State<RiderDrawer> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const RiderEarning(),
+                        builder: (context) => const RunnerEarning(),
                       ),
                     );
                   },
@@ -135,7 +135,7 @@ class _RiderDrawerState extends State<RiderDrawer> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const RiderNewOrders(),
+                        builder: (context) => const RunnerNewOrders(),
                       ),
                     );
                   },
@@ -149,7 +149,7 @@ class _RiderDrawerState extends State<RiderDrawer> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const RiderOrdersHistory(),
+                        builder: (context) => const RunnerOrdersHistory(),
                       ),
                     );
                   },

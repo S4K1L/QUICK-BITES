@@ -3,18 +3,18 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:quick_bites/Presentation/Drawer/rider_Drawer.dart';
+import 'package:quick_bites/Presentation/Drawer/runner_Drawer.dart';
 
 import '../../../Theme/const.dart';
 
-class RiderEarning extends StatefulWidget {
-  const RiderEarning({super.key});
+class RunnerEarning extends StatefulWidget {
+  const RunnerEarning({super.key});
 
   @override
-  _RiderEarningState createState() => _RiderEarningState();
+  _RunnerEarningState createState() => _RunnerEarningState();
 }
 
-class _RiderEarningState extends State<RiderEarning> {
+class _RunnerEarningState extends State<RunnerEarning> {
   late User _currentUser;
   bool _isLoading = true;
   String _errorMessage = '';
@@ -69,7 +69,7 @@ class _RiderEarningState extends State<RiderEarning> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
       ),
-      drawer: const RiderDrawer(),
+      drawer: const RunnerDrawer(),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _errorMessage.isNotEmpty
@@ -81,7 +81,6 @@ class _RiderEarningState extends State<RiderEarning> {
           image: DecorationImage(
             image: AssetImage('assets/images/welcome.jpg'),
             fit: BoxFit.cover,
-            opacity: 0.3,
           ),
         ),
         child: FutureBuilder<double>(

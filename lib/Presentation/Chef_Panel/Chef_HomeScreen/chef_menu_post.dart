@@ -8,6 +8,7 @@ import '../../../Theme/constant.dart';
 import '../../Admin_Panel/Admin_HomePage/Search_button/custom_search.dart';
 import '../../User_Panel/User_HomePage/Details_Model/manu_model.dart';
 import '../../User_Panel/User_HomePage/post_details/details_screen.dart';
+import 'Chef_Details_Screen/chef_details_screen.dart';
 import 'edit_Screen.dart';
 
 class ChefMenuPost extends StatefulWidget {
@@ -98,7 +99,7 @@ class _ChefMenuPostState extends State<ChefMenuPost> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) => DetailsScreen(menu: menu),
+            builder: (_) => ChefDetailsScreen(menu: menu),
           ),
         );
       },

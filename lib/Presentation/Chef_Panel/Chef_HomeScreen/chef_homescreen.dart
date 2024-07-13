@@ -52,7 +52,7 @@ class _ChefHomeScreenState extends State<ChefHomeScreen> {
           image: DecorationImage(
               image: AssetImage('assets/images/welcome.jpg'),
               fit: BoxFit.cover,
-              opacity: 0.3),
+              ),
         ),
         child: Column(
           children: [

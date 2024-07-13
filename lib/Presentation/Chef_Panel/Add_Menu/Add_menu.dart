@@ -190,7 +190,7 @@ class _AddMenuState extends State<AddMenu> {
         centerTitle: true,
         title: const Text(
           'Add Menu',
-          style: TextStyle(color: Colors.deepPurpleAccent),
+          style: TextStyle(color: Colors.green),
         ),
       ),
       drawer: const ChefDrawer(),
@@ -201,7 +201,7 @@ class _AddMenuState extends State<AddMenu> {
           lineWidth: 16.0,
           percent: _uploadProgress,
           center: Text('${(_uploadProgress * 100).toStringAsFixed(0)}%'),
-          progressColor: Colors.blue,
+          progressColor: Colors.green,
         ),
       )
           : SingleChildScrollView(
@@ -211,7 +211,7 @@ class _AddMenuState extends State<AddMenu> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text("Shop Name: $_shopName",style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 22,color: Colors.deepPurpleAccent),),
+              Text("Shop Name: $_shopName",style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 22,color: Colors.green),),
               const SizedBox(height: 16.0),
               _buildInputField(_nameController, 'Food Name'),
               const SizedBox(height: 16.0),
@@ -229,7 +229,7 @@ class _AddMenuState extends State<AddMenu> {
                         _uploadAllData();
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF7F39FB),
+                        backgroundColor: Colors.green,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
@@ -252,7 +252,7 @@ class _AddMenuState extends State<AddMenu> {
                     },
                     icon: const Icon(
                       Icons.image,
-                      color: Colors.deepPurpleAccent,
+                      color: Colors.green,
                       size: 36,
                     ),
                   ),

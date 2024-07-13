@@ -51,7 +51,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                 image: DecorationImage(
                     image: AssetImage('assets/images/welcome.jpg'),
                     fit: BoxFit.cover,
-                    opacity: 0.3),
+                    ),
               ),
               child: FutureBuilder<List<Order>>(
                 future: _getDeliveredOrders(),

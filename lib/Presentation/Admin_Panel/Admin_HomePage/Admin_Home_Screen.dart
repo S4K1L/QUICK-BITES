@@ -37,7 +37,6 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
           image: DecorationImage(
             image: AssetImage('assets/images/welcome.jpg'),
             fit: BoxFit.cover,
-            opacity: 0.1
           ),
         ),
         child: Column(

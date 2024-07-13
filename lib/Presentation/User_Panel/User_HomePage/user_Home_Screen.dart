@@ -53,7 +53,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
           image: DecorationImage(
               image: AssetImage('assets/images/welcome.jpg'),
               fit: BoxFit.cover,
-              opacity: 0.3),
+          ),
         ),
         child: Column(
           children: [

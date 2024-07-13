@@ -183,7 +183,7 @@ class _FavoriteMenuPageState extends State<FavoriteMenuPage> {
                           height: 30,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(16),
-                            color: Colors.purple[300],
+                            color: Colors.purpleAccent,
                           ),
                           child: Center(
                             child: IconButton(
@@ -206,7 +206,7 @@ class _FavoriteMenuPageState extends State<FavoriteMenuPage> {
                           height: 30,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(16),
-                            color: Colors.purple[300],
+                            color: Colors.purpleAccent,
                           ),
                           child: Center(
                             child: IconButton(
@@ -222,7 +222,7 @@ class _FavoriteMenuPageState extends State<FavoriteMenuPage> {
                   ElevatedButton(
                     onPressed: () => _addToCheckout(menu),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.purple[300],
+                      backgroundColor: Colors.purpleAccent,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -278,7 +278,7 @@ class _FavoriteMenuPageState extends State<FavoriteMenuPage> {
         height: 50,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            color: Colors.purple[300]),
+            color: Colors.purpleAccent),
         child: TextButton(
             onPressed: () {
               _navigateToCart();
@@ -311,7 +311,6 @@ class _FavoriteMenuPageState extends State<FavoriteMenuPage> {
           image: DecorationImage(
             image: AssetImage('assets/images/welcome.jpg'),
             fit: BoxFit.cover,
-            opacity: 0.3,
           ),
         ),
         child: Padding(

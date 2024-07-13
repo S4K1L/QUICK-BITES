@@ -20,7 +20,7 @@ class _ApproveAccountListState extends State<ApproveAccountList> {
         centerTitle: true,
         title: const Text(
           "Accounts Control",
-          style: TextStyle(color: Colors.red),
+          style: TextStyle(color: Colors.green),
         ),
       ),
       drawer: const AdminDrawer(),
@@ -35,7 +35,7 @@ class _ApproveAccountListState extends State<ApproveAccountList> {
                   image: DecorationImage(
                       image: AssetImage('assets/images/welcome.jpg'),
                       fit: BoxFit.cover,
-                      opacity: 0.3),
+                      ),
                 ),
                 child: StreamBuilder<QuerySnapshot>(
                   stream: _firestore
@@ -79,7 +79,7 @@ class _ApproveAccountListState extends State<ApproveAccountList> {
         child: ListTile(
           title: Text(
             user['name'],
-            style: TextStyle(color: Colors.purple[300]),
+            style: TextStyle(color: Colors.green),
           ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

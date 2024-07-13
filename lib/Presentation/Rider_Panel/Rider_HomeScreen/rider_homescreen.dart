@@ -2,7 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:quick_bites/Presentation/Drawer/rider_Drawer.dart';
+import 'package:quick_bites/Presentation/Drawer/runner_Drawer.dart';
 import 'package:quick_bites/Presentation/Rider_Panel/Rider_Earning/rider_earning.dart';
 import '../../../Core/Repository_and_Authentication/profile_image_picker.dart';
 import '../../../Theme/const.dart';
@@ -10,8 +10,8 @@ import '../New Order/Rider_New_Order/rider_new_Order.dart';
 import '../Rider_Order_history/rider_order_history.dart';
 import '../Rider_login/rider_login.dart';
 
-class RiderHomeScreen extends StatelessWidget {
-  const RiderHomeScreen({super.key});
+class RunnerHomeScreen extends StatelessWidget {
+  const RunnerHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class RiderHomeScreen extends StatelessWidget {
         centerTitle: true,
         // Removed backgroundColor: Colors.transparent,
       ),
-      drawer: const RiderDrawer(),
+      drawer: const RunnerDrawer(),
       body: Stack(
         children: [
           Container(
@@ -53,7 +53,6 @@ class RiderHomeScreen extends StatelessWidget {
               image: DecorationImage(
                 image: AssetImage('assets/images/welcome.jpg'),
                 fit: BoxFit.cover,
-                opacity: 0.1,
               ),
             ),
           ),
@@ -74,7 +73,7 @@ class RiderHomeScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const RiderNewOrders(),
+                        builder: (context) => const RunnerNewOrders(),
                       ),
                     );
                   },
@@ -88,7 +87,7 @@ class RiderHomeScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const RiderOrdersHistory(),
+                        builder: (context) => const RunnerOrdersHistory(),
                       ),
                     );
                   },
@@ -102,7 +101,7 @@ class RiderHomeScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const RiderEarning(),
+                        builder: (context) => const RunnerEarning(),
                       ),
                     );
                   },

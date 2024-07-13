@@ -59,7 +59,7 @@ class _TotalFinanceState extends State<TotalFinance> {
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: Colors.red,
+            color: Colors.green,
           ),
         ),
         centerTitle: true,
@@ -73,7 +73,6 @@ class _TotalFinanceState extends State<TotalFinance> {
           image: DecorationImage(
             image: AssetImage('assets/images/welcome.jpg'),
             fit: BoxFit.cover,
-            opacity: 0.3,
           ),
         ),
         child: Center(
@@ -100,7 +99,7 @@ class _TotalFinanceState extends State<TotalFinance> {
                       Text(
                         'Total Chef Earnings: RM ${_totalChefEarnings.toStringAsFixed(2)}',
                         style: const TextStyle(
-                          fontSize: 24,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),
@@ -109,7 +108,7 @@ class _TotalFinanceState extends State<TotalFinance> {
                       Text(
                         'Total Rider Earnings: RM ${_totalRiderEarnings.toStringAsFixed(2)}',
                         style: const TextStyle(
-                          fontSize: 24,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),

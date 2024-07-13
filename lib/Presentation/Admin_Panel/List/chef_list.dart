@@ -20,7 +20,7 @@ class _ChefListPageState extends State<ChefListPage> {
         centerTitle: true,
         title: const Text(
           "Chef List",
-          style: TextStyle(color: Colors.red),
+          style: TextStyle(color: Colors.green),
         ),
       ),
       drawer: const AdminDrawer(),
@@ -34,7 +34,7 @@ class _ChefListPageState extends State<ChefListPage> {
                 image: DecorationImage(
                     image: AssetImage('assets/images/welcome.jpg'),
                     fit: BoxFit.cover,
-                    opacity: 0.3),
+                    ),
               ),
               child: StreamBuilder<QuerySnapshot>(
                 stream: _firestore
@@ -77,7 +77,7 @@ class _ChefListPageState extends State<ChefListPage> {
         child: ListTile(
           title: Text(
             chef['shopName'],
-            style: TextStyle(color: Colors.green[300]),
+            style: TextStyle(color: Colors.green),
           ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

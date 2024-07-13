@@ -39,7 +39,7 @@ class _ShopSelectionPopupState extends State<ShopSelectionPopup> {
           image: DecorationImage(
               image: AssetImage('assets/images/welcome.jpg'),
               fit: BoxFit.cover,
-              opacity: 0.3),
+          ),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

@@ -78,7 +78,7 @@ class _ChefNewOrdersState extends State<ChefNewOrders> {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.red,
+                color: Colors.green,
               ),
             ),
             const Spacer(),
@@ -86,7 +86,7 @@ class _ChefNewOrdersState extends State<ChefNewOrders> {
               onPressed: () {},
               icon: const Icon(
                 Icons.restaurant_menu,
-                color: Colors.red,
+                color: Colors.green,
               ),
             ),
           ],
@@ -107,7 +107,6 @@ class _ChefNewOrdersState extends State<ChefNewOrders> {
                 image: DecorationImage(
                   image: AssetImage('assets/images/welcome.jpg'),
                   fit: BoxFit.cover,
-                  opacity: 0.3,
                 ),
               ),
               child: FutureBuilder<List<Order>>(
@@ -221,7 +220,7 @@ class _ChefNewOrdersState extends State<ChefNewOrders> {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
-                  color: kPrimaryColor,
+                  color: Colors.green,
                 ),
                 child: DropdownButton<String>(
                   value: order.status,

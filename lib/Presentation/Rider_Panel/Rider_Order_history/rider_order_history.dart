@@ -3,16 +3,16 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:quick_bites/Presentation/Drawer/rider_Drawer.dart';
+import 'package:quick_bites/Presentation/Drawer/runner_Drawer.dart';
 
-class RiderOrdersHistory extends StatefulWidget {
-  const RiderOrdersHistory({super.key});
+class RunnerOrdersHistory extends StatefulWidget {
+  const RunnerOrdersHistory({super.key});
 
   @override
-  _RiderOrdersHistoryState createState() => _RiderOrdersHistoryState();
+  _RunnerOrdersHistoryState createState() => _RunnerOrdersHistoryState();
 }
 
-class _RiderOrdersHistoryState extends State<RiderOrdersHistory> {
+class _RunnerOrdersHistoryState extends State<RunnerOrdersHistory> {
   late User _currentUser;
   bool _isLoading = true;
   String _errorMessage = '';
@@ -51,7 +51,7 @@ class _RiderOrdersHistoryState extends State<RiderOrdersHistory> {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.red,
+                color: Colors.blue,
               ),
             ),
             const Spacer(),
@@ -59,7 +59,7 @@ class _RiderOrdersHistoryState extends State<RiderOrdersHistory> {
               onPressed: () {},
               icon: const Icon(
                 Icons.delivery_dining,
-                color: Colors.red,
+                color: Colors.blue,
               ),
             ),
           ],
@@ -67,7 +67,7 @@ class _RiderOrdersHistoryState extends State<RiderOrdersHistory> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
       ),
-      drawer: const RiderDrawer(),
+      drawer: const RunnerDrawer(),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _errorMessage.isNotEmpty
@@ -82,7 +82,6 @@ class _RiderOrdersHistoryState extends State<RiderOrdersHistory> {
                 image: DecorationImage(
                   image: AssetImage('assets/images/welcome.jpg'),
                   fit: BoxFit.cover,
-                  opacity: 0.3,
                 ),
               ),
               child: FutureBuilder<List<Order>>(

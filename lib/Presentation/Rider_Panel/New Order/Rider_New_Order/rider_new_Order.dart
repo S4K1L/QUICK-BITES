@@ -3,17 +3,17 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:quick_bites/Presentation/Drawer/rider_Drawer.dart';
+import 'package:quick_bites/Presentation/Drawer/runner_Drawer.dart';
 import '../../../../Theme/const.dart';
 
-class RiderNewOrders extends StatefulWidget {
-  const RiderNewOrders({super.key});
+class RunnerNewOrders extends StatefulWidget {
+  const RunnerNewOrders({super.key});
 
   @override
-  _RiderNewOrdersState createState() => _RiderNewOrdersState();
+  _RunnerNewOrdersState createState() => _RunnerNewOrdersState();
 }
 
-class _RiderNewOrdersState extends State<RiderNewOrders> {
+class _RunnerNewOrdersState extends State<RunnerNewOrders> {
   late User _currentUser;
   bool _isLoading = true;
   String _errorMessage = '';
@@ -52,7 +52,7 @@ class _RiderNewOrdersState extends State<RiderNewOrders> {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.red,
+                color: Colors.blue,
               ),
             ),
             const Spacer(),
@@ -60,7 +60,7 @@ class _RiderNewOrdersState extends State<RiderNewOrders> {
               onPressed: () {},
               icon: const Icon(
                 Icons.delivery_dining,
-                color: Colors.red,
+                color: Colors.blue,
               ),
             ),
           ],
@@ -68,7 +68,7 @@ class _RiderNewOrdersState extends State<RiderNewOrders> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
       ),
-      drawer: const RiderDrawer(),
+      drawer: const RunnerDrawer(),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _errorMessage.isNotEmpty
@@ -83,7 +83,6 @@ class _RiderNewOrdersState extends State<RiderNewOrders> {
                 image: DecorationImage(
                   image: AssetImage('assets/images/welcome.jpg'),
                   fit: BoxFit.cover,
-                  opacity: 0.3,
                 ),
               ),
               child: FutureBuilder<List<Order>>(
@@ -219,7 +218,7 @@ class _RiderNewOrdersState extends State<RiderNewOrders> {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
-                  color: kPrimaryColor,
+                  color: Colors.blue,
                 ),
                 child: DropdownButton<String>(
                   value: order.status,

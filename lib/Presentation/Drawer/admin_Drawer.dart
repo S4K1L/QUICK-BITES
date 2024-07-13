@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quick_bites/Presentation/Admin_Panel/Approve/account_control.dart';
 import 'package:quick_bites/Presentation/Admin_Panel/Finance/total_finance.dart';
-import 'package:quick_bites/Presentation/Chef_Panel/Chef_login/chef_login.dart';
 import 'package:quick_bites/Presentation/Welcome_Screen/welcome_screen.dart';
 import '../../Core/Repository_and_Authentication/profile_image_picker.dart';
 import '../../Theme/const.dart';
@@ -12,7 +11,7 @@ import '../../Theme/constant.dart';
 import '../Admin_Panel/Admin_HomePage/Admin_Home_Screen.dart';
 import '../Admin_Panel/List/chef_list.dart';
 import '../Admin_Panel/List/runner_list.dart';
-import 'edit_profile.dart';
+import 'Edit_Profile/admin_edit_profile.dart';
 
 
 class AdminDrawer extends StatefulWidget {
@@ -75,10 +74,10 @@ class _AdminDrawerState extends State<AdminDrawer> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => EditUserProfile(name: _name, email: _email),
+                            builder: (context) => AdminEditUserProfile(name: _name, email: _email),
                           ),
                         );
-                      }, icon: const Icon(Icons.edit,color: Colors.lightGreen,))),
+                      }, icon: const Icon(Icons.edit,color: Colors.green,))),
                   Container(
                     width: 90,
                     height: 90,

@@ -12,7 +12,7 @@ import '../User_Panel/User_HomePage/My_Order/my_order.dart';
 import '../User_Panel/User_HomePage/Order_History/order_history.dart';
 import '../User_Panel/User_HomePage/shop_select/shop_select.dart';
 import '../User_Panel/User_Login/user_login.dart';
-import 'edit_profile.dart';
+import 'Edit_Profile/user_edit_Profile.dart';
 
 
 class UserDrawer extends StatefulWidget {
@@ -72,7 +72,7 @@ class _UserDrawerState extends State<UserDrawer> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => EditUserProfile(name: _name!, email: _email!),
+                            builder: (context) => UserEditUserProfile(name: _name!, email: _email!),
                           ),
                         );
                       }, icon: const Icon(Icons.edit,color: Colors.red,))),

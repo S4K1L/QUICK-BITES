@@ -113,7 +113,7 @@ class _CheckOutState extends State<CheckOut> {
                 image: DecorationImage(
                     image: AssetImage('assets/images/welcome.jpg'),
                     fit: BoxFit.cover,
-                    opacity: 0.3),
+                    ),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
@@ -138,7 +138,7 @@ class _CheckOutState extends State<CheckOut> {
                         height: 55,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(16),
-                            color: Colors.purple[400]),
+                            color: Colors.purpleAccent),
                         child: TextButton(
                           onPressed: () {
                             _showCheckoutDialog(context, cartItems, total, subTotal, shopName,shopStatus);

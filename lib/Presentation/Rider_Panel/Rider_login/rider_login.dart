@@ -97,7 +97,7 @@ class _RunnerLoginScreenState extends State<RunnerLoginScreen> {
           _showSuccessSnackbar("Welcome to QUICK BITES");
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const RiderHomeScreen()),
+            MaterialPageRoute(builder: (context) => const RunnerHomeScreen()),
           );
         }else if(documentSnapshot.get('type') == "runner" && documentSnapshot.get('status') == "Pending") {
           _showErrorSnackbar("Account not Approved");

@@ -3,16 +3,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-class AdminCarouselImages extends StatefulWidget {
+class ChefCarouselImages extends StatefulWidget {
   final List<String> imagesListUrl;
 
-  const AdminCarouselImages(this.imagesListUrl, {super.key});
+  const ChefCarouselImages(this.imagesListUrl, {super.key});
 
   @override
-  _AdminCarouselImagesState createState() => _AdminCarouselImagesState();
+  _ChefCarouselImagesState createState() => _ChefCarouselImagesState();
 }
 
-class _AdminCarouselImagesState extends State<AdminCarouselImages> {
+class _ChefCarouselImagesState extends State<ChefCarouselImages> {
   final PageController _pageController = PageController();
 
   @override

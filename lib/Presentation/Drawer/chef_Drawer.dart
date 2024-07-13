@@ -13,7 +13,7 @@ import '../Chef_Panel/Add_Menu/Add_menu.dart';
 import '../Chef_Panel/Chef_HomeScreen/chef_homescreen.dart';
 import '../Chef_Panel/New_Order/new_order.dart';
 import '../Chef_Panel/Order_History/order_history.dart';
-import 'edit_profile.dart';
+import 'Edit_Profile/chef_edit_profile.dart';
 
 class ChefDrawer extends StatefulWidget {
   const ChefDrawer({super.key});
@@ -111,10 +111,10 @@ class _ChefDrawerState extends State<ChefDrawer> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => EditUserProfile(name: _name, email: _email),
+                            builder: (context) => ChefEditUserProfile(name: _name, email: _email),
                           ),
                         );
-                      }, icon: const Icon(Icons.edit,color: Colors.lightGreen,))),
+                      }, icon: const Icon(Icons.edit,color: Colors.green,))),
                   Container(
                     width: 90,
                     height: 90,

@@ -1,22 +1,21 @@
 // ignore_for_file: unnecessary_const, use_build_context_synchronously, avoid_print, library_private_types_in_public_api
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../../../Theme/const.dart';
 import '../../../../../Widgets/styles.dart';
-import '../../Details_Model/manu_model.dart';
+import '../../../User_Panel/User_HomePage/Details_Model/manu_model.dart';
 
-class MenuDetails extends StatefulWidget {
+class ChefMenuDetails extends StatefulWidget {
   final MenuModel menu;
 
-  const MenuDetails(this.menu, {super.key});
+  const ChefMenuDetails(this.menu, {super.key});
 
   @override
-  _MenuDetailsState createState() => _MenuDetailsState();
+  _ChefMenuDetailsState createState() => _ChefMenuDetailsState();
 }
 
-class _MenuDetailsState extends State<MenuDetails> {
+class _ChefMenuDetailsState extends State<ChefMenuDetails> {
   int _itemCount = 0;
   final Map<String, int> _quantities = {};
   User? _user;
@@ -107,7 +106,7 @@ class _MenuDetailsState extends State<MenuDetails> {
             child: ElevatedButton(
               onPressed: () => _addToCheckout(menu),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.purpleAccent,
+                backgroundColor: Colors.green,
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -159,7 +158,7 @@ class _MenuDetailsState extends State<MenuDetails> {
                               height: 35,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
-                                color: Colors.purpleAccent,
+                                color: Colors.green,
                               ),
                               child: Expanded(
                                 child: Column(
@@ -190,7 +189,7 @@ class _MenuDetailsState extends State<MenuDetails> {
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
-                              color: Colors.purpleAccent,
+                              color: Colors.green,
                             ),
                           ),
                           const Spacer(),
@@ -198,7 +197,7 @@ class _MenuDetailsState extends State<MenuDetails> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               IconButton(
-                                icon: const Icon(Icons.remove_circle_outline, color: Colors.purpleAccent,),
+                                icon: const Icon(Icons.remove_circle_outline, color: Colors.green,),
                                 onPressed: () => _decrement(menu),
                               ),
                               Text(
@@ -206,11 +205,11 @@ class _MenuDetailsState extends State<MenuDetails> {
                                 style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.purpleAccent,
+                                  color: Colors.green,
                                 ),
                               ),
                               IconButton(
-                                icon: const Icon(Icons.add_circle_outline, color: Colors.purpleAccent,),
+                                icon: const Icon(Icons.add_circle_outline, color: Colors.green,),
                                 onPressed: () => _increment(menu),
                               ),
                             ],

@@ -49,7 +49,7 @@ class _AddDeliveryZoneState extends State<AddDeliveryZone> {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.red,
+                color: Colors.green,
               ),
             ),
             const Spacer(),
@@ -57,7 +57,7 @@ class _AddDeliveryZoneState extends State<AddDeliveryZone> {
                 onPressed: () {},
                 icon: const Icon(
                   Icons.add_location,
-                  color: Colors.red,
+                  color: Colors.green,
                 ))
           ],
         ),
@@ -73,7 +73,7 @@ class _AddDeliveryZoneState extends State<AddDeliveryZone> {
             image: DecorationImage(
                 image: AssetImage('assets/images/welcome.jpg'),
                 fit: BoxFit.cover,
-                opacity: 0.3),
+            ),
           ),
           child: Center(
             child: Padding(
@@ -122,7 +122,7 @@ class _AddDeliveryZoneState extends State<AddDeliveryZone> {
                     ElevatedButton(
                       onPressed: _addDeliveryZone,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
+                        backgroundColor: Colors.green,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),

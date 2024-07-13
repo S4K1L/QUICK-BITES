@@ -20,7 +20,7 @@ class _RunnerListPageState extends State<RunnerListPage> {
         centerTitle: true,
         title: const Text(
           "Runner List",
-          style: TextStyle(color: Colors.red),
+          style: TextStyle(color: Colors.green),
         ),
       ),
       drawer: const AdminDrawer(),
@@ -34,7 +34,7 @@ class _RunnerListPageState extends State<RunnerListPage> {
                 image: DecorationImage(
                     image: AssetImage('assets/images/welcome.jpg'),
                     fit: BoxFit.cover,
-                    opacity: 0.3),
+                    ),
               ),
               child: StreamBuilder<QuerySnapshot>(
                 stream: _firestore
@@ -77,7 +77,7 @@ class _RunnerListPageState extends State<RunnerListPage> {
         child: ListTile(
           title: Text(
             'Name: ${chef['name']}',
-            style: TextStyle(color: Colors.green[300]),
+            style: TextStyle(color: Colors.green),
           ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -2,17 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class EditUserProfile extends StatefulWidget {
-  const EditUserProfile({super.key, required this.name, required this.email});
+class AdminEditUserProfile extends StatefulWidget {
+  const AdminEditUserProfile({super.key, required this.name, required this.email});
 
   final String name;
   final String email;
 
   @override
-  State<EditUserProfile> createState() => _EditUserProfileState();
+  State<AdminEditUserProfile> createState() => _AdminEditUserProfileState();
 }
 
-class _EditUserProfileState extends State<EditUserProfile> {
+class _AdminEditUserProfileState extends State<AdminEditUserProfile> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _nameController;
 
@@ -80,8 +80,8 @@ class _EditUserProfileState extends State<EditUserProfile> {
                       height: 45,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: Colors.lightGreen
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.green
                       ),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10,top: 5),
@@ -106,7 +106,7 @@ class _EditUserProfileState extends State<EditUserProfile> {
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
-                          color: Colors.lightGreen),
+                          color: Colors.green),
                       child: TextButton(
                         onPressed: _updateUserData,
                         child: const Text(
